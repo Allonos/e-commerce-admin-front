@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetCarByIdServiceQuery } from "../services/react-query/homePage/query/useGetCarByIdServiceQuery";
 import MainLayout from "../components/ui/layout/MainLayout";
 import { useRef, useState } from "react";
@@ -12,13 +12,26 @@ import {
 } from "lucide-react";
 import { Carousel } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
+import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
+import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
+import EditCarModal from "../components/ui/modals/EditCarModal";
 
 const ProductDetailPage = () => {
   const { id: productId } = useParams();
+  const navigate = useNavigate();
 
   const { data: car, isLoading } = useGetCarByIdServiceQuery(productId);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [carToDelete, setCarToDelete] = useState<string | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const carouselRef = useRef<CarouselRef>(null);
+
+  const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
+
+  const handleConfirmDelete = () => {
+    if (!carToDelete) return;
+    deleteCarMutate(carToDelete, { onSuccess: () => navigate("/") });
+  };
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -29,6 +42,17 @@ const ProductDetailPage = () => {
 
   return (
     <MainLayout>
+      <DeleteCarModal
+        isOpen={!!carToDelete}
+        onClose={() => setCarToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        isPending={isPending}
+      />
+      <EditCarModal
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        car={carDetails ?? null}
+      />
       <div className="flex gap-4">
         <div className="max-w-175 relative overflow-hidden">
           <div>
@@ -104,7 +128,9 @@ const ProductDetailPage = () => {
             </div>
 
             <div className="w-full flex gap-2 mt-4">
-              <div className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200">
+              <div
+                onClick={() => setIsEditOpen(true)}
+                className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200">
                 <Pencil width={20} height={20} color="#717182" />
                 <div>
                   <span className="text-[14px] text-[#717182]">
@@ -112,7 +138,10 @@ const ProductDetailPage = () => {
                   </span>
                 </div>
               </div>
-              <div className=" bg-[#d4183d] hover:bg-[#cf3d5a] transition-colors duration-200 cursor-pointer w-full rounded-lg px-4 py-2 flex items-center justify-center gap-2">
+              <div
+                onClick={() => productId && setCarToDelete(productId)}
+                className=" bg-[#d4183d] hover:bg-[#cf3d5a] transition-colors duration-200 cursor-pointer w-full rounded-lg px-4 py-2 flex items-center justify-center gap-2"
+              >
                 <Trash width={20} height={20} color="white" />
                 <div>
                   <span className="text-[16px] text-white font-semibold">

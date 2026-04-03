@@ -2,94 +2,140 @@ import { useRef, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
-import { usePostCarServiceMutation } from "../../../services/react-query/createCar/mutation/usePostCarServiceMutation";
+import { useEditCarServiceMutation } from "../../../services/react-query/carPage/mutation/useEditCarServiceMutation";
+
+interface Car {
+  id: string;
+  model: string;
+  year: string;
+  price: number;
+  location: string;
+  images: string[];
+}
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  car: Car | null;
 }
 
 const MAX_IMAGES = 4;
 
-const AddCarModal = ({ isOpen, onClose }: Props) => {
-  const [model, setModel] = useState("");
-  const [price, setPrice] = useState<number>();
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
-  const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+interface FormState {
+  model: string;
+  price: number | undefined;
+  location: string;
+  date: string;
+  existingImages: string[];
+}
+
+const EMPTY_FORM: FormState = {
+  model: "",
+  price: undefined,
+  location: "",
+  date: "",
+  existingImages: [],
+};
+
+const carToForm = (car: Car): FormState => ({
+  model: car.model,
+  price: car.price,
+  location: car.location,
+  date: car.year,
+  existingImages: car.images,
+});
+
+const EditCarModal = ({ isOpen, onClose, car }: Props) => {
+  const [form, setForm] = useState<FormState>(
+    car ? carToForm(car) : EMPTY_FORM,
+  );
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [newPreviews, setNewPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const formattedDate = date ? dayjs(date).format("YYYY") : "";
+  const [prevCarId, setPrevCarId] = useState(car?.id);
+  if (car?.id !== prevCarId) {
+    setPrevCarId(car?.id);
+    setForm(car ? carToForm(car) : EMPTY_FORM);
+  }
 
-  const { mutate: postCarMutate, isPending } = usePostCarServiceMutation();
+  const formattedDate = form.date ? dayjs(form.date).format("YYYY") : "";
+  const totalImages = form.existingImages.length + newImages.length;
+
+  const { mutate: editCarMutate, isPending } = useEditCarServiceMutation();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const selected = Array.from(e.target.files);
-    const combined = [...images, ...selected];
 
-    if (combined.length > MAX_IMAGES) {
+    if (totalImages + selected.length > MAX_IMAGES) {
       toast.error(`You can only upload up to ${MAX_IMAGES} images.`);
       e.target.value = "";
       return;
     }
 
-    const newPreviews = selected.map((file) => URL.createObjectURL(file));
-    setImages(combined);
-    setPreviews((prev) => [...prev, ...newPreviews]);
+    const newPreviewUrls = selected.map((file) => URL.createObjectURL(file));
+    setNewImages((prev) => [...prev, ...selected]);
+    setNewPreviews((prev) => [...prev, ...newPreviewUrls]);
     e.target.value = "";
   };
 
   const removeImage = (index: number) => {
-    URL.revokeObjectURL(previews[index]);
-    setImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
+    if (index < form.existingImages.length) {
+      setForm((prev) => ({
+        ...prev,
+        existingImages: prev.existingImages.filter((_, i) => i !== index),
+      }));
+    } else {
+      const newIndex = index - form.existingImages.length;
+      URL.revokeObjectURL(newPreviews[newIndex]);
+      setNewImages((prev) => prev.filter((_, i) => i !== newIndex));
+      setNewPreviews((prev) => prev.filter((_, i) => i !== newIndex));
+    }
   };
 
   const handleClose = () => {
-    previews.forEach((url) => URL.revokeObjectURL(url));
-    setModel("");
-    setPrice(undefined);
-    setLocation("");
-    setDate("");
-    setImages([]);
-    setPreviews([]);
+    newPreviews.forEach((url) => URL.revokeObjectURL(url));
+    setForm(EMPTY_FORM);
+    setNewImages([]);
+    setNewPreviews([]);
     onClose();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!model || !price || !location || !date) {
+    if (!form.model || !form.price || !form.location || !form.date) {
       toast.error("All fields are required.");
       return;
     }
 
-    if (images.length === 0) {
+    if (totalImages === 0) {
       toast.error("Please upload at least one image.");
       return;
     }
 
-    if (images.length > MAX_IMAGES) {
-      toast.error(`You can only upload up to ${MAX_IMAGES} images.`);
-      return;
-    }
-
-    postCarMutate({
-      images,
-      model,
-      year: date,
-      price: Number(price),
-      location,
-    }, {
-      onSuccess: () => {
-        toast.success("Car added successfully!");
-        handleClose();
+    editCarMutate(
+      {
+        id: car!.id,
+        model: form.model,
+        year: form.date,
+        price: Number(form.price),
+        location: form.location,
+        newImages,
+        existingImages: form.existingImages,
       },
-    });
+      {
+        onSuccess: () => {
+          toast.success("Car updated successfully!");
+          handleClose();
+        },
+      },
+    );
   };
+
+  const allPreviews = [...form.existingImages, ...newPreviews];
 
   return (
     <div
@@ -105,7 +151,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">Add Car</h2>
+          <h2 className="text-xl font-semibold">Edit Car</h2>
           <button
             onClick={handleClose}
             className="text-gray-500 hover:text-black transition-colors duration-200 cursor-pointer"
@@ -121,8 +167,9 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             </label>
             <input
               type="text"
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
+              value={form.model}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, model: e.target.value }))}
               placeholder="e.g. Tesla Model 3"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -134,8 +181,9 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             </label>
             <input
               type="number"
-              value={price ?? ""}
-              onChange={(e) => setPrice(Number(e.target.value))}
+              value={form.price ?? ""}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, price: Number(e.target.value) }))}
               placeholder="e.g. 42990"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -147,8 +195,9 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             </label>
             <input
               type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={form.location}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, location: e.target.value }))}
               placeholder="e.g. San Francisco, CA"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -160,9 +209,10 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             </label>
             <input
               type="text"
-              value={date}
+              value={form.date}
               placeholder="2026"
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, date: e.target.value }))}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
             {formattedDate && (
@@ -174,13 +224,13 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Images{" "}
               <span className="text-gray-400 font-normal">
-                ({images.length}/{MAX_IMAGES})
+                ({totalImages}/{MAX_IMAGES})
               </span>
             </label>
 
-            {previews.length > 0 && (
+            {allPreviews.length > 0 && (
               <div className="grid grid-cols-4 gap-2 mb-2">
-                {previews.map((src, i) => (
+                {allPreviews.map((src, i) => (
                   <div key={i} className="relative group aspect-square">
                     <img
                       src={src}
@@ -200,7 +250,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
               </div>
             )}
 
-            {images.length < MAX_IMAGES && (
+            {totalImages < MAX_IMAGES && (
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -228,7 +278,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             }`}
             disabled={isPending}
           >
-            {isPending ? "Adding..." : "Add Car"}
+            {isPending ? "Saving..." : "Save Changes"}
           </button>
         </form>
       </div>
@@ -236,4 +286,4 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
   );
 };
 
-export default AddCarModal;
+export default EditCarModal;

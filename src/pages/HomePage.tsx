@@ -5,16 +5,25 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
 import { useState } from "react";
 import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
+import EditCarModal from "../components/ui/modals/EditCarModal";
 import { Link } from "react-router";
+
+type Car = {
+  id: string;
+  model: string;
+  year: string;
+  price: number;
+  location: string;
+  images: string[];
+};
 
 const HomePage = () => {
   const [carToDelete, setCarToDelete] = useState<string | null>(null);
+  const [carToEdit, setCarToEdit] = useState<Car | null>(null);
   const { data: cars, isLoading } = useGetAdminsCarsServiceQuery();
   const { authUser } = useAuthStore();
 
   const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
-
-  console.log(cars);
 
   const noCars = !isLoading && cars?.cars.length === 0;
 
@@ -41,6 +50,11 @@ const HomePage = () => {
         onClose={() => setCarToDelete(null)}
         onConfirm={handleConfirmDelete}
         isPending={isPending}
+      />
+      <EditCarModal
+        isOpen={!!carToEdit}
+        onClose={() => setCarToEdit(null)}
+        car={carToEdit}
       />
       <div className="pt-10 grid grid-cols-2 lg:grid-cols-3 gap-6">
         {!isLoading &&
@@ -78,7 +92,10 @@ const HomePage = () => {
                 {authUser?.id === car.userId && (
                   <div className="flex justify-between w-full gap-4 p-4">
                     <div
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCarToEdit(car);
+                      }}
                       className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200"
                     >
                       <Pencil width={18} height={18} />
