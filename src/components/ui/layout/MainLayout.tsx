@@ -5,7 +5,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main className="flex flex-col items-center justify-center">
       <HomePageHeader />
-      <section className="sm:min-w-7xl min-w-75 rounded-2xl">
+      <section className="w-full sm:max-w-7xl min-w-75 rounded-2xl pb-4">
         {children}
       </section>
     </main>

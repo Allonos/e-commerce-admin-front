@@ -1,35 +1,94 @@
 import { useRef, useState } from "react";
-import { Upload, X } from "lucide-react";
+import { ImagePlus, X } from "lucide-react";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
+import { usePostCarServiceMutation } from "../../../services/react-query/createCar/mutation/usePostCarServiceMutation";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const MAX_IMAGES = 4;
+
 const AddCarModal = ({ isOpen, onClose }: Props) => {
-  const [carName, setCarName] = useState("");
-  const [price, setPrice] = useState("");
+  const [model, setModel] = useState("");
+  const [price, setPrice] = useState<number>();
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
   const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const formattedDate = date ? dayjs(date).format("MMM D, YYYY") : "";
 
+  const { mutate: postCarMutate, isPending } = usePostCarServiceMutation();
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImages(Array.from(e.target.files));
+    if (!e.target.files) return;
+
+    const selected = Array.from(e.target.files);
+    const combined = [...images, ...selected];
+
+    if (combined.length > MAX_IMAGES) {
+      toast.error(`You can only upload up to ${MAX_IMAGES} images.`);
+      e.target.value = "";
+      return;
     }
+
+    const newPreviews = selected.map((file) => URL.createObjectURL(file));
+    setImages(combined);
+    setPreviews((prev) => [...prev, ...newPreviews]);
+    e.target.value = "";
+  };
+
+  const removeImage = (index: number) => {
+    URL.revokeObjectURL(previews[index]);
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleClose = () => {
-    setCarName("");
-    setPrice("");
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setModel("");
+    setPrice(undefined);
     setLocation("");
     setDate("");
     setImages([]);
+    setPreviews([]);
     onClose();
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!model || !price || !location || !date) {
+      toast.error("All fields are required.");
+      return;
+    }
+
+    if (images.length === 0) {
+      toast.error("Please upload at least one image.");
+      return;
+    }
+
+    if (images.length > MAX_IMAGES) {
+      toast.error(`You can only upload up to ${MAX_IMAGES} images.`);
+      return;
+    }
+
+    postCarMutate({
+      images,
+      model,
+      year: date,
+      price: Number(price),
+      location,
+    }, {
+      onSuccess: () => {
+        toast.success("Car added successfully!");
+        handleClose();
+      },
+    });
   };
 
   return (
@@ -55,15 +114,15 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
           </button>
         </div>
 
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Car Name
             </label>
             <input
               type="text"
-              value={carName}
-              onChange={(e) => setCarName(e.target.value)}
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
               placeholder="e.g. Tesla Model 3"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -76,7 +135,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             <input
               type="number"
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => setPrice(Number(e.target.value))}
               placeholder="e.g. 42990"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -100,8 +159,9 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
               Date
             </label>
             <input
-              type="date"
+              type="text"
               value={date}
+              placeholder="2026"
               onChange={(e) => setDate(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200"
             />
@@ -112,21 +172,45 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Images
+              Images{" "}
+              <span className="text-gray-400 font-normal">
+                ({images.length}/{MAX_IMAGES})
+              </span>
             </label>
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full border-2 border-dashed border-gray-300 rounded-lg px-3 py-6 flex flex-col items-center gap-2 cursor-pointer hover:border-black transition-colors duration-200"
-            >
-              <Upload width={24} height={24} className="text-gray-400" />
-              <p className="text-sm text-gray-500">
-                {images.length > 0
-                  ? `${images.length} file${
-                    images.length > 1 ? "s" : ""
-                  } selected`
-                  : "Click to upload images"}
-              </p>
-            </div>
+
+            {previews.length > 0 && (
+              <div className="grid grid-cols-4 gap-2 mb-2">
+                {previews.map((src, i) => (
+                  <div key={i} className="relative group aspect-square">
+                    <img
+                      src={src}
+                      alt={`preview-${i}`}
+                      className="w-full h-full object-cover rounded-lg border border-gray-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeImage(i)}
+                      className="absolute -top-1.5 -right-1.5 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer"
+                    >
+                      <X width={10} height={10} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {images.length < MAX_IMAGES && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full border-2 border-dashed border-gray-300 rounded-lg px-3 py-4 flex items-center justify-center gap-2 cursor-pointer hover:border-black transition-colors duration-200 text-gray-500 hover:text-black"
+              >
+                <ImagePlus width={18} height={18} />
+                <span className="text-sm">Add images</span>
+              </button>
+            )}
+
             <input
               ref={fileInputRef}
               type="file"
@@ -139,9 +223,12 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-lg mt-1 hover:bg-[#1d1d1d] transition-colors duration-200 cursor-pointer font-medium"
+            className={`w-full bg-black text-white py-2 rounded-lg mt-1 hover:bg-[#1d1d1d] transition-colors duration-200 cursor-pointer font-medium ${
+              isPending ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isPending}
           >
-            Add Car
+            {isPending ? "Adding..." : "Add Car"}
           </button>
         </form>
       </div>
