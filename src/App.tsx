@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useGetCheckAuthServiceQuery } from "./services/react-query/checkAuth/query/useCheckAuthServiceQuery";
 import { useEffect } from "react";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 function App() {
   const { data: checkAuth } = useGetCheckAuthServiceQuery();
@@ -29,6 +30,10 @@ function App() {
           element={checkAuth ? <Navigate to="/" /> : <SignupPage />}
         />
         <Route path="/" element={checkAuth ? <HomePage /> : <LoginPage />} />
+        <Route
+          path="/product/:id"
+          element={checkAuth ? <ProductDetailPage /> : <LoginPage />}
+        />
       </Routes>
     </>
   );

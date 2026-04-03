@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthLayout from "../components/ui/layout/AuthLayout";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useLoginServiceMutation } from "../services/react-query/login/mutation/useLoginServiceMutation";
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginMutate({ email, password });
+    loginMutate({ email, password }, { onSuccess: () => <Navigate to="/" /> });
   };
 
   return (

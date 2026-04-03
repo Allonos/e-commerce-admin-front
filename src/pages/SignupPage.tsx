@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AuthLayout from "../components/ui/layout/AuthLayout";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useSignupServiceMutation } from "../services/react-query/signup/mutation/useSignupServiceMutation";
 
 const SignupPage = () => {
@@ -12,7 +12,9 @@ const SignupPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signupMutate({ username, email, password });
+    signupMutate({ username, email, password }, {
+      onSuccess: () => <Navigate to="/" />,
+    });
   };
 
   return (

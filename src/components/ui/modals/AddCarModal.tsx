@@ -20,7 +20,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
   const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const formattedDate = date ? dayjs(date).format("MMM D, YYYY") : "";
+  const formattedDate = date ? dayjs(date).format("YYYY") : "";
 
   const { mutate: postCarMutate, isPending } = usePostCarServiceMutation();
 
