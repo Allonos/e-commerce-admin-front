@@ -10,6 +10,8 @@ export interface Car {
     id: string;
     username: string;
   };
+  makes: string;
+  type: string;
 }
 
 export interface CarResponse {

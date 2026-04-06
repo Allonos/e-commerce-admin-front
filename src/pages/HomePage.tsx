@@ -7,21 +7,14 @@ import { useState } from "react";
 import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
 import EditCarModal from "../components/ui/modals/EditCarModal";
 import { Link } from "react-router";
-
-type Car = {
-  id: string;
-  model: string;
-  year: string;
-  price: number;
-  location: string;
-  images: string[];
-};
+import type { Car } from "../utils/types/carTypes";
 
 const HomePage = () => {
   const [carToDelete, setCarToDelete] = useState<string | null>(null);
   const [carToEdit, setCarToEdit] = useState<Car | null>(null);
-  const { data: cars, isLoading } = useGetAdminsCarsServiceQuery();
   const { authUser } = useAuthStore();
+
+  const { data: cars, isLoading } = useGetAdminsCarsServiceQuery();
 
   const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
 
@@ -78,7 +71,10 @@ const HomePage = () => {
                     />
                   </div>
                   <div className="pb-2 pt-3 px-4 flex flex-col gap-2">
-                    <h2 className="text-lg font-semibold">{car.model}</h2>
+                    <div className="flex items-center gap-2">
+                      <p className="text-lg font-semibold">{car.makes}</p>
+                      <h2 className="text-lg font-semibold">{car.model}</h2>
+                    </div>
                     <h3>${car.price}</h3>
                     <div className="pt-2 flex items-center gap-2">
                       <MapPin width={16} height={16} color="#717182" />
