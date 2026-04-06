@@ -6,7 +6,10 @@ export interface Car {
   model: string;
   price: number;
   year: string;
-  userId: string;
+  owner: {
+    id: string;
+    username: string;
+  };
 }
 
 export interface CarResponse {

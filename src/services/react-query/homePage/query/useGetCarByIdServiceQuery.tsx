@@ -7,5 +7,6 @@ export const useGetCarByIdServiceQuery = (id: string | undefined) => {
     queryFn: async () => getCarById(id),
     enabled: !!id,
     staleTime: 5 * 60 * 1000,
+    retry: 1,
   });
 };

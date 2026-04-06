@@ -133,7 +133,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
               Price
             </label>
             <input
-              type="number"
+              type="text"
               value={price ?? ""}
               onChange={(e) => setPrice(Number(e.target.value))}
               placeholder="e.g. 42990"

@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import AuthLayout from "../components/ui/layout/AuthLayout";
-import { Link, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useLoginServiceMutation } from "../services/react-query/login/mutation/useLoginServiceMutation";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
-  const { mutate: loginMutate } = useLoginServiceMutation();
+  const { mutate: loginMutate, isPending } = useLoginServiceMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginMutate({ email, password }, { onSuccess: () => <Navigate to="/" /> });
+    loginMutate(
+      { email, password },
+      {
+        onSuccess: () => navigate("/"),
+        onError: (error) => {
+          const message = axios.isAxiosError(error)
+            ? error.response?.data?.error
+            : error?.message;
+          toast.error(message);
+        },
+      }
+    );
   };
 
   return (
@@ -53,9 +67,11 @@ const LoginPage = () => {
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 rounded-md mt-4 hover:bg-indigo-700 transition-all duration-300 cursor-pointer"
+          className={`w-full ${
+            isPending ? "bg-indigo-500" : "bg-indigo-600"
+          } text-white py-2 rounded-md mt-4 hover:bg-indigo-700 transition-all duration-300 cursor-pointer`}
         >
-          Login
+          {isPending ? "Logging in..." : "Login"}
         </button>
       </form>
       <div className="py-2">

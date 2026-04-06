@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
 function App() {
-  const { data: checkAuth } = useGetCheckAuthServiceQuery();
+  const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
   const { setAuthUser } = useAuthStore();
 
   useEffect(() => {
@@ -17,6 +17,10 @@ function App() {
       setAuthUser(checkAuth);
     }
   }, [checkAuth, setAuthUser]);
+
+  if (isLoading && checkAuth === undefined) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>

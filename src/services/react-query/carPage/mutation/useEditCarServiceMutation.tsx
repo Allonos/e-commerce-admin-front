@@ -37,7 +37,7 @@ export const useEditCarServiceMutation = () => {
         };
       });
 
-      queryClient.setQueryData(["car", updatedCar.id], data);
+      queryClient.invalidateQueries({ queryKey: ["car", updatedCar.id] });
     },
   });
 };

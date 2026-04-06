@@ -1,19 +1,29 @@
 import { useState } from "react";
 import AuthLayout from "../components/ui/layout/AuthLayout";
-import { Link, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useSignupServiceMutation } from "../services/react-query/signup/mutation/useSignupServiceMutation";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const { mutate: signupMutate } = useSignupServiceMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signupMutate({ username, email, password }, {
-      onSuccess: () => <Navigate to="/" />,
+      onSuccess: () => navigate("/"),
+      onError: (error) => {
+        const message = axios.isAxiosError(error)
+          ? error.response?.data?.error
+          : error?.message;
+        toast.error(message);
+      },
     });
   };
 
