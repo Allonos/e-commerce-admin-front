@@ -42,10 +42,13 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
   const [newPreviews, setNewPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [prevCarId, setPrevCarId] = useState(car?.id);
-  if (car?.id !== prevCarId) {
-    setPrevCarId(car?.id);
+  const [prevCar, setPrevCar] = useState<Car | null>(car);
+  if (car !== prevCar) {
+    setPrevCar(car);
+    newPreviews.forEach((url) => URL.revokeObjectURL(url));
     setForm(car ? carToForm(car) : EMPTY_FORM);
+    setNewImages([]);
+    setNewPreviews([]);
   }
 
   const formattedDate = form.date ? dayjs(form.date).format("YYYY") : "";
