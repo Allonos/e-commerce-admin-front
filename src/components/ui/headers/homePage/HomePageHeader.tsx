@@ -7,10 +7,15 @@ import { useLogoutServiceMutation } from "../../../../services/react-query/logou
 const HomePageHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { mutate: logout } = useLogoutServiceMutation();
+  const { mutate: logout, isPending } = useLogoutServiceMutation();
 
   return (
     <>
+      {isPending && (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#93929280] z-50">
+          <h3 className="text-2xl text-black">Logging out...</h3>
+        </div>
+      )}
       <header className="border-b border-[#3030303d] w-full py-4 mb-4">
         <section className="sm:max-w-7xl w-full mx-auto flex justify-between items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
