@@ -36,7 +36,7 @@ export const useEditCarServiceMutation = () => {
         return {
           ...old,
           cars: old.cars.map((car) =>
-            car.id === updatedCar.id ? updatedCar : car
+            car.id === updatedCar.id ? { ...car, ...updatedCar } : car
           ),
         };
       });
