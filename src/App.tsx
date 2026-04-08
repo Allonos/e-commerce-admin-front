@@ -5,12 +5,15 @@ import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useGetCheckAuthServiceQuery } from "./services/react-query/checkAuth/query/useCheckAuthServiceQuery";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import HomePageSkeleton from "./components/ui/skeletons/HomePageSkeleton";
+import InitialLoading from "./components/ui/loaders/InitialLoading";
 
 function App() {
   const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
   const { setAuthUser } = useAuthStore();
+  const [showSlowMessage, setShowSlowMessage] = useState(false);
 
   useEffect(() => {
     if (checkAuth) {
@@ -18,8 +21,22 @@ function App() {
     }
   }, [checkAuth, setAuthUser]);
 
+  useEffect(() => {
+    if (!isLoading) return;
+    const timer = setTimeout(() => setShowSlowMessage(true), 5000);
+    return () => {
+      clearTimeout(timer);
+      setShowSlowMessage(false);
+    };
+  }, [isLoading]);
+
   if (isLoading && checkAuth === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <HomePageSkeleton />
+        {showSlowMessage && <InitialLoading />}
+      </>
+    );
   }
 
   return (
