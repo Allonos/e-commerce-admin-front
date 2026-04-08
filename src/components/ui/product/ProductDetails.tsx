@@ -1,5 +1,5 @@
 import { Carousel } from "antd";
-import type { Car } from "../../utils/types/carTypes";
+import type { Car } from "../../../utils/types/carTypes";
 import { useRef, useState } from "react";
 import type { CarouselRef } from "antd/es/carousel";
 import {
