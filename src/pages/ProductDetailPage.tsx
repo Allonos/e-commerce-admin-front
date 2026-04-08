@@ -6,7 +6,8 @@ import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mu
 import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
 import EditCarModal from "../components/ui/modals/EditCarModal";
 import { useAuthStore } from "../store/useAuthStore";
-import ProductDetails from "../components/product/ProductDetails";
+import ProductDetails from "../components/ui/product/ProductDetails";
+import ProductDetailPageSkeleton from "../components/ui/skeletons/ProductDetailPageSkeleton";
 
 const ProductDetailPage = () => {
   const { id: productId } = useParams();
@@ -28,7 +29,7 @@ const ProductDetailPage = () => {
   };
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <ProductDetailPageSkeleton />;
   }
 
   if (isError || !car?.car) {

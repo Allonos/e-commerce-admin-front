@@ -8,6 +8,7 @@ import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
 import EditCarModal from "../components/ui/modals/EditCarModal";
 import { Link } from "react-router";
 import type { Car } from "../utils/types/carTypes";
+import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 
 const HomePage = () => {
   const [carToDelete, setCarToDelete] = useState<string | null>(null);
@@ -18,7 +19,11 @@ const HomePage = () => {
 
   const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
 
-  const noCars = !isLoading && cars?.cars.length === 0;
+  if (isLoading) {
+    return <HomePageSkeleton />;
+  }
+
+  const noCars = cars?.cars.length === 0;
 
   if (noCars) {
     return (
@@ -50,8 +55,7 @@ const HomePage = () => {
         car={carToEdit}
       />
       <div className="pt-10 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-6">
-        {!isLoading &&
-          cars?.cars.map((car) => (
+        {cars?.cars.map((car) => (
             <div
               className="flex gap-6 self-start"
               key={car.id}
