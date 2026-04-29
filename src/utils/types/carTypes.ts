@@ -12,6 +12,7 @@ export interface Car {
   };
   makes: string;
   type: string;
+  lot: string;
 }
 
 export interface CarResponse {

@@ -75,7 +75,7 @@ const Menu = () => {
           <h3 className="text-2xl text-black">Logging out...</h3>
         </div>
       )}
-      <div className="w-100 flex flex-col justify-between h-screen bg-slate-900">
+      <div className="w-80 flex flex-col justify-between h-screen bg-slate-900">
         <div>
           <div className="border-b border-[#c7c7c765] w-full py-4 pb-5 mb-4 px-4 flex items-center gap-2">
             <Car width={40} height={40} color="white" />

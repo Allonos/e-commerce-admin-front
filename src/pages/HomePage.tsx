@@ -25,15 +25,6 @@ const HomePage = () => {
 
   const noCars = cars?.cars.length === 0;
 
-  if (noCars) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4 py-20">
-        <h2 className="text-xl font-semibold">No cars found</h2>
-        <p className="text-gray-500">Please add a car to get started.</p>
-      </div>
-    );
-  }
-
   const handleConfirmDelete = () => {
     if (!carToDelete) return;
     deleteCarMutate(carToDelete, { onSettled: () => setCarToDelete(null) });
@@ -42,6 +33,12 @@ const HomePage = () => {
   return (
     <>
       <HomePageHeader />
+      {noCars && (
+        <div className="flex flex-col items-center justify-center gap-4 py-20">
+          <h2 className="text-xl font-semibold">No cars found</h2>
+          <p className="text-gray-500">Please add a car to get started.</p>
+        </div>
+      )}
       <DeleteCarModal
         isOpen={!!carToDelete}
         onClose={() => setCarToDelete(null)}
@@ -53,18 +50,21 @@ const HomePage = () => {
         onClose={() => setCarToEdit(null)}
         car={carToEdit}
       />
-      <div className="pt-10 flex justify-items-center w-full gap-6 overflow-x-scroll px-4 pb-10">
+      <div className="grid grid-cols-2 2xl:grid-cols-3 w-full gap-6 lg:max-w-250 2xl:max-w-400 mx-auto px-4 pb-10">
         {cars?.cars.map((car) => (
           <div
             className="flex gap-6 self-start"
             key={car.id}
           >
-            <div className="rounded-2xl lg:w-full max-w-97.5 xl:w-97.5 relative shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-200 overflow-hidden">
+            <div className="rounded-2xl w-full relative shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-200 overflow-hidden">
               {car.images.length > 1 && (
-                <div className="absolute top-2 right-7 bg-[#0a0a0ae8] text-white px-2 py-1 rounded">
+                <div className="absolute top-3 right-3 bg-[#0a0a0ae8] text-white px-2 py-1 rounded">
                   <h2 className="text-sm">+{car.images.length - 1} more</h2>
                 </div>
               )}
+              <div className="absolute top-3 left-3 bg-[#0a0a0ae8] text-white px-2 py-1 rounded">
+                <h2 className="text-sm">{car.lot}</h2>
+              </div>
               <Link to={`/product/${car.id}`}>
                 <div className="h-75 w-full">
                   <img

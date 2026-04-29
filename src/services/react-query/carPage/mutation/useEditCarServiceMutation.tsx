@@ -14,6 +14,7 @@ export const useEditCarServiceMutation = () => {
       price,
       location,
       type,
+      lot,
       newImages,
       existingImages,
     }: {
@@ -24,10 +25,11 @@ export const useEditCarServiceMutation = () => {
       price: number;
       location: string;
       type: string;
+      lot: string;
       newImages: File[];
       existingImages: string[];
     }) =>
-      editCar({ id, makes, model, year, price, location, type, newImages, existingImages }),
+      editCar({ id, makes, model, year, price, location, type, lot, newImages, existingImages }),
     onSuccess: (data: { car: Car }) => {
       const updatedCar = data.car;
 

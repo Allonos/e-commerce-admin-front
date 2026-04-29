@@ -5,7 +5,7 @@ const ProductDetailHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="py-4 h-19.25 items-center flex px-4 gap-4 border-b border-[#3030303d] ">
+    <div className="h-19.25 items-center flex px-4 gap-4 border-b border-[#3030303d] ">
       <div
         onClick={() => navigate(-1)}
         className="cursor-pointer flex items-center gap-2 group"

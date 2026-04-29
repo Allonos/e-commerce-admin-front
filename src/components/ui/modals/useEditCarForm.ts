@@ -11,6 +11,7 @@ interface FormState {
   location: string;
   date: string;
   type: string;
+  lot: string;
   existingImages: string[];
 }
 
@@ -21,6 +22,7 @@ const EMPTY_FORM: FormState = {
   location: "",
   date: "",
   type: "",
+  lot: "",
   existingImages: [],
 };
 
@@ -31,6 +33,7 @@ const carToForm = (car: Car): FormState => ({
   location: car.location,
   date: car.year,
   type: car.type,
+  lot: car.lot,
   existingImages: car.images,
 });
 
@@ -62,7 +65,8 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
     form.price !== originalForm.price ||
     form.location !== originalForm.location ||
     form.date !== originalForm.date ||
-    form.type !== originalForm.type;
+    form.type !== originalForm.type ||
+    form.lot !== originalForm.lot;
   const hasImageChanges =
     newImages.length > 0 ||
     form.existingImages.length !== (car?.images.length ?? 0);
@@ -122,6 +126,7 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
         price: Number(form.price),
         location: form.location,
         type: form.type,
+        lot: form.lot,
         newImages,
         existingImages: form.existingImages,
       },

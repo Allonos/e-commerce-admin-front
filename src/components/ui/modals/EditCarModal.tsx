@@ -117,6 +117,16 @@ const EditCarModal = ({ isOpen, onClose, car }: Props) => {
               className={inputCls}
             />
           </div>
+          <div>
+            <label className={labelCls}>Lot</label>
+            <input
+              type="text"
+              value={form.lot}
+              placeholder="e.g. LOT-001"
+              onChange={(e) => setForm((prev) => ({ ...prev, lot: e.target.value }))}
+              className={inputCls}
+            />
+          </div>
 
           <ImageUploadSection
             images={newImages}

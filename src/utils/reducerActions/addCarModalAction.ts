@@ -5,6 +5,7 @@ export type Action =
   | { type: "SET_LOCATION"; payload: string }
   | { type: "SET_DATE"; payload: string }
   | { type: "SET_TYPE"; payload: string }
+  | { type: "SET_LOT"; payload: string }
   | { type: "ADD_IMAGES"; payload: { files: File[]; previews: string[] } }
   | { type: "REMOVE_IMAGE"; payload: number }
   | { type: "RESET" };
@@ -16,6 +17,7 @@ export type State = {
   location: string;
   date: string;
   type: string;
+  lot: string;
   images: File[];
   previews: string[];
 };
@@ -27,6 +29,7 @@ export const initialState: State = {
   location: "",
   date: "",
   type: "",
+  lot: "",
   images: [],
   previews: [],
 };
@@ -45,6 +48,8 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, date: action.payload };
     case "SET_TYPE":
       return { ...state, type: action.payload };
+    case "SET_LOT":
+      return { ...state, lot: action.payload };
     case "ADD_IMAGES":
       return {
         ...state,

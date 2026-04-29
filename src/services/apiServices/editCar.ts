@@ -8,6 +8,7 @@ interface IProps {
   price: number;
   location: string;
   type: string;
+  lot: string;
   newImages: File[];
   existingImages: string[];
 }
@@ -20,6 +21,7 @@ export const editCar = async ({
   price,
   location,
   type,
+  lot,
   newImages,
   existingImages,
 }: IProps) => {
@@ -30,6 +32,7 @@ export const editCar = async ({
   formData.append("price", price.toString());
   formData.append("location", location);
   formData.append("type", type);
+  formData.append("lot", lot);
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));
 
