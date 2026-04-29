@@ -11,7 +11,7 @@ export const MAX_IMAGES = 4;
 
 export const useAddCarForm = (onClose: () => void) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { make, model, price, location, date, type, images, previews } = state;
+  const { make, model, price, location, date, type, lot, images, previews } = state;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formattedDate = date ? dayjs(date).format("YYYY") : "";
   const { mutate: postCarMutate, isPending } = usePostCarServiceMutation();
@@ -45,7 +45,7 @@ export const useAddCarForm = (onClose: () => void) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!model || !price || !location || !date || !type) {
+    if (!model || !price || !location || !date || !type || !lot) {
       toast.error("All fields are required.");
       return;
     }
@@ -58,7 +58,7 @@ export const useAddCarForm = (onClose: () => void) => {
       return;
     }
     postCarMutate(
-      { make, images, model, year: date, price: Number(price), location, type },
+      { make, images, model, year: date, price: Number(price), location, type, lot },
       {
         onSuccess: () => {
           toast.success("Car added successfully!");

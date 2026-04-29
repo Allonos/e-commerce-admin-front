@@ -7,9 +7,9 @@ const HomePageHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <>
-      <header className="border-b border-[#3030303d] w-full py-4 pb-6 mb-4 px-4">
-        <section className="w-full flex justify-between items-center gap-2 px-2">
+    <header className="sticky top-0 bg-white z-50">
+      <section className="border-b border-[#3030303d] w-full py-4 pb-6 px-4">
+        <div className="w-full flex justify-between items-center gap-2 px-2">
           <Link to="/" className="flex items-center gap-2">
             <h1 className="sm:text-3xl text-xl font-semibold">
               All Vehicles
@@ -26,14 +26,14 @@ const HomePageHeader = () => {
               </span>
             </button>
           </div>
-        </section>
-      </header>
+        </div>
+      </section>
 
       <AddCarModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-    </>
+    </header>
   );
 };
 

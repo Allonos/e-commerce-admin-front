@@ -10,7 +10,7 @@ interface Props {
 
 const AddCarModal = ({ isOpen, onClose }: Props) => {
   const {
-    state: { make, model, price, location, date, type, images, previews },
+    state: { make, model, price, location, date, type, lot, images, previews },
     dispatch,
     fileInputRef,
     formattedDate,
@@ -52,6 +52,7 @@ const AddCarModal = ({ isOpen, onClose }: Props) => {
             location={location}
             date={date}
             type={type}
+            lot={lot}
             formattedDate={formattedDate}
             dispatch={dispatch}
           />

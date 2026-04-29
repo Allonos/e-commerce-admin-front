@@ -4,10 +4,11 @@ interface IProps {
   make: string;
   images: File[];
   model: string;
-  year: string;
   price: number;
   location: string;
   type: string;
+  lot: string;
+  year: string;
 }
 
 export const postCar = async ({
@@ -18,6 +19,7 @@ export const postCar = async ({
   price,
   location,
   type,
+  lot,
 }: IProps) => {
   const formData = new FormData();
   formData.append("makes", make);
@@ -26,6 +28,7 @@ export const postCar = async ({
   formData.append("price", price.toString());
   formData.append("location", location);
   formData.append("type", type);
+  formData.append("lot", lot);
   images.forEach((image) => formData.append("images", image));
 
   const response = await api.post("/cars/create-car", formData, {

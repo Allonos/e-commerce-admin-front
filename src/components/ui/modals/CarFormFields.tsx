@@ -12,12 +12,13 @@ interface Props {
   location: string;
   date: string;
   type: string;
+  lot: string;
   formattedDate: string;
   dispatch: Dispatch<Action>;
 }
 
 const CarFormFields = (
-  { make, model, price, location, date, type, formattedDate, dispatch }: Props,
+  { make, model, price, location, date, type, lot, formattedDate, dispatch }: Props,
 ) => {
   return (
     <>
@@ -87,6 +88,17 @@ const CarFormFields = (
           placeholder="e.g. Sedan"
           onChange={(e) =>
             dispatch({ type: "SET_TYPE", payload: e.target.value })}
+          className={inputCls}
+        />
+      </div>
+      <div>
+        <label className={labelCls}>Lot</label>
+        <input
+          type="text"
+          value={lot}
+          placeholder="e.g. LOT-001"
+          onChange={(e) =>
+            dispatch({ type: "SET_LOT", payload: e.target.value })}
           className={inputCls}
         />
       </div>

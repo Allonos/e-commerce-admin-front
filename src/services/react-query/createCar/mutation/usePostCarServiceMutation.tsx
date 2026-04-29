@@ -5,10 +5,11 @@ interface IProps {
   make: string;
   images: File[];
   model: string;
-  year: string;
   price: number;
   location: string;
   type: string;
+  lot: string;
+  year: string;
 }
 
 export const usePostCarServiceMutation = () => {
@@ -16,8 +17,8 @@ export const usePostCarServiceMutation = () => {
 
   return useMutation({
     mutationFn: (
-      { make, images, model, year, price, location, type }: IProps,
-    ) => postCar({ make, images, model, year, price, location, type }),
+      { make, images, model, year, price, location, type, lot }: IProps,
+    ) => postCar({ make, images, model, year, price, location, type, lot }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsCars"] });
     },
