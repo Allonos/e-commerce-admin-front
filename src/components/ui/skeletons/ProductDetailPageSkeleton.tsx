@@ -1,9 +1,11 @@
-import MainLayout from "../layout/MainLayout";
+import ProductDetailHeader from "../headers/productDetailPage/ProductDetailHeader";
 
 const ProductDetailPageSkeleton = () => {
   return (
-    <MainLayout>
-      <div className="flex flex-col items-center xl:flex-row xl:items-start gap-4 animate-pulse">
+    <div>
+      <ProductDetailHeader />
+
+      <div className="flex flex-col items-center xl:flex-row xl:items-start gap-4 animate-pulse mx-4 mt-4">
         {/* Image area */}
         <div className="w-full xl:w-350 px-2 xl:px-0">
           <div className="w-full h-100 xl:h-125 bg-gray-200 rounded-lg" />
@@ -36,7 +38,7 @@ const ProductDetailPageSkeleton = () => {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 

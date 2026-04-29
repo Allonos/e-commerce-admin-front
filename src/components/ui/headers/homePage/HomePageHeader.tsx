@@ -1,27 +1,18 @@
 import { useState } from "react";
-import { Car, LogOut, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import AddCarModal from "../../modals/AddCarModal";
 import { Link } from "react-router";
-import { useLogoutServiceMutation } from "../../../../services/react-query/logout/mutation/useLogoutServiceMutation";
 
 const HomePageHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { mutate: logout, isPending } = useLogoutServiceMutation();
-
   return (
     <>
-      {isPending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-[#93929280] z-50">
-          <h3 className="text-2xl text-black">Logging out...</h3>
-        </div>
-      )}
-      <header className="border-b border-[#3030303d] w-full py-4 mb-4">
-        <section className="sm:max-w-7xl w-full mx-auto flex justify-between items-center gap-2">
+      <header className="border-b border-[#3030303d] w-full py-4 pb-6 mb-4 px-4">
+        <section className="w-full flex justify-between items-center gap-2 px-2">
           <Link to="/" className="flex items-center gap-2">
-            <Car width={40} height={40} />
             <h1 className="sm:text-3xl text-xl font-semibold">
-              Car Admin Panel
+              All Vehicles
             </h1>
           </Link>
           <div className="flex items-center gap-3">
@@ -33,9 +24,6 @@ const HomePageHeader = () => {
               <span className="ml-1 text-sm sm:text-md font-medium text-white">
                 Add Car
               </span>
-            </button>
-            <button className="cursor-pointer" onClick={() => logout()}>
-              <LogOut />
             </button>
           </div>
         </section>
