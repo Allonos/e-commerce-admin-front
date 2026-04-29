@@ -28,7 +28,7 @@ const ProductDetails = (
   const carouselRef = useRef<CarouselRef>(null);
 
   return (
-    <div className="flex flex-col items-center xl:flex-row xl:items-start gap-4">
+    <div className="flex flex-col items-center xl:flex-row xl:items-start gap-4 mx-4">
       <div className="w-full xl:w-350 px-2 xl:px-0 relative overflow-hidden">
         <div>
           <Carousel

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import HomePageSkeleton from "./components/ui/skeletons/HomePageSkeleton";
 import InitialLoading from "./components/ui/loaders/InitialLoading";
+import MainLayout from "./components/ui/layout/MainLayout";
 
 function App() {
   const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
@@ -40,23 +41,22 @@ function App() {
   }
 
   return (
-    <>
-      <Routes>
-        <Route
-          path="/login"
-          element={checkAuth ? <Navigate to="/" /> : <LoginPage />}
-        />
-        <Route
-          path="/signup"
-          element={checkAuth ? <Navigate to="/" /> : <SignupPage />}
-        />
-        <Route path="/" element={checkAuth ? <HomePage /> : <LoginPage />} />
-        <Route
-          path="/product/:id"
-          element={checkAuth ? <ProductDetailPage /> : <LoginPage />}
-        />
-      </Routes>
-    </>
+    <Routes>
+      <Route
+        path="/login"
+        element={checkAuth ? <Navigate to="/" /> : <LoginPage />}
+      />
+      <Route
+        path="/signup"
+        element={checkAuth ? <Navigate to="/" /> : <SignupPage />}
+      />
+      <Route
+        element={checkAuth ? <MainLayout /> : <Navigate to="/login" />}
+      >
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+      </Route>
+    </Routes>
   );
 }
 

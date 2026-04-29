@@ -1,5 +1,3 @@
-import MainLayout from "../layout/MainLayout";
-
 const CarCardSkeleton = () => (
   <div className="rounded-2xl lg:w-full max-w-97.5 xl:w-97.5 shadow-md overflow-hidden animate-pulse">
     <div className="h-75 w-full bg-gray-200" />
@@ -27,13 +25,9 @@ const CarCardSkeleton = () => (
 
 const HomePageSkeleton = () => {
   return (
-    <MainLayout>
-      <div className="pt-10 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <CarCardSkeleton key={i} />
-        ))}
-      </div>
-    </MainLayout>
+    <div className="pt-10 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-6">
+      {Array.from({ length: 6 }).map((_, i) => <CarCardSkeleton key={i} />)}
+    </div>
   );
 };
 
