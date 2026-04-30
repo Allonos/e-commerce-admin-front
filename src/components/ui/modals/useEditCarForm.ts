@@ -135,6 +135,11 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
           toast.success("Car updated successfully!");
           handleClose();
         },
+        onError: (error: unknown) => {
+          const message = (error as { response?: { data?: { error?: string } } })
+            ?.response?.data?.error;
+          toast.error(message ?? "Something went wrong.");
+        },
       },
     );
   };

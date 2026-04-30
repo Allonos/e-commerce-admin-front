@@ -64,6 +64,11 @@ export const useAddCarForm = (onClose: () => void) => {
           toast.success("Car added successfully!");
           handleClose();
         },
+        onError: (error: unknown) => {
+          const message = (error as { response?: { data?: { error?: string } } })
+            ?.response?.data?.error;
+          toast.error(message ?? "Something went wrong.");
+        },
       },
     );
   };
