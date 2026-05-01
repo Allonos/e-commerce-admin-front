@@ -5,7 +5,7 @@ export const getAdminsCars = async (page: number = 1): Promise<CarResponse> => {
   const response = await api.get("/cars", {
     params: {
       page,
-      limit: 10,
+      limit: 1,
     },
   });
   return response.data;
