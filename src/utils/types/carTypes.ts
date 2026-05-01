@@ -17,4 +17,9 @@ export interface Car {
 
 export interface CarResponse {
   cars: Car[];
+  page: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  isFirstPage: boolean;
+  isLastPage: boolean;
 }

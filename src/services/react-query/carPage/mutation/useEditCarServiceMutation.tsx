@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editCar } from "../../../apiServices/editCar";
-import type { Car, CarResponse } from "../../../../utils/types/carTypes";
+import type { Car } from "../../../../utils/types/carTypes";
 
 export const useEditCarServiceMutation = () => {
   const queryClient = useQueryClient();
@@ -33,16 +33,7 @@ export const useEditCarServiceMutation = () => {
     onSuccess: (data: { car: Car }) => {
       const updatedCar = data.car;
 
-      queryClient.setQueryData<CarResponse>(["adminsCars"], (old) => {
-        if (!old) return old;
-        return {
-          ...old,
-          cars: old.cars.map((car) =>
-            car.id === updatedCar.id ? { ...car, ...updatedCar } : car
-          ),
-        };
-      });
-
+      queryClient.invalidateQueries({ queryKey: ["adminsCars"] });
       queryClient.invalidateQueries({ queryKey: ["car", updatedCar.id] });
     },
   });
