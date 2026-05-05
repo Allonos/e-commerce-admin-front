@@ -1,11 +1,31 @@
 @import "tailwindcss";
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translate(-50%, 12px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out forwards;
 }
 
+.default-form {
+  padding-top: 15px;
+}
+
+.default-form-item {
+  label {
+    font-size: 14px !important;
+    color: #314158 !important;
+  }
+}
+
+.ant-select-item-option-content {
+  text-transform: capitalize !important;
+}

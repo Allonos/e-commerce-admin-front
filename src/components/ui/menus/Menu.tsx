@@ -14,7 +14,7 @@ import { useLogoutServiceMutation } from "../../../services/react-query/logout/m
 const inventoryLinks = [
   { label: "All Vehicles", to: "/" },
   { label: "Featured / Hero Cars / Popular Cars", to: "/inventory/featured" },
-  { label: "Categories & Makes", to: "/inventory/categories" },
+  { label: "Makes & Models & Types", to: "/inventory/categories" },
 ];
 
 const usersLinks = [

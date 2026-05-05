@@ -10,6 +10,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import HomePageSkeleton from "./components/ui/skeletons/HomePageSkeleton";
 import InitialLoading from "./components/ui/loaders/InitialLoading";
 import MainLayout from "./components/ui/layout/MainLayout";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
   const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
@@ -55,6 +56,7 @@ function App() {
       >
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/inventory/categories" element={<CategoriesPage />} />
       </Route>
     </Routes>
   );
