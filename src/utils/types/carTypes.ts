@@ -3,16 +3,27 @@ export interface Car {
   id: string;
   images: string[];
   location: string;
-  model: string;
+  modelId: string;
   price: number;
-  year: string;
+  year: number;
   owner: {
     id: string;
     username: string;
   };
-  makes: string;
-  type: string;
+  make: {
+    id: string;
+    name: string;
+  };
+  model: {
+    id: string;
+    name: string;
+  };
+  type: {
+    id: string;
+    name: string;
+  };
   lot: string;
+  status: string;
 }
 
 export interface CarResponse {

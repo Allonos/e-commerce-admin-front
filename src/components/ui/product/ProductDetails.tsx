@@ -2,6 +2,7 @@ import { Carousel } from "antd";
 import type { Car } from "../../../utils/types/carTypes";
 import { useRef, useState } from "react";
 import type { CarouselRef } from "antd/es/carousel";
+import { useNavigate } from "react-router";
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,17 +16,16 @@ interface IProps {
   carDetails: Car | null;
   authUser: { id: string; username: string } | null;
   setCarToDelete: (id: string) => void;
-  setIsEditOpen: (isOpen: boolean) => void;
   images: string[];
   productId: string | undefined;
 }
 
 const ProductDetails = (
-  { carDetails, authUser, setCarToDelete, setIsEditOpen, images, productId }:
-    IProps,
+  { carDetails, authUser, setCarToDelete, images, productId }: IProps,
 ) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const carouselRef = useRef<CarouselRef>(null);
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center xl:flex-row xl:items-start gap-4 mx-4">
@@ -78,12 +78,19 @@ const ProductDetails = (
       <div className="w-full px-2 xl:px-0">
         <div className="flex flex-col gap-4 justify-between w-full">
           <div className="flex items-center gap-2">
-            <h2 className="text-[24px] font-semibold text[#0A0A0A]">
-              {carDetails?.makes}
+            <h2 className="text-[24px] font-semibold text[#0A0A0A] capitalize">
+              {carDetails?.make.name}
             </h2>
-            <p className="text-[24px] font-semibold text[#0A0A0A]">
-              {carDetails?.model}
+            <p className="text-[24px] font-semibold text[#0A0A0A] capitalize">
+              {carDetails?.model.name} - {carDetails?.type.name}
             </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="text-[14px] font-medium text[#0A0A0A]">
+              Lot number: {carDetails?.lot}
+            </p>
+            <span>-</span>
+            <span className="text-[14px] font-bold">{carDetails?.status}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[20px] text-gray-600">Price:</span>
@@ -120,7 +127,7 @@ const ProductDetails = (
           {carDetails?.owner.id === authUser?.id && (
             <div className="w-full flex xl:flex-row flex-col gap-2 mt-4">
               <div
-                onClick={() => setIsEditOpen(true)}
+                onClick={() => navigate(`/cars/edit/${productId}`)}
                 className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200"
               >
                 <Pencil width={20} height={20} color="#717182" />

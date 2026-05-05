@@ -3,7 +3,6 @@ import { useGetCarByIdServiceQuery } from "../services/react-query/homePage/quer
 import { useState } from "react";
 import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
 import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
-import EditCarModal from "../components/ui/modals/EditCarModal";
 import { useAuthStore } from "../store/useAuthStore";
 import ProductDetails from "../components/ui/product/ProductDetails";
 import ProductDetailPageSkeleton from "../components/ui/skeletons/ProductDetailPageSkeleton";
@@ -17,7 +16,6 @@ const ProductDetailPage = () => {
     productId,
   );
   const [carToDelete, setCarToDelete] = useState<string | null>(null);
-  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const { authUser } = useAuthStore();
 
@@ -62,17 +60,11 @@ const ProductDetailPage = () => {
         onConfirm={handleConfirmDelete}
         isPending={isPending}
       />
-      <EditCarModal
-        isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        car={carDetails ?? null}
-      />
       <ProductDetailHeader />
       <ProductDetails
         carDetails={carDetails}
         authUser={authUser}
         setCarToDelete={setCarToDelete}
-        setIsEditOpen={setIsEditOpen}
         images={images}
         productId={productId}
       />

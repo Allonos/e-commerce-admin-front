@@ -7,6 +7,8 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useGetCheckAuthServiceQuery } from "./services/react-query/checkAuth/query/useCheckAuthServiceQuery";
 import { useEffect, useState } from "react";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import AddCarPage from "./pages/AddCarPage";
+import EditCarPage from "./pages/EditCarPage";
 import HomePageSkeleton from "./components/ui/skeletons/HomePageSkeleton";
 import InitialLoading from "./components/ui/loaders/InitialLoading";
 import MainLayout from "./components/ui/layout/MainLayout";
@@ -55,6 +57,8 @@ function App() {
         element={checkAuth ? <MainLayout /> : <Navigate to="/login" />}
       >
         <Route path="/" element={<HomePage />} />
+        <Route path="/cars/add" element={<AddCarPage />} />
+        <Route path="/cars/edit/:id" element={<EditCarPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/inventory/categories" element={<CategoriesPage />} />
       </Route>

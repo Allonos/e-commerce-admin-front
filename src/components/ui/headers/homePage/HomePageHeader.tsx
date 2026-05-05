@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { Plus } from "lucide-react";
-import AddCarModal from "../../modals/AddCarModal";
 import { Link } from "react-router";
 
 const HomePageHeader = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <header className="sticky top-0 bg-white z-50">
       <section className="border-b border-[#3030303d] w-full py-4 pb-6 px-4">
@@ -16,23 +12,18 @@ const HomePageHeader = () => {
             </h1>
           </Link>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center bg-black xl:px-4 xl:py-2 px-2 py-1 rounded-lg cursor-pointer hover:bg-[#1d1d1d] transition-colors duration-200"
+            <Link
+              to="/cars/add"
+              className="flex items-center bg-black xl:px-4 xl:py-2 px-2 py-1 rounded-lg hover:bg-[#1d1d1d] transition-colors duration-200"
             >
               <Plus width={20} height={20} color="white" />
               <span className="ml-1 text-sm sm:text-md font-medium text-white">
                 Add Car
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
-
-      <AddCarModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </header>
   );
 };

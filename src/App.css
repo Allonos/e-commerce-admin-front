@@ -26,6 +26,18 @@
   }
 }
 
+.add-select {
+  text-transform: capitalize !important;
+}
+
+.ant-select-input .ant-select-input {
+  text-transform: capitalize !important;
+}
+
+.ant-select-input {
+  text-transform: capitalize !important;
+}
+
 .ant-select-item-option-content {
   text-transform: capitalize !important;
 }

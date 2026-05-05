@@ -2,8 +2,6 @@ import { useGetAdminsCarsServiceQuery } from "../services/react-query/homePage/q
 import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
 import { useState } from "react";
 import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
-import EditCarModal from "../components/ui/modals/EditCarModal";
-import type { Car } from "../utils/types/carTypes";
 import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 import HomePageHeader from "../components/ui/headers/homePage/HomePageHeader";
 import AllCars from "../components/ui/lists/AllCars";
@@ -11,7 +9,6 @@ import DefaultPagination from "../components/ui/pagination/DefaultPagination";
 
 const HomePage = () => {
   const [carToDelete, setCarToDelete] = useState<string | null>(null);
-  const [carToEdit, setCarToEdit] = useState<Car | null>(null);
 
   const [page, setPage] = useState(1);
   const { data: cars, isLoading } = useGetAdminsCarsServiceQuery(page);
@@ -44,14 +41,8 @@ const HomePage = () => {
         onConfirm={handleConfirmDelete}
         isPending={isPending}
       />
-      <EditCarModal
-        isOpen={!!carToEdit}
-        onClose={() => setCarToEdit(null)}
-        car={carToEdit}
-      />
       <AllCars
         cars={cars}
-        setCarToEdit={setCarToEdit}
         setCarToDelete={setCarToDelete}
       />
       <DefaultPagination cars={cars} setPage={setPage} />

@@ -2,12 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postCar } from "../../../apiServices/postCar";
 
 interface IProps {
-  make: string;
+  makeId: string;
   images: File[];
-  model: string;
+  modelId: string;
   price: number;
   location: string;
-  type: string;
+  typeId: string;
   lot: string;
   year: string;
 }
@@ -17,8 +17,8 @@ export const usePostCarServiceMutation = () => {
 
   return useMutation({
     mutationFn: (
-      { make, images, model, year, price, location, type, lot }: IProps,
-    ) => postCar({ make, images, model, year, price, location, type, lot }),
+      { makeId, images, modelId, year, price, location, typeId, lot }: IProps,
+    ) => postCar({ makeId, images, modelId, year, price, location, typeId, lot }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsCars"] });
     },
