@@ -5,6 +5,7 @@ import { useGetMakesServiceQuery } from "../services/react-query/vehicleCategori
 import { useGetModelsServiceQuery } from "../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
 import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
 import EditCarForm from "./EditCarForm";
+import EditCarPageSkeleton from "../components/ui/skeletons/EditCarPageSkeleton";
 
 interface Make {
   id: string;
@@ -24,7 +25,9 @@ const EditCarPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: carData, isLoading } = useGetCarByIdServiceQuery(id);
+  const { data: carData, isLoading: carsLoading } = useGetCarByIdServiceQuery(
+    id,
+  );
   const car = carData?.car ?? null;
 
   const {
@@ -43,9 +46,12 @@ const EditCarPage = () => {
     handleSubmit,
   } = useEditCarForm(car, () => navigate(-1));
 
-  const { data: makesData } = useGetMakesServiceQuery();
-  const { data: modelsData } = useGetModelsServiceQuery(form.makes);
-  const { data: typesData } = useGetTypesServiceQuery();
+  const { data: makesData, isLoading: makesLoading } =
+    useGetMakesServiceQuery();
+  const { data: modelsData, isLoading: modelsLoading } =
+    useGetModelsServiceQuery(form.makes);
+  const { data: typesData, isLoading: typesLoading } =
+    useGetTypesServiceQuery();
 
   const makesArray: Make[] = Array.isArray(makesData)
     ? makesData
@@ -66,7 +72,9 @@ const EditCarPage = () => {
   }));
   const typesOptions = typesArray.map((t) => ({ label: t.name, value: t.id }));
 
-  if (isLoading) return null;
+  if (carsLoading || makesLoading || modelsLoading || typesLoading) {
+    return <EditCarPageSkeleton />;
+  }
 
   return (
     <EditCarForm
