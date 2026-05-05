@@ -8,28 +8,28 @@ export const useEditCarServiceMutation = () => {
   return useMutation({
     mutationFn: ({
       id,
-      makes,
-      model,
+      makeId,
+      modelId,
+      typeId,
       year,
       price,
       location,
-      type,
       lot,
       newImages,
       existingImages,
     }: {
       id: string;
-      makes: string;
-      model: string;
+      makeId: string;
+      modelId: string;
+      typeId: string;
       year: string;
       price: number;
       location: string;
-      type: string;
       lot: string;
       newImages: File[];
       existingImages: string[];
     }) =>
-      editCar({ id, makes, model, year, price, location, type, lot, newImages, existingImages }),
+      editCar({ id, makeId, modelId, typeId, year, price, location, lot, newImages, existingImages }),
     onSuccess: (data: { car: Car }) => {
       const updatedCar = data.car;
 

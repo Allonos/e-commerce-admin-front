@@ -1,33 +1,33 @@
 import api from "../api/api";
 
 interface IProps {
-  make: string;
+  makeId: string;
   images: File[];
-  model: string;
+  modelId: string;
   price: number;
   location: string;
-  type: string;
+  typeId: string;
   lot: string;
   year: string;
 }
 
 export const postCar = async ({
-  make,
+  makeId,
   images,
-  model,
+  modelId,
   year,
   price,
   location,
-  type,
+  typeId,
   lot,
 }: IProps) => {
   const formData = new FormData();
-  formData.append("makes", make);
-  formData.append("model", model);
+  formData.append("makeId", makeId);
+  formData.append("modelId", modelId);
+  formData.append("typeId", typeId);
   formData.append("year", year);
   formData.append("price", price.toString());
   formData.append("location", location);
-  formData.append("type", type);
   formData.append("lot", lot);
   images.forEach((image) => formData.append("images", image));
 

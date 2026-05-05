@@ -2,12 +2,12 @@ import api from "../api/api";
 
 interface IProps {
   id: string;
-  makes: string;
-  model: string;
+  makeId: string;
+  modelId: string;
+  typeId: string;
   year: string;
   price: number;
   location: string;
-  type: string;
   lot: string;
   newImages: File[];
   existingImages: string[];
@@ -15,23 +15,23 @@ interface IProps {
 
 export const editCar = async ({
   id,
-  makes,
-  model,
+  makeId,
+  modelId,
+  typeId,
   year,
   price,
   location,
-  type,
   lot,
   newImages,
   existingImages,
 }: IProps) => {
   const formData = new FormData();
-  formData.append("makes", makes);
-  formData.append("model", model);
+  formData.append("makeId", makeId);
+  formData.append("modelId", modelId);
+  formData.append("typeId", typeId);
   formData.append("year", year);
   formData.append("price", price.toString());
   formData.append("location", location);
-  formData.append("type", type);
   formData.append("lot", lot);
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));

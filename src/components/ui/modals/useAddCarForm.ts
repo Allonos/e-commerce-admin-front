@@ -58,7 +58,7 @@ export const useAddCarForm = (onClose: () => void) => {
       return;
     }
     postCarMutate(
-      { make, images, model, year: date, price: Number(price), location, type, lot },
+      { makeId: make, images, modelId: model, year: date, price: Number(price), location, typeId: type, lot },
       {
         onSuccess: () => {
           toast.success("Car added successfully!");

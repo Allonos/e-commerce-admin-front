@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useEditCarServiceMutation } from "../../../services/react-query/carPage/mutation/useEditCarServiceMutation";
 import type { Car } from "../../../utils/types/carTypes";
 
-interface FormState {
+export interface FormState {
   makes: string;
   model: string;
   price: number | undefined;
@@ -27,12 +27,12 @@ const EMPTY_FORM: FormState = {
 };
 
 const carToForm = (car: Car): FormState => ({
-  makes: car.makes,
-  model: car.model,
+  makes: car.make.id,
+  model: car.model.id,
   price: car.price,
   location: car.location,
-  date: car.year,
-  type: car.type,
+  date: String(car.year),
+  type: car.type.id,
   lot: car.lot,
   existingImages: car.images,
 });
@@ -120,12 +120,12 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
     editCarMutate(
       {
         id: car!.id,
-        makes: form.makes,
-        model: form.model,
+        makeId: form.makes,
+        modelId: form.model,
+        typeId: form.type,
         year: form.date,
         price: Number(form.price),
         location: form.location,
-        type: form.type,
         lot: form.lot,
         newImages,
         existingImages: form.existingImages,
@@ -136,8 +136,9 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
           handleClose();
         },
         onError: (error: unknown) => {
-          const message = (error as { response?: { data?: { error?: string } } })
-            ?.response?.data?.error;
+          const message = (
+            error as { response?: { data?: { error?: string } } }
+          )?.response?.data?.error;
           toast.error(message ?? "Something went wrong.");
         },
       },

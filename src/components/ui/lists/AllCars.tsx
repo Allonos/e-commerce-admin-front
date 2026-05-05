@@ -1,16 +1,16 @@
 import { Calendar, MapPin, Pencil, Trash } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../../store/useAuthStore";
-import type { Car, CarResponse } from "../../../utils/types/carTypes";
+import type { CarResponse } from "../../../utils/types/carTypes";
 
 interface IProps {
   cars: CarResponse | undefined;
-  setCarToEdit: (car: Car | null) => void;
   setCarToDelete: (id: string | null) => void;
 }
 
-const AllCars = ({ cars, setCarToEdit, setCarToDelete }: IProps) => {
+const AllCars = ({ cars, setCarToDelete }: IProps) => {
   const { authUser } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <div className="grid grid-cols-2 2xl:grid-cols-3 w-full gap-6 lg:max-w-250 2xl:max-w-400 mx-auto px-4 pb-10">
@@ -32,14 +32,18 @@ const AllCars = ({ cars, setCarToEdit, setCarToDelete }: IProps) => {
               <div className="h-75 w-full">
                 <img
                   src={car.images[0]}
-                  alt={car.model}
+                  alt={car.model.name}
                   className="object-cover w-full h-full"
                 />
               </div>
               <div className="pb-2 pt-3 px-4 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <p className="text-lg font-semibold">{car.makes}</p>
-                  <h2 className="text-lg font-semibold">{car.model}</h2>
+                  <p className="text-lg font-semibold capitalize">
+                    {car.make.name}
+                  </p>
+                  <h2 className="text-lg font-semibold capitalize">
+                    {car.model.name}
+                  </h2>
                 </div>
                 <h3>${car.price}</h3>
                 <div className="pt-2 flex items-center gap-2">
@@ -67,7 +71,7 @@ const AllCars = ({ cars, setCarToEdit, setCarToDelete }: IProps) => {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCarToEdit(car);
+                    navigate(`/cars/edit/${car.id}`);
                   }}
                   className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200"
                 >
