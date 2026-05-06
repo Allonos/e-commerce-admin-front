@@ -13,7 +13,7 @@ import { useLogoutServiceMutation } from "../../../services/react-query/logout/m
 
 const inventoryLinks = [
   { label: "All Vehicles", to: "/" },
-  { label: "Featured / Hero Vehicles / Popular Vehicles", to: "/inventory/featured" },
+  { label: "Featured / Hero Vehicles / Popular Vehicles", to: "/featured" },
   { label: "Makes & Models & Types", to: "/inventory/categories" },
 ];
 
