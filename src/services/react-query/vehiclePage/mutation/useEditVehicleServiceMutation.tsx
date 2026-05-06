@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editCar } from "../../../apiServices/editCar";
-import type { Car } from "../../../../utils/types/carTypes";
+import { editVehicle } from "../../../apiServices/editVehicle";
+import type { Vehicle } from "../../../../utils/types/vehicleTypes";
 
-export const useEditCarServiceMutation = () => {
+export const useEditVehicleServiceMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -29,12 +29,12 @@ export const useEditCarServiceMutation = () => {
       newImages: File[];
       existingImages: string[];
     }) =>
-      editCar({ id, makeId, modelId, typeId, year, price, location, lot, newImages, existingImages }),
-    onSuccess: (data: { car: Car }) => {
-      const updatedCar = data.car;
+      editVehicle({ id, makeId, modelId, typeId, year, price, location, lot, newImages, existingImages }),
+    onSuccess: (data: { vehicle: Vehicle }) => {
+      const updatedVehicle = data.vehicle;
 
-      queryClient.invalidateQueries({ queryKey: ["adminsCars"] });
-      queryClient.invalidateQueries({ queryKey: ["car", updatedCar.id] });
+      queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });
+      queryClient.invalidateQueries({ queryKey: ["vehicle", updatedVehicle.id] });
     },
   });
 };

@@ -1,4 +1,4 @@
-export interface Car {
+export interface Vehicle {
   createdAt: string;
   id: string;
   images: string[];
@@ -26,8 +26,8 @@ export interface Car {
   status: string;
 }
 
-export interface CarResponse {
-  cars: Car[];
+export interface VehicleResponse {
+  vehicles: Vehicle[];
   page: number;
   totalPages: number;
   hasNextPage: boolean;

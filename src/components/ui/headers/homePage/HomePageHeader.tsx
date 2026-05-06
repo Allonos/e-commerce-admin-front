@@ -13,12 +13,12 @@ const HomePageHeader = () => {
           </Link>
           <div className="flex items-center gap-3">
             <Link
-              to="/cars/add"
+              to="/vehicles/add"
               className="flex items-center bg-black xl:px-4 xl:py-2 px-2 py-1 rounded-lg hover:bg-[#1d1d1d] transition-colors duration-200"
             >
               <Plus width={20} height={20} color="white" />
               <span className="ml-1 text-sm sm:text-md font-medium text-white">
-                Add Car
+                Add Vehicle
               </span>
             </Link>
           </div>

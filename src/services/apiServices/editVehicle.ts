@@ -1,25 +1,29 @@
 import api from "../api/api";
 
 interface IProps {
+  id: string;
   makeId: string;
-  images: File[];
   modelId: string;
+  typeId: string;
+  year: string;
   price: number;
   location: string;
-  typeId: string;
   lot: string;
-  year: string;
+  newImages: File[];
+  existingImages: string[];
 }
 
-export const postCar = async ({
+export const editVehicle = async ({
+  id,
   makeId,
-  images,
   modelId,
+  typeId,
   year,
   price,
   location,
-  typeId,
   lot,
+  newImages,
+  existingImages,
 }: IProps) => {
   const formData = new FormData();
   formData.append("makeId", makeId);
@@ -29,9 +33,10 @@ export const postCar = async ({
   formData.append("price", price.toString());
   formData.append("location", location);
   formData.append("lot", lot);
-  images.forEach((image) => formData.append("images", image));
+  existingImages.forEach((url) => formData.append("existingImages", url));
+  newImages.forEach((image) => formData.append("images", image));
 
-  const response = await api.post("/cars/create-car", formData, {
+  const response = await api.patch(`/vehicles/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 

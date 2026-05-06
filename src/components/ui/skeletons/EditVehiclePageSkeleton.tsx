@@ -5,7 +5,7 @@ const FieldSkeleton = () => (
   </div>
 );
 
-const EditCarPageSkeleton = () => {
+const EditVehiclePageSkeleton = () => {
   return (
     <div className="w-full px-4 py-8 animate-pulse">
       {/* Back button */}
@@ -40,4 +40,4 @@ const EditCarPageSkeleton = () => {
   );
 };
 
-export default EditCarPageSkeleton;
+export default EditVehiclePageSkeleton;

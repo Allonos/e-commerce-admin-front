@@ -1,13 +1,13 @@
 import { ArrowLeft } from "lucide-react";
 import { Select } from "antd";
 import ImageUploadSection from "../components/ui/modals/ImageUploadSection";
-import type { AddCarFormProps } from "../utils/types/vehicleFormProps";
+import type { AddVehicleFormProps } from "../utils/types/vehicleFormProps";
 
 const inputCls =
   "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200";
 const labelCls = "block text-sm font-medium text-gray-700 mb-1";
 
-const AddCarForm = ({
+const AddVehicleForm = ({
   make,
   model,
   price,
@@ -28,7 +28,7 @@ const AddCarForm = ({
   removeImage,
   handleClose,
   handleSubmit,
-}: AddCarFormProps) => {
+}: AddVehicleFormProps) => {
   return (
     <div className="w-full px-4 py-8">
       <button
@@ -39,7 +39,7 @@ const AddCarForm = ({
         Back
       </button>
 
-      <h1 className="text-2xl font-semibold mb-6">Add Car</h1>
+      <h1 className="text-2xl font-semibold mb-6">Add Vehicle</h1>
 
       <form
         className="flex flex-col gap-4 mx-auto w-full"
@@ -149,11 +149,11 @@ const AddCarForm = ({
           }`}
           disabled={isPending}
         >
-          {isPending ? "Adding..." : "Add Car"}
+          {isPending ? "Adding..." : "Add Vehicle"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddCarForm;
+export default AddVehicleForm;

@@ -1,51 +1,53 @@
-import { useGetAdminsCarsServiceQuery } from "../services/react-query/homePage/query/useGetAdminsCarsServiceQuery";
-import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
+import { useGetAdminsVehiclesServiceQuery } from "../services/react-query/homePage/query/useGetAdminsVehiclesServiceQuery";
+import { useDeleteVehicleServiceMutation } from "../services/react-query/homePage/mutation/useDeleteVehicleServiceMutation";
 import { useState } from "react";
-import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
+import DeleteVehicleModal from "../components/ui/modals/DeleteVehicleModal";
 import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 import HomePageHeader from "../components/ui/headers/homePage/HomePageHeader";
-import AllCars from "../components/ui/lists/AllCars";
+import AllVehicles from "../components/ui/lists/AllVehicles";
 import DefaultPagination from "../components/ui/pagination/DefaultPagination";
 
 const HomePage = () => {
-  const [carToDelete, setCarToDelete] = useState<string | null>(null);
+  const [vehicleToDelete, setVehicleToDelete] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
-  const { data: cars, isLoading } = useGetAdminsCarsServiceQuery(page);
+  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
 
-  const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
+  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
 
   if (isLoading) {
     return <HomePageSkeleton />;
   }
 
-  const noCars = cars?.cars.length === 0;
+  const noVehicles = vehicles?.vehicles.length === 0;
 
   const handleConfirmDelete = () => {
-    if (!carToDelete) return;
-    deleteCarMutate(carToDelete, { onSettled: () => setCarToDelete(null) });
+    if (!vehicleToDelete) return;
+    deleteVehicleMutate(vehicleToDelete, { onSettled: () => setVehicleToDelete(null) });
   };
+
+  console.log(vehicles);
 
   return (
     <>
       <HomePageHeader />
-      {noCars && (
+      {noVehicles && (
         <div className="flex flex-col items-center justify-center gap-4 py-20">
-          <h2 className="text-xl font-semibold">No cars found</h2>
-          <p className="text-gray-500">Please add a car to get started.</p>
+          <h2 className="text-xl font-semibold">No vehicles found</h2>
+          <p className="text-gray-500">Please add a vehicle to get started.</p>
         </div>
       )}
-      <DeleteCarModal
-        isOpen={!!carToDelete}
-        onClose={() => setCarToDelete(null)}
+      <DeleteVehicleModal
+        isOpen={!!vehicleToDelete}
+        onClose={() => setVehicleToDelete(null)}
         onConfirm={handleConfirmDelete}
         isPending={isPending}
       />
-      <AllCars
-        cars={cars}
-        setCarToDelete={setCarToDelete}
+      <AllVehicles
+        vehicles={vehicles}
+        setVehicleToDelete={setVehicleToDelete}
       />
-      <DefaultPagination cars={cars} setPage={setPage} />
+      <DefaultPagination vehicles={vehicles} setPage={setPage} />
     </>
   );
 };

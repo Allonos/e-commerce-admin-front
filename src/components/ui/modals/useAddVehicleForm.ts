@@ -1,20 +1,20 @@
 import { useReducer, useRef } from "react";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
-import { usePostCarServiceMutation } from "../../../services/react-query/createCar/mutation/usePostCarServiceMutation";
+import { usePostVehicleServiceMutation } from "../../../services/react-query/createVehicle/mutation/usePostVehicleServiceMutation";
 import {
   reducer,
   initialState,
-} from "../../../utils/reducerActions/addCarModalAction";
+} from "../../../utils/reducerActions/addVehicleModalAction";
 
 export const MAX_IMAGES = 4;
 
-export const useAddCarForm = (onClose: () => void) => {
+export const useAddVehicleForm = (onClose: () => void) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { make, model, price, location, date, type, lot, images, previews } = state;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formattedDate = date ? dayjs(date).format("YYYY") : "";
-  const { mutate: postCarMutate, isPending } = usePostCarServiceMutation();
+  const { mutate: postVehicleMutate, isPending } = usePostVehicleServiceMutation();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -57,11 +57,11 @@ export const useAddCarForm = (onClose: () => void) => {
       toast.error(`You can only upload up to ${MAX_IMAGES} images.`);
       return;
     }
-    postCarMutate(
+    postVehicleMutate(
       { makeId: make, images, modelId: model, year: date, price: Number(price), location, typeId: type, lot },
       {
         onSuccess: () => {
-          toast.success("Car added successfully!");
+          toast.success("Vehicle added successfully!");
           handleClose();
         },
         onError: (error: unknown) => {

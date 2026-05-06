@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router";
-import { useGetCarByIdServiceQuery } from "../services/react-query/homePage/query/useGetCarByIdServiceQuery";
+import { useGetVehicleByIdServiceQuery } from "../services/react-query/homePage/query/useGetVehicleByIdServiceQuery";
 import { useState } from "react";
-import { useDeleteCarServiceMutation } from "../services/react-query/homePage/mutation/useDeleteCarServiceMutation";
-import DeleteCarModal from "../components/ui/modals/DeleteCarModal";
+import { useDeleteVehicleServiceMutation } from "../services/react-query/homePage/mutation/useDeleteVehicleServiceMutation";
+import DeleteVehicleModal from "../components/ui/modals/DeleteVehicleModal";
 import { useAuthStore } from "../store/useAuthStore";
 import ProductDetails from "../components/ui/product/ProductDetails";
 import ProductDetailPageSkeleton from "../components/ui/skeletons/ProductDetailPageSkeleton";
@@ -12,32 +12,32 @@ const ProductDetailPage = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
-  const { data: car, isLoading, isError } = useGetCarByIdServiceQuery(
+  const { data: vehicle, isLoading, isError } = useGetVehicleByIdServiceQuery(
     productId,
   );
-  const [carToDelete, setCarToDelete] = useState<string | null>(null);
+  const [vehicleToDelete, setVehicleToDelete] = useState<string | null>(null);
 
   const { authUser } = useAuthStore();
 
-  const { mutate: deleteCarMutate, isPending } = useDeleteCarServiceMutation();
+  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
 
   const handleConfirmDelete = () => {
-    if (!carToDelete) return;
-    deleteCarMutate(carToDelete, { onSuccess: () => navigate("/") });
+    if (!vehicleToDelete) return;
+    deleteVehicleMutate(vehicleToDelete, { onSuccess: () => navigate("/") });
   };
 
   if (isLoading) {
     return <ProductDetailPageSkeleton />;
   }
 
-  if (isError || !car?.car) {
+  if (isError || !vehicle?.vehicle) {
     return (
       <div className="flex flex-col items-center justify-center h-96 gap-4">
         <h2 className="text-[28px] font-semibold text-[#0A0A0A]">
-          Car not found
+          Vehicle not found
         </h2>
         <p className="text-gray-500">
-          This car may have been deleted or the link is invalid.
+          This vehicle may have been deleted or the link is invalid.
         </p>
         <button
           onClick={() => navigate("/")}
@@ -49,22 +49,22 @@ const ProductDetailPage = () => {
     );
   }
 
-  const images = car?.car?.images ?? [];
-  const carDetails = car?.car;
+  const images = vehicle?.vehicle?.images ?? [];
+  const vehicleDetails = vehicle?.vehicle;
 
   return (
     <>
-      <DeleteCarModal
-        isOpen={!!carToDelete}
-        onClose={() => setCarToDelete(null)}
+      <DeleteVehicleModal
+        isOpen={!!vehicleToDelete}
+        onClose={() => setVehicleToDelete(null)}
         onConfirm={handleConfirmDelete}
         isPending={isPending}
       />
       <ProductDetailHeader />
       <ProductDetails
-        carDetails={carDetails}
+        vehicleDetails={vehicleDetails}
         authUser={authUser}
-        setCarToDelete={setCarToDelete}
+        setVehicleToDelete={setVehicleToDelete}
         images={images}
         productId={productId}
       />

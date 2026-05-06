@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
-import { useAddCarForm } from "../components/ui/modals/useAddCarForm";
+import { useAddVehicleForm } from "../components/ui/modals/useAddVehicleForm";
 import { useGetMakesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetMakesServiceQuery";
 import { useGetModelsServiceQuery } from "../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
 import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
-import AddCarForm from "./AddCarForm";
-import AddCarPageSkeleton from "../components/ui/skeletons/AddCarPageSkeleton";
+import AddVehicleForm from "./AddVehicleForm";
+import AddVehiclePageSkeleton from "../components/ui/skeletons/AddVehiclePageSkeleton";
 
 interface Make {
   id: string;
@@ -20,7 +20,7 @@ interface TypeItem {
   name: string;
 }
 
-const AddCarPage = () => {
+const AddVehiclePage = () => {
   const navigate = useNavigate();
 
   const {
@@ -33,12 +33,11 @@ const AddCarPage = () => {
     removeImage,
     handleClose,
     handleSubmit,
-  } = useAddCarForm(() => navigate("/"));
+  } = useAddVehicleForm(() => navigate("/"));
 
   const { data: makesData, isLoading: makesLoading } =
     useGetMakesServiceQuery();
-  const { data: modelsData, isLoading: modelsLoading } =
-    useGetModelsServiceQuery(make);
+  const { data: modelsData } = useGetModelsServiceQuery(make);
   const { data: typesData, isLoading: typesLoading } =
     useGetTypesServiceQuery();
 
@@ -61,12 +60,12 @@ const AddCarPage = () => {
   }));
   const typesOptions = typesArray.map((t) => ({ label: t.name, value: t.id }));
 
-  if (makesLoading || modelsLoading || typesLoading) {
-    return <AddCarPageSkeleton />;
+  if (makesLoading || typesLoading) {
+    return <AddVehiclePageSkeleton />;
   }
 
   return (
-    <AddCarForm
+    <AddVehicleForm
       make={make}
       model={model}
       price={price}
@@ -91,4 +90,4 @@ const AddCarPage = () => {
   );
 };
 
-export default AddCarPage;
+export default AddVehiclePage;

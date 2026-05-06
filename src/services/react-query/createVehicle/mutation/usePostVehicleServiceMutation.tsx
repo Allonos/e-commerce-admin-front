@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postCar } from "../../../apiServices/postCar";
+import { postVehicle } from "../../../apiServices/postVehicle";
 
 interface IProps {
   makeId: string;
@@ -12,15 +12,15 @@ interface IProps {
   year: string;
 }
 
-export const usePostCarServiceMutation = () => {
+export const usePostVehicleServiceMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (
       { makeId, images, modelId, year, price, location, typeId, lot }: IProps,
-    ) => postCar({ makeId, images, modelId, year, price, location, typeId, lot }),
+    ) => postVehicle({ makeId, images, modelId, year, price, location, typeId, lot }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["adminsCars"] });
+      queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });
     },
   });
 };

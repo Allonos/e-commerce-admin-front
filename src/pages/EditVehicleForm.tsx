@@ -1,13 +1,13 @@
 import { ArrowLeft } from "lucide-react";
 import { Select } from "antd";
 import ImageUploadSection from "../components/ui/modals/ImageUploadSection";
-import type { EditCarFormProps } from "../utils/types/vehicleFormProps";
+import type { EditVehicleFormProps } from "../utils/types/vehicleFormProps";
 
 const inputCls =
   "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200";
 const labelCls = "block text-sm font-medium text-gray-700 mb-1";
 
-const EditCarForm = ({
+const EditVehicleForm = ({
   form,
   setForm,
   newImages,
@@ -24,7 +24,7 @@ const EditCarForm = ({
   removeImage,
   handleClose,
   handleSubmit,
-}: EditCarFormProps) => {
+}: EditVehicleFormProps) => {
   return (
     <div className="w-full px-4 py-8">
       <button
@@ -35,7 +35,7 @@ const EditCarForm = ({
         Back
       </button>
 
-      <h1 className="text-2xl font-semibold mb-6">Edit Car</h1>
+      <h1 className="text-2xl font-semibold mb-6">Edit Vehicle</h1>
 
       <form
         className="flex flex-col gap-4 mx-auto w-full"
@@ -153,4 +153,4 @@ const EditCarForm = ({
   );
 };
 
-export default EditCarForm;
+export default EditVehicleForm;

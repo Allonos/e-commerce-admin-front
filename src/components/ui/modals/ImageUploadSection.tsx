@@ -1,5 +1,5 @@
 import { ImagePlus, X } from "lucide-react";
-import { MAX_IMAGES } from "./useAddCarForm";
+import { MAX_IMAGES } from "./useAddVehicleForm";
 
 interface Props {
   images: File[];
@@ -11,7 +11,8 @@ interface Props {
 }
 
 const ImageUploadSection = (
-  { images, previews, fileInputRef, onRemove, onImageChange, totalCount }: Props,
+  { images, previews, fileInputRef, onRemove, onImageChange, totalCount }:
+    Props,
 ) => {
   const count = totalCount ?? images.length;
   return (

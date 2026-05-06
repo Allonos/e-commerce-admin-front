@@ -1,5 +1,5 @@
 import { Carousel } from "antd";
-import type { Car } from "../../../utils/types/carTypes";
+import type { Vehicle } from "../../../utils/types/vehicleTypes";
 import { useRef, useState } from "react";
 import type { CarouselRef } from "antd/es/carousel";
 import { useNavigate } from "react-router";
@@ -13,15 +13,15 @@ import {
 } from "lucide-react";
 
 interface IProps {
-  carDetails: Car | null;
+  vehicleDetails: Vehicle | null;
   authUser: { id: string; username: string } | null;
-  setCarToDelete: (id: string) => void;
+  setVehicleToDelete: (id: string) => void;
   images: string[];
   productId: string | undefined;
 }
 
 const ProductDetails = (
-  { carDetails, authUser, setCarToDelete, images, productId }: IProps,
+  { vehicleDetails, authUser, setVehicleToDelete, images, productId }: IProps,
 ) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const carouselRef = useRef<CarouselRef>(null);
@@ -40,7 +40,7 @@ const ProductDetails = (
               <img
                 key={i}
                 src={src}
-                alt={"car image"}
+                alt={"vehicle image"}
                 className={`w-full max-w-full xl:max-w-350 h-100 xl:h-125 object-cover rounded-lg`}
               />
             ))}
@@ -79,30 +79,32 @@ const ProductDetails = (
         <div className="flex flex-col gap-4 justify-between w-full">
           <div className="flex items-center gap-2">
             <h2 className="text-[24px] font-semibold text[#0A0A0A] capitalize">
-              {carDetails?.make.name}
+              {vehicleDetails?.make.name}
             </h2>
             <p className="text-[24px] font-semibold text[#0A0A0A] capitalize">
-              {carDetails?.model.name} - {carDetails?.type.name}
+              {vehicleDetails?.model.name} - {vehicleDetails?.type.name}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <p className="text-[14px] font-medium text[#0A0A0A]">
-              Lot number: {carDetails?.lot}
+              Lot number: {vehicleDetails?.lot}
             </p>
             <span>-</span>
-            <span className="text-[14px] font-bold">{carDetails?.status}</span>
+            <span className="text-[14px] font-bold">
+              {vehicleDetails?.status}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[20px] text-gray-600">Price:</span>
             <h2 className="text-[30px] text-[#0A0A0A] font-semibold">
-              ${carDetails?.price}
+              ${vehicleDetails?.price}
             </h2>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[16px] text-gray-600">
               By:
             </span>
-            <h4 className="text-[16px]">{carDetails?.owner.username}</h4>
+            <h4 className="text-[16px]">{vehicleDetails?.owner.username}</h4>
           </div>
 
           <div className="flex gap-2 w-full mt-4">
@@ -110,7 +112,7 @@ const ProductDetails = (
               <MapPin width={25} height={25} color="#717182" />
               <div>
                 <span className="text-[14px] text-[#717182]">Location</span>
-                <h3 className="text-[16px]">{carDetails?.location}</h3>
+                <h3 className="text-[16px]">{vehicleDetails?.location}</h3>
               </div>
             </div>
             <div className="bg-[#ECECF0] w-full rounded-lg px-4 py-2 flex items-center gap-2">
@@ -119,15 +121,15 @@ const ProductDetails = (
                 <span className="text-[14px] text-[#717182]">
                   Manufacture Year
                 </span>
-                <h3 className="text-[16px]">{carDetails?.year}</h3>
+                <h3 className="text-[16px]">{vehicleDetails?.year}</h3>
               </div>
             </div>
           </div>
 
-          {carDetails?.owner.id === authUser?.id && (
+          {vehicleDetails?.owner.id === authUser?.id && (
             <div className="w-full flex xl:flex-row flex-col gap-2 mt-4">
               <div
-                onClick={() => navigate(`/cars/edit/${productId}`)}
+                onClick={() => navigate(`/vehicles/edit/${productId}`)}
                 className="flex items-center justify-center w-full bg-[#ECECF0] gap-2 rounded-lg py-2 cursor-pointer hover:bg-[#d5d5d5] transition-colors duration-200"
               >
                 <Pencil width={20} height={20} color="#717182" />
@@ -138,7 +140,7 @@ const ProductDetails = (
                 </div>
               </div>
               <div
-                onClick={() => productId && setCarToDelete(productId)}
+                onClick={() => productId && setVehicleToDelete(productId)}
                 className=" bg-[#d4183d] hover:bg-[#cf3d5a] transition-colors duration-200 cursor-pointer w-full rounded-lg px-4 py-2 flex items-center justify-center gap-2"
               >
                 <Trash width={20} height={20} color="white" />
