@@ -1,34 +1,30 @@
 import { ArrowLeft } from "lucide-react";
 import { Select } from "antd";
-import ImageUploadSection from "../components/ui/modals/ImageUploadSection";
-import type { AddVehicleFormProps } from "../utils/types/vehicleFormProps";
+import type { EditVehicleFormProps } from "../../../utils/types/vehicleFormProps";
+import ImageUploadSection from "../modals/ImageUploadSection";
 
 const inputCls =
   "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black transition-colors duration-200";
 const labelCls = "block text-sm font-medium text-gray-700 mb-1";
 
-const AddVehicleForm = ({
-  make,
-  model,
-  price,
-  location,
-  date,
-  type,
-  lot,
-  images,
-  previews,
+const EditVehicleForm = ({
+  form,
+  setForm,
+  newImages,
+  allPreviews,
   fileInputRef,
   formattedDate,
+  totalImages,
+  hasChanges,
   isPending,
   makesOptions,
   modelsOptions,
   typesOptions,
-  dispatch,
   handleImageChange,
   removeImage,
   handleClose,
   handleSubmit,
-}: AddVehicleFormProps) => {
+}: EditVehicleFormProps) => {
   return (
     <div className="w-full px-4 py-8">
       <button
@@ -39,7 +35,7 @@ const AddVehicleForm = ({
         Back
       </button>
 
-      <h1 className="text-2xl font-semibold mb-6">Add Vehicle</h1>
+      <h1 className="text-2xl font-semibold mb-6">Edit Vehicle</h1>
 
       <form
         className="flex flex-col gap-4 mx-auto w-full"
@@ -48,10 +44,9 @@ const AddVehicleForm = ({
         <div>
           <label className={labelCls}>Make</label>
           <Select
-            value={make || undefined}
+            value={form.makes || undefined}
             onChange={(value) => {
-              dispatch({ type: "SET_MAKE", payload: value });
-              dispatch({ type: "SET_MODEL", payload: "" });
+              setForm((prev) => ({ ...prev, makes: value, model: "" }));
             }}
             options={makesOptions}
             placeholder="Select a make"
@@ -62,12 +57,11 @@ const AddVehicleForm = ({
         <div>
           <label className={labelCls}>Model</label>
           <Select
-            value={model || undefined}
-            onChange={(value) =>
-              dispatch({ type: "SET_MODEL", payload: value })}
+            value={form.model || undefined}
+            onChange={(value) => setForm((prev) => ({ ...prev, model: value }))}
             options={modelsOptions}
-            placeholder={make ? "Select a model" : "Select a make first"}
-            disabled={!make}
+            placeholder={form.makes ? "Select a model" : "Select a make first"}
+            disabled={!form.makes}
             className="w-full add-select"
           />
         </div>
@@ -75,8 +69,8 @@ const AddVehicleForm = ({
         <div>
           <label className={labelCls}>Type</label>
           <Select
-            value={type || undefined}
-            onChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
+            value={form.type || undefined}
+            onChange={(value) => setForm((prev) => ({ ...prev, type: value }))}
             options={typesOptions}
             placeholder="Select a type"
             className="w-full add-select"
@@ -87,9 +81,9 @@ const AddVehicleForm = ({
           <label className={labelCls}>Price</label>
           <input
             type="text"
-            value={price ?? ""}
+            value={form.price ?? ""}
             onChange={(e) =>
-              dispatch({ type: "SET_PRICE", payload: Number(e.target.value) })}
+              setForm((prev) => ({ ...prev, price: Number(e.target.value) }))}
             placeholder="e.g. 42990"
             className={inputCls}
           />
@@ -99,9 +93,9 @@ const AddVehicleForm = ({
           <label className={labelCls}>Location</label>
           <input
             type="text"
-            value={location}
+            value={form.location}
             onChange={(e) =>
-              dispatch({ type: "SET_LOCATION", payload: e.target.value })}
+              setForm((prev) => ({ ...prev, location: e.target.value }))}
             placeholder="e.g. San Francisco, CA"
             className={inputCls}
           />
@@ -111,10 +105,10 @@ const AddVehicleForm = ({
           <label className={labelCls}>Date</label>
           <input
             type="text"
-            value={date}
+            value={form.date}
             placeholder="2026"
             onChange={(e) =>
-              dispatch({ type: "SET_DATE", payload: e.target.value })}
+              setForm((prev) => ({ ...prev, date: e.target.value }))}
             className={inputCls}
           />
           {formattedDate && (
@@ -126,34 +120,37 @@ const AddVehicleForm = ({
           <label className={labelCls}>Lot</label>
           <input
             type="text"
-            value={lot}
+            value={form.lot}
             placeholder="e.g. LOT-001"
             onChange={(e) =>
-              dispatch({ type: "SET_LOT", payload: e.target.value })}
+              setForm((prev) => ({ ...prev, lot: e.target.value }))}
             className={inputCls}
           />
         </div>
 
         <ImageUploadSection
-          images={images}
-          previews={previews}
+          images={newImages}
+          previews={allPreviews}
           fileInputRef={fileInputRef}
           onRemove={removeImage}
           onImageChange={handleImageChange}
+          totalCount={totalImages}
         />
 
         <button
           type="submit"
           className={`w-full bg-black text-white py-2 rounded-lg mt-1 hover:bg-[#1d1d1d] transition-colors duration-200 font-medium ${
-            isPending ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            isPending || !hasChanges
+              ? "opacity-50 cursor-not-allowed"
+              : "cursor-pointer"
           }`}
-          disabled={isPending}
+          disabled={isPending || !hasChanges}
         >
-          {isPending ? "Adding..." : "Add Vehicle"}
+          {isPending ? "Saving..." : "Save Changes"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddVehicleForm;
+export default EditVehicleForm;

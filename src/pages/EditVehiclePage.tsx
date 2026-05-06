@@ -4,8 +4,8 @@ import { useGetVehicleByIdServiceQuery } from "../services/react-query/homePage/
 import { useGetMakesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetMakesServiceQuery";
 import { useGetModelsServiceQuery } from "../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
 import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
-import EditVehicleForm from "./EditVehicleForm";
 import EditVehiclePageSkeleton from "../components/ui/skeletons/EditVehiclePageSkeleton";
+import EditVehicleForm from "../components/ui/forms/EditVehicleForm";
 
 interface Make {
   id: string;
@@ -25,9 +25,10 @@ const EditVehiclePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: vehicleData, isLoading: vehiclesLoading } = useGetVehicleByIdServiceQuery(
-    id,
-  );
+  const { data: vehicleData, isLoading: vehiclesLoading } =
+    useGetVehicleByIdServiceQuery(
+      id,
+    );
   const vehicle = vehicleData?.vehicle ?? null;
 
   const {

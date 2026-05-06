@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Select } from "antd";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, TrashIcon } from "lucide-react";
 
 interface IProps {
   cardTitle: string;
@@ -11,6 +11,7 @@ interface IProps {
   placeholder?: string;
   emptyMessage?: string;
   onAdd?: (value: string) => void;
+  onDelete?: (id: string) => void;
   isPending?: boolean;
 }
 
@@ -24,6 +25,7 @@ const VehicleCategoryCards = (
     placeholder,
     emptyMessage,
     onAdd,
+    onDelete,
     isPending,
   }: IProps,
 ) => {
@@ -58,6 +60,23 @@ const VehicleCategoryCards = (
                 onChange={onChange}
                 options={options}
                 style={{ textTransform: "capitalize" }}
+                optionRender={(option) => (
+                  <div className="flex items-center justify-between group">
+                    <span>{option.label}</span>
+                    {onDelete && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDelete(option.data.id);
+                        }}
+                        className="opacity-0 cursor-pointer group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-red-100 text-slate-400 hover:text-red-500"
+                      >
+                        <TrashIcon className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
               />
             )}
         </Form.Item>

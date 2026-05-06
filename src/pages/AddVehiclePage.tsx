@@ -3,7 +3,7 @@ import { useAddVehicleForm } from "../components/ui/modals/useAddVehicleForm";
 import { useGetMakesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetMakesServiceQuery";
 import { useGetModelsServiceQuery } from "../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
 import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
-import AddVehicleForm from "./AddVehicleForm";
+import AddVehicleForm from "../components/ui/forms/AddVehicleForm";
 import AddVehiclePageSkeleton from "../components/ui/skeletons/AddVehiclePageSkeleton";
 
 interface Make {
