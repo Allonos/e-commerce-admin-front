@@ -1,12 +1,12 @@
-import type { FormState } from "../../components/ui/modals/useEditCarForm";
-import type { Action } from "../reducerActions/addCarModalAction";
+import type { FormState } from "../../components/ui/modals/useEditVehicleForm";
+import type { Action } from "../reducerActions/addVehicleModalAction";
 
 export interface SelectOption {
   label: string;
   value: string;
 }
 
-export interface AddCarFormProps {
+export interface AddVehicleFormProps {
   make: string;
   model: string;
   price: number | undefined;
@@ -29,7 +29,7 @@ export interface AddCarFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export interface EditCarFormProps {
+export interface EditVehicleFormProps {
   form: FormState;
   setForm: React.Dispatch<React.SetStateAction<FormState>>;
   newImages: File[];

@@ -7,6 +7,9 @@ import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategori
 import { useAddMakeServiceMutation } from "../services/react-query/vehicleCategories/mutation/useAddMakeServiceMutation";
 import { useAddModelServiceMutation } from "../services/react-query/vehicleCategories/mutation/useAddModelServiceMutation";
 import { useAddTypeServiceMutation } from "../services/react-query/vehicleCategories/mutation/useAddTypeServiceMutation";
+import { useDeleteMakeServiceMutation } from "../services/react-query/vehicleCategories/mutation/useDeleteMakeServiceMutation";
+import { useDeleteModelServiceMutation } from "../services/react-query/vehicleCategories/mutation/useDeleteModelServiceMutation";
+import { useDeleteTypeServiceMutation } from "../services/react-query/vehicleCategories/mutation/useDeleteTypeServiceMutation";
 
 interface Types {
   id: string;
@@ -55,6 +58,9 @@ const CategoriesPage = () => {
     useAddModelServiceMutation();
   const { mutate: addType, isPending: isAddingType } =
     useAddTypeServiceMutation();
+  const { mutate: deleteMake } = useDeleteMakeServiceMutation();
+  const { mutate: deleteModel } = useDeleteModelServiceMutation();
+  const { mutate: deleteType } = useDeleteTypeServiceMutation();
 
   const modelsArray: Model[] = Array.isArray(modelsData)
     ? modelsData
@@ -104,7 +110,7 @@ const CategoriesPage = () => {
           Manage your vehicle classifications, models, and body types.
         </p>
       </header>
-      <div className="pt-10 px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full items-center justify-between gap-6">
+      <div className="pt-10 px-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 w-full items-center justify-between gap-6">
         <VehicleCategoryCards
           cardIcon={<CarFront className="w-5 h-5 text-slate-900" />}
           cardTitle="Makes"
@@ -114,6 +120,13 @@ const CategoriesPage = () => {
           placeholder="e.g. Chevrolet"
           emptyMessage="There are no makes added yet"
           onAdd={(value) => addMake(value)}
+          onDelete={(id) => {
+            deleteMake(id);
+            if (id === effectiveSelectedMakeId) {
+              setSelectedMakeId("");
+              setSelectedModelId("");
+            }
+          }}
           isPending={isAddingMake}
         />
         <VehicleCategoryCards
@@ -128,6 +141,10 @@ const CategoriesPage = () => {
             : "Select a make first"}
           onAdd={(value) =>
             addModel({ model: value, makeId: effectiveSelectedMakeId })}
+          onDelete={(id) => {
+            deleteModel(id);
+            if (id === effectiveSelectedModelId) setSelectedModelId("");
+          }}
           isPending={isAddingModel}
         />
         <VehicleCategoryCards
@@ -139,6 +156,10 @@ const CategoriesPage = () => {
           placeholder="e.g. Coupe"
           emptyMessage="There are no body types added yet"
           onAdd={(value) => addType(value)}
+          onDelete={(id) => {
+            deleteType(id);
+            if (id === effectiveSelectedTypes) setSelectedTypes("");
+          }}
           isPending={isAddingType}
         />
       </div>

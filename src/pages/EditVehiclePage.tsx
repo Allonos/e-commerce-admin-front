@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router";
-import { useEditCarForm } from "../components/ui/modals/useEditCarForm";
-import { useGetCarByIdServiceQuery } from "../services/react-query/homePage/query/useGetCarByIdServiceQuery";
+import { useEditVehicleForm } from "../components/ui/modals/useEditVehicleForm";
+import { useGetVehicleByIdServiceQuery } from "../services/react-query/homePage/query/useGetVehicleByIdServiceQuery";
 import { useGetMakesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetMakesServiceQuery";
 import { useGetModelsServiceQuery } from "../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
 import { useGetTypesServiceQuery } from "../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
-import EditCarForm from "./EditCarForm";
-import EditCarPageSkeleton from "../components/ui/skeletons/EditCarPageSkeleton";
+import EditVehiclePageSkeleton from "../components/ui/skeletons/EditVehiclePageSkeleton";
+import EditVehicleForm from "../components/ui/forms/EditVehicleForm";
 
 interface Make {
   id: string;
@@ -21,14 +21,15 @@ interface TypeItem {
   name: string;
 }
 
-const EditCarPage = () => {
+const EditVehiclePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: carData, isLoading: carsLoading } = useGetCarByIdServiceQuery(
-    id,
-  );
-  const car = carData?.car ?? null;
+  const { data: vehicleData, isLoading: vehiclesLoading } =
+    useGetVehicleByIdServiceQuery(
+      id,
+    );
+  const vehicle = vehicleData?.vehicle ?? null;
 
   const {
     form,
@@ -44,7 +45,7 @@ const EditCarPage = () => {
     removeImage,
     handleClose,
     handleSubmit,
-  } = useEditCarForm(car, () => navigate(-1));
+  } = useEditVehicleForm(vehicle, () => navigate(-1));
 
   const { data: makesData, isLoading: makesLoading } =
     useGetMakesServiceQuery();
@@ -72,12 +73,12 @@ const EditCarPage = () => {
   }));
   const typesOptions = typesArray.map((t) => ({ label: t.name, value: t.id }));
 
-  if (carsLoading || makesLoading || modelsLoading || typesLoading) {
-    return <EditCarPageSkeleton />;
+  if (vehiclesLoading || makesLoading || modelsLoading || typesLoading) {
+    return <EditVehiclePageSkeleton />;
   }
 
   return (
-    <EditCarForm
+    <EditVehicleForm
       form={form}
       setForm={setForm}
       newImages={newImages}
@@ -98,4 +99,4 @@ const EditCarPage = () => {
   );
 };
 
-export default EditCarPage;
+export default EditVehiclePage;

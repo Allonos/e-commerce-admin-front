@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
-import { useEditCarServiceMutation } from "../../../services/react-query/carPage/mutation/useEditCarServiceMutation";
-import type { Car } from "../../../utils/types/carTypes";
+import { useEditVehicleServiceMutation } from "../../../services/react-query/vehiclePage/mutation/useEditVehicleServiceMutation";
+import type { Vehicle } from "../../../utils/types/vehicleTypes";
 
 export interface FormState {
   makes: string;
@@ -26,30 +26,30 @@ const EMPTY_FORM: FormState = {
   existingImages: [],
 };
 
-const carToForm = (car: Car): FormState => ({
-  makes: car.make.id,
-  model: car.model.id,
-  price: car.price,
-  location: car.location,
-  date: String(car.year),
-  type: car.type.id,
-  lot: car.lot,
-  existingImages: car.images,
+const vehicleToForm = (vehicle: Vehicle): FormState => ({
+  makes: vehicle.make.id,
+  model: vehicle.model.id,
+  price: vehicle.price,
+  location: vehicle.location,
+  date: String(vehicle.year),
+  type: vehicle.type.id,
+  lot: vehicle.lot,
+  existingImages: vehicle.images,
 });
 
-export const useEditCarForm = (car: Car | null, onClose: () => void) => {
+export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void) => {
   const [form, setForm] = useState<FormState>(
-    car ? carToForm(car) : EMPTY_FORM,
+    vehicle ? vehicleToForm(vehicle) : EMPTY_FORM,
   );
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newPreviews, setNewPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [prevCar, setPrevCar] = useState<Car | null>(car);
-  if (car !== prevCar) {
-    setPrevCar(car);
+  const [prevVehicle, setPrevVehicle] = useState<Vehicle | null>(vehicle);
+  if (vehicle !== prevVehicle) {
+    setPrevVehicle(vehicle);
     newPreviews.forEach((url) => URL.revokeObjectURL(url));
-    setForm(car ? carToForm(car) : EMPTY_FORM);
+    setForm(vehicle ? vehicleToForm(vehicle) : EMPTY_FORM);
     setNewImages([]);
     setNewPreviews([]);
   }
@@ -58,7 +58,7 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
   const totalImages = form.existingImages.length + newImages.length;
   const allPreviews = [...form.existingImages, ...newPreviews];
 
-  const originalForm = car ? carToForm(car) : EMPTY_FORM;
+  const originalForm = vehicle ? vehicleToForm(vehicle) : EMPTY_FORM;
   const hasFieldChanges =
     form.makes !== originalForm.makes ||
     form.model !== originalForm.model ||
@@ -69,10 +69,10 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
     form.lot !== originalForm.lot;
   const hasImageChanges =
     newImages.length > 0 ||
-    form.existingImages.length !== (car?.images.length ?? 0);
+    form.existingImages.length !== (vehicle?.images.length ?? 0);
   const hasChanges = hasFieldChanges || hasImageChanges;
 
-  const { mutate: editCarMutate, isPending } = useEditCarServiceMutation();
+  const { mutate: editVehicleMutate, isPending } = useEditVehicleServiceMutation();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -104,7 +104,7 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
 
   const handleClose = () => {
     newPreviews.forEach((url) => URL.revokeObjectURL(url));
-    setForm(car ? carToForm(car) : EMPTY_FORM);
+    setForm(vehicle ? vehicleToForm(vehicle) : EMPTY_FORM);
     setNewImages([]);
     setNewPreviews([]);
     onClose();
@@ -117,9 +117,9 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
       toast.error("Please keep at least one image.");
       return;
     }
-    editCarMutate(
+    editVehicleMutate(
       {
-        id: car!.id,
+        id: vehicle!.id,
         makeId: form.makes,
         modelId: form.model,
         typeId: form.type,
@@ -132,7 +132,7 @@ export const useEditCarForm = (car: Car | null, onClose: () => void) => {
       },
       {
         onSuccess: () => {
-          toast.success("Car updated successfully!");
+          toast.success("Vehicle updated successfully!");
           handleClose();
         },
         onError: (error: unknown) => {

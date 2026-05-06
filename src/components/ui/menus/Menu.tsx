@@ -13,7 +13,7 @@ import { useLogoutServiceMutation } from "../../../services/react-query/logout/m
 
 const inventoryLinks = [
   { label: "All Vehicles", to: "/" },
-  { label: "Featured / Hero Cars / Popular Cars", to: "/inventory/featured" },
+  { label: "Featured / Hero Vehicles / Popular Vehicles", to: "/inventory/featured" },
   { label: "Makes & Models & Types", to: "/inventory/categories" },
 ];
 
@@ -80,7 +80,7 @@ const Menu = () => {
           <div className="border-b border-[#c7c7c765] w-full py-4 pb-5 mb-4 px-4 flex items-center gap-2">
             <Car width={40} height={40} color="white" />
             <h2 className="sm:text-3xl text-xl text-white font-semibold">
-              Cars
+              Vehicles
             </h2>
           </div>
           <nav className="px-4">

@@ -1,7 +1,7 @@
-import type { CarResponse } from "../../../utils/types/carTypes";
+import type { VehicleResponse } from "../../../utils/types/vehicleTypes";
 
 interface IProps {
-  cars: CarResponse | undefined;
+  vehicles: VehicleResponse | undefined;
   setPage: (page: number) => void;
 }
 
@@ -37,12 +37,12 @@ const getPageNumbers = (
   return result;
 };
 
-const DefaultPagination = ({ cars, setPage }: IProps) => {
+const DefaultPagination = ({ vehicles, setPage }: IProps) => {
   return (
     <>
-      {cars && cars.totalPages > 1 && (
+      {vehicles && vehicles.totalPages > 1 && (
         <div className="flex items-center justify-center gap-1 px-4 pb-10">
-          {getPageNumbers(cars.page, cars.totalPages).map((p, i) =>
+          {getPageNumbers(vehicles.page, vehicles.totalPages).map((p, i) =>
             p === "..."
               ? (
                 <span
@@ -57,7 +57,7 @@ const DefaultPagination = ({ cars, setPage }: IProps) => {
                   key={p}
                   onClick={() => setPage(p)}
                   className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer ${
-                    p === cars.page
+                    p === vehicles.page
                       ? "bg-blue-500 text-white"
                       : "bg-[#ECECF0] hover:bg-[#d5d5d5]"
                   }`}

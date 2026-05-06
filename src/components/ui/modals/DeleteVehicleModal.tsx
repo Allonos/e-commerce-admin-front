@@ -7,7 +7,7 @@ interface Props {
   isPending: boolean;
 }
 
-const DeleteCarModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
+const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
   return (
     <div
       className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-opacity duration-200 ${
@@ -22,7 +22,7 @@ const DeleteCarModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Delete Car</h2>
+          <h2 className="text-xl font-semibold">Delete Vehicle</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-black transition-colors duration-200 cursor-pointer"
@@ -32,7 +32,7 @@ const DeleteCarModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
         </div>
 
         <p className="text-gray-600 mb-6">
-          Are you sure you want to delete this car? This action cannot be
+          Are you sure you want to delete this vehicle? This action cannot be
           undone.
         </p>
 
@@ -59,4 +59,4 @@ const DeleteCarModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
   );
 };
 
-export default DeleteCarModal;
+export default DeleteVehicleModal;
