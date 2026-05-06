@@ -49,8 +49,7 @@ const EditVehiclePage = () => {
 
   const { data: makesData, isLoading: makesLoading } =
     useGetMakesServiceQuery();
-  const { data: modelsData, isLoading: modelsLoading } =
-    useGetModelsServiceQuery(form.makes);
+  const { data: modelsData } = useGetModelsServiceQuery(form.makes);
   const { data: typesData, isLoading: typesLoading } =
     useGetTypesServiceQuery();
 
@@ -73,7 +72,7 @@ const EditVehiclePage = () => {
   }));
   const typesOptions = typesArray.map((t) => ({ label: t.name, value: t.id }));
 
-  if (vehiclesLoading || makesLoading || modelsLoading || typesLoading) {
+  if (vehiclesLoading || makesLoading || typesLoading) {
     return <EditVehiclePageSkeleton />;
   }
 
