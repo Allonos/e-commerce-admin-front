@@ -1,6 +1,22 @@
 import { Pencil, Star, Trash2 } from "lucide-react";
+import { useState } from "react";
+import SingleImageUpload from "../../../modals/SingleImageUpload";
 
 const FeaturedForm = () => {
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleImageChange = (file: File | null) => {
+    if (preview) URL.revokeObjectURL(preview);
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setImage(null);
+      setPreview(null);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -17,6 +33,7 @@ const FeaturedForm = () => {
           </h3>
 
           {/* <ImageUploadSection /> */}
+          <SingleImageUpload preview={preview} onImageChange={handleImageChange} />
           <div className="py-3 flex flex-col gap-2">
             <label className="block text-sm text-[#314158]">
               Tag Line

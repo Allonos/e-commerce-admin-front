@@ -1,7 +1,26 @@
 import { Image, Pencil, Trash2 } from "lucide-react";
-import tesla from "../../../../../../public/tesla.webp";
+import { useState } from "react";
+import SingleImageUpload from "../../../modals/SingleImageUpload";
 
-const HeroForm = () => {
+interface IProps {
+  heroVehicles: any;
+}
+
+const HeroForm = ({ heroVehicles }: IProps) => {
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleImageChange = (file: File | null) => {
+    if (preview) URL.revokeObjectURL(preview);
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setImage(null);
+      setPreview(null);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -17,7 +36,13 @@ const HeroForm = () => {
             Add New Hero Car
           </h3>
 
-          {/* <ImageUploadSection /> */}
+          <SingleImageUpload
+            preview={preview}
+            onImageChange={handleImageChange}
+          />
+          <span className="text-[12px] text-[#62748E]">
+            Use a High-resolution landscape image.
+          </span>
           <div className="py-3 flex flex-col gap-2">
             <label className="block text-sm text-[#314158]">
               Tag Line
@@ -62,32 +87,44 @@ const HeroForm = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                <tr
-                  key={"1"}
-                  className="hover:bg-slate-50/50 transition-colors"
-                >
-                  <td className="px-6 py-4">
-                    <img
-                      src={tesla}
-                      alt={"car"}
-                      className="w-20 h-12 object-cover rounded shadow-sm border border-slate-200"
-                    />
-                  </td>
-                  <td className="px-6 py-4 font-medium text-slate-900">
-                    {"Luxury Cars"}
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {"Bid on luxury cars"}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button className="text-slate-500 hover:text-slate-900 transition-colors p-2 hover:bg-slate-100 rounded-md mr-2">
-                      <Pencil className="w-4 h-4" />
-                    </button>
-                    <button className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-md">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
+                {(heroVehicles?.length === 0 || !heroVehicles) && (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-6 py-8 text-center text-slate-400 text-sm"
+                    >
+                      Hero Vehicle has not been added yet
+                    </td>
+                  </tr>
+                )}
+                {heroVehicles?.map((vehicle: any) => (
+                  <tr
+                    key={vehicle.id}
+                    className="hover:bg-slate-50/50 transition-colors"
+                  >
+                    <td className="px-6 py-4">
+                      <img
+                        src={vehicle.image}
+                        alt={vehicle.tagLine}
+                        className="w-20 h-12 object-cover rounded shadow-sm border border-slate-200"
+                      />
+                    </td>
+                    <td className="px-6 py-4 font-medium text-slate-900">
+                      {vehicle.tagLine}
+                    </td>
+                    <td className="px-6 py-4 text-slate-500">
+                      {vehicle.subtitle}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button className="text-slate-500 hover:text-slate-900 transition-colors p-2 hover:bg-slate-100 rounded-md mr-2">
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-md">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
