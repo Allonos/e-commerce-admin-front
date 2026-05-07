@@ -8,7 +8,7 @@ import InitialLoading from "../loaders/InitialLoading";
 
 const RootLayout = () => {
   const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
-  const { setAuthUser } = useAuthStore();
+  const { setAuthUser, authUser } = useAuthStore();
   const [showSlowMessage, setShowSlowMessage] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const RootLayout = () => {
     };
   }, [isLoading]);
 
-  if (isLoading && checkAuth === undefined) {
+  if (isLoading || (checkAuth && !authUser)) {
     return (
       <>
         <HomePageSkeleton />
