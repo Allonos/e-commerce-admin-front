@@ -24,6 +24,8 @@ export interface Vehicle {
   };
   lot: string;
   status: string;
+  isFeatured: boolean;
+  views: number;
 }
 
 export interface VehicleResponse {

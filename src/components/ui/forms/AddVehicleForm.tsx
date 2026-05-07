@@ -15,6 +15,7 @@ const AddVehicleForm = ({
   date,
   type,
   lot,
+  isFeatured,
   images,
   previews,
   fileInputRef,
@@ -131,6 +132,20 @@ const AddVehicleForm = ({
             onChange={(e) =>
               dispatch({ type: "SET_LOT", payload: e.target.value })}
             className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Featured</label>
+          <Select
+            value={isFeatured}
+            onChange={(value) =>
+              dispatch({ type: "SET_IS_FEATURED", payload: value })}
+            options={[
+              { label: "False", value: false },
+              { label: "True", value: true },
+            ]}
+            className="w-full add-select"
           />
         </div>
 

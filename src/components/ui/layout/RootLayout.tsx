@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
+import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { useGetCheckAuthServiceQuery } from "../../../services/react-query/checkAuth/query/useCheckAuthServiceQuery";
 import HomePageSkeleton from "../skeletons/HomePageSkeleton";
@@ -34,7 +35,12 @@ const RootLayout = () => {
     );
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <Toaster />
+    </>
+  );
 };
 
 export default RootLayout;

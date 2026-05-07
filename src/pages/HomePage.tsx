@@ -13,7 +13,8 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
 
-  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
+  const { mutate: deleteVehicleMutate, isPending } =
+    useDeleteVehicleServiceMutation();
 
   if (isLoading) {
     return <HomePageSkeleton />;
@@ -23,10 +24,10 @@ const HomePage = () => {
 
   const handleConfirmDelete = () => {
     if (!vehicleToDelete) return;
-    deleteVehicleMutate(vehicleToDelete, { onSettled: () => setVehicleToDelete(null) });
+    deleteVehicleMutate(vehicleToDelete, {
+      onSettled: () => setVehicleToDelete(null),
+    });
   };
-
-  console.log(vehicles);
 
   return (
     <>

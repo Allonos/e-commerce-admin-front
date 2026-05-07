@@ -24,7 +24,18 @@ const AddVehiclePage = () => {
   const navigate = useNavigate();
 
   const {
-    state: { make, model, price, location, date, type, lot, images, previews },
+    state: {
+      make,
+      model,
+      price,
+      location,
+      date,
+      type,
+      lot,
+      isFeatured,
+      images,
+      previews,
+    },
     dispatch,
     fileInputRef,
     formattedDate,
@@ -73,6 +84,7 @@ const AddVehiclePage = () => {
       date={date}
       type={type}
       lot={lot}
+      isFeatured={isFeatured}
       images={images}
       previews={previews}
       fileInputRef={fileInputRef}

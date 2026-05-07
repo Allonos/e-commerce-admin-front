@@ -9,6 +9,7 @@ interface IProps {
   typeId: string;
   lot: string;
   year: string;
+  isFeatured: boolean;
 }
 
 export const postVehicle = async ({
@@ -20,6 +21,7 @@ export const postVehicle = async ({
   location,
   typeId,
   lot,
+  isFeatured,
 }: IProps) => {
   const formData = new FormData();
   formData.append("makeId", makeId);
@@ -29,6 +31,7 @@ export const postVehicle = async ({
   formData.append("price", price.toString());
   formData.append("location", location);
   formData.append("lot", lot);
+  formData.append("isFeatured", isFeatured.toString());
   images.forEach((image) => formData.append("images", image));
 
   const response = await api.post("/vehicles/create-vehicle", formData, {
