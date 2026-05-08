@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import { useGetVehicleByIdServiceQuery } from "../services/react-query/homePage/query/useGetVehicleByIdServiceQuery";
 import { useState } from "react";
 import { useDeleteVehicleServiceMutation } from "../services/react-query/homePage/mutation/useDeleteVehicleServiceMutation";
-import DeleteVehicleModal from "../components/ui/modals/DeleteVehicleModal";
+import DeleteModal from "../components/ui/modals/DeleteModal";
 import { useAuthStore } from "../store/useAuthStore";
 import ProductDetails from "../components/ui/product/ProductDetails";
 import ProductDetailPageSkeleton from "../components/ui/skeletons/ProductDetailPageSkeleton";
@@ -19,11 +19,11 @@ const ProductDetailPage = () => {
 
   const { authUser } = useAuthStore();
 
-  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
+  const { mutate: deleteVehicleMutate, isPending } =
+    useDeleteVehicleServiceMutation();
 
-  const handleConfirmDelete = () => {
-    if (!vehicleToDelete) return;
-    deleteVehicleMutate(vehicleToDelete, { onSuccess: () => navigate("/") });
+  const handleConfirmDelete = (id: string) => {
+    deleteVehicleMutate(id, { onSuccess: () => navigate("/") });
   };
 
   if (isLoading) {
@@ -54,7 +54,9 @@ const ProductDetailPage = () => {
 
   return (
     <>
-      <DeleteVehicleModal
+      <DeleteModal
+        title="this vehicle"
+        id={vehicleToDelete ?? ""}
         isOpen={!!vehicleToDelete}
         onClose={() => setVehicleToDelete(null)}
         onConfirm={handleConfirmDelete}

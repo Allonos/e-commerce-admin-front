@@ -14,6 +14,7 @@ export interface AddVehicleFormProps {
   date: string;
   type: string;
   lot: string;
+  isFeatured: boolean;
   images: File[];
   previews: string[];
   fileInputRef: React.RefObject<HTMLInputElement | null>;

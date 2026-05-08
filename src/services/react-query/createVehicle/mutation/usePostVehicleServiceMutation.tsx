@@ -10,6 +10,7 @@ interface IProps {
   typeId: string;
   lot: string;
   year: string;
+  isFeatured: boolean;
 }
 
 export const usePostVehicleServiceMutation = () => {
@@ -17,8 +18,29 @@ export const usePostVehicleServiceMutation = () => {
 
   return useMutation({
     mutationFn: (
-      { makeId, images, modelId, year, price, location, typeId, lot }: IProps,
-    ) => postVehicle({ makeId, images, modelId, year, price, location, typeId, lot }),
+      {
+        makeId,
+        images,
+        modelId,
+        year,
+        price,
+        location,
+        typeId,
+        lot,
+        isFeatured,
+      }: IProps,
+    ) =>
+      postVehicle({
+        makeId,
+        images,
+        modelId,
+        year,
+        price,
+        location,
+        typeId,
+        lot,
+        isFeatured,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });
     },

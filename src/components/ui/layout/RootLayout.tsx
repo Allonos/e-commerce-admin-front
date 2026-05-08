@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
+import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { useGetCheckAuthServiceQuery } from "../../../services/react-query/checkAuth/query/useCheckAuthServiceQuery";
 import HomePageSkeleton from "../skeletons/HomePageSkeleton";
@@ -7,7 +8,7 @@ import InitialLoading from "../loaders/InitialLoading";
 
 const RootLayout = () => {
   const { data: checkAuth, isLoading } = useGetCheckAuthServiceQuery();
-  const { setAuthUser } = useAuthStore();
+  const { setAuthUser, authUser } = useAuthStore();
   const [showSlowMessage, setShowSlowMessage] = useState(false);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const RootLayout = () => {
     };
   }, [isLoading]);
 
-  if (isLoading && checkAuth === undefined) {
+  if (isLoading || (checkAuth && !authUser)) {
     return (
       <>
         <HomePageSkeleton />
@@ -34,7 +35,12 @@ const RootLayout = () => {
     );
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <Toaster />
+    </>
+  );
 };
 
 export default RootLayout;

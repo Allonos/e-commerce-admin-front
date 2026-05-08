@@ -46,7 +46,9 @@ const AllVehicles = ({ vehicles, setVehicleToDelete }: IProps) => {
                   </h2>
                 </div>
                 <h3>${vehicle.price}</h3>
-                <h3 className="text-sm text-[#717182]">Status: {vehicle.status}</h3>
+                <h3 className="text-sm text-[#717182]">
+                  Status: {vehicle.status}
+                </h3>
                 <div className="pt-2 flex items-center gap-2">
                   <CarFront width={16} height={16} color="#717182" />
                   <span className="text-sm text-[#717182] capitalize">

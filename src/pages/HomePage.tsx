@@ -1,7 +1,7 @@
 import { useGetAdminsVehiclesServiceQuery } from "../services/react-query/homePage/query/useGetAdminsVehiclesServiceQuery";
 import { useDeleteVehicleServiceMutation } from "../services/react-query/homePage/mutation/useDeleteVehicleServiceMutation";
 import { useState } from "react";
-import DeleteVehicleModal from "../components/ui/modals/DeleteVehicleModal";
+import DeleteModal from "../components/ui/modals/DeleteModal";
 import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 import HomePageHeader from "../components/ui/headers/homePage/HomePageHeader";
 import AllVehicles from "../components/ui/lists/AllVehicles";
@@ -13,7 +13,8 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
 
-  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
+  const { mutate: deleteVehicleMutate, isPending } =
+    useDeleteVehicleServiceMutation();
 
   if (isLoading) {
     return <HomePageSkeleton />;
@@ -21,12 +22,11 @@ const HomePage = () => {
 
   const noVehicles = vehicles?.vehicles.length === 0;
 
-  const handleConfirmDelete = () => {
-    if (!vehicleToDelete) return;
-    deleteVehicleMutate(vehicleToDelete, { onSettled: () => setVehicleToDelete(null) });
+  const handleConfirmDelete = (id: string) => {
+    deleteVehicleMutate(id, {
+      onSettled: () => setVehicleToDelete(null),
+    });
   };
-
-  console.log(vehicles);
 
   return (
     <>
@@ -37,7 +37,9 @@ const HomePage = () => {
           <p className="text-gray-500">Please add a vehicle to get started.</p>
         </div>
       )}
-      <DeleteVehicleModal
+      <DeleteModal
+        title="this vehicle"
+        id={vehicleToDelete ?? ""}
         isOpen={!!vehicleToDelete}
         onClose={() => setVehicleToDelete(null)}
         onConfirm={handleConfirmDelete}

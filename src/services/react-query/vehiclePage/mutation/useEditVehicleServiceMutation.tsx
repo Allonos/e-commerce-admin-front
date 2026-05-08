@@ -17,6 +17,7 @@ export const useEditVehicleServiceMutation = () => {
       lot,
       newImages,
       existingImages,
+      isFeatured,
     }: {
       id: string;
       makeId: string;
@@ -28,13 +29,28 @@ export const useEditVehicleServiceMutation = () => {
       lot: string;
       newImages: File[];
       existingImages: string[];
+      isFeatured: boolean;
     }) =>
-      editVehicle({ id, makeId, modelId, typeId, year, price, location, lot, newImages, existingImages }),
+      editVehicle({
+        id,
+        makeId,
+        modelId,
+        typeId,
+        year,
+        price,
+        location,
+        lot,
+        newImages,
+        existingImages,
+        isFeatured,
+      }),
     onSuccess: (data: { vehicle: Vehicle }) => {
       const updatedVehicle = data.vehicle;
 
       queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });
-      queryClient.invalidateQueries({ queryKey: ["vehicle", updatedVehicle.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["vehicle", updatedVehicle.id],
+      });
     },
   });
 };

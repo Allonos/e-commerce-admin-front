@@ -128,6 +128,20 @@ const EditVehicleForm = ({
           />
         </div>
 
+        <div>
+          <label className={labelCls}>Featured</label>
+          <Select
+            value={form.isFeatured}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, isFeatured: value }))}
+            options={[
+              { label: "False", value: false },
+              { label: "True", value: true },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
         <ImageUploadSection
           images={newImages}
           previews={allPreviews}

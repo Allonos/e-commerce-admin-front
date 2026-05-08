@@ -12,6 +12,7 @@ export interface FormState {
   date: string;
   type: string;
   lot: string;
+  isFeatured: boolean;
   existingImages: string[];
 }
 
@@ -23,6 +24,7 @@ const EMPTY_FORM: FormState = {
   date: "",
   type: "",
   lot: "",
+  isFeatured: false,
   existingImages: [],
 };
 
@@ -34,6 +36,7 @@ const vehicleToForm = (vehicle: Vehicle): FormState => ({
   date: String(vehicle.year),
   type: vehicle.type.id,
   lot: vehicle.lot,
+  isFeatured: vehicle.isFeatured,
   existingImages: vehicle.images,
 });
 
@@ -66,7 +69,8 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
     form.location !== originalForm.location ||
     form.date !== originalForm.date ||
     form.type !== originalForm.type ||
-    form.lot !== originalForm.lot;
+    form.lot !== originalForm.lot ||
+    form.isFeatured !== originalForm.isFeatured;
   const hasImageChanges =
     newImages.length > 0 ||
     form.existingImages.length !== (vehicle?.images.length ?? 0);
@@ -127,6 +131,7 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
         price: Number(form.price),
         location: form.location,
         lot: form.lot,
+        isFeatured: form.isFeatured,
         newImages,
         existingImages: form.existingImages,
       },

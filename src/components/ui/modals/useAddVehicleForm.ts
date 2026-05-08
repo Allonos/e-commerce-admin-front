@@ -11,10 +11,22 @@ export const MAX_IMAGES = 4;
 
 export const useAddVehicleForm = (onClose: () => void) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { make, model, price, location, date, type, lot, images, previews } = state;
+  const {
+    make,
+    model,
+    price,
+    location,
+    date,
+    type,
+    lot,
+    isFeatured,
+    images,
+    previews,
+  } = state;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formattedDate = date ? dayjs(date).format("YYYY") : "";
-  const { mutate: postVehicleMutate, isPending } = usePostVehicleServiceMutation();
+  const { mutate: postVehicleMutate, isPending } =
+    usePostVehicleServiceMutation();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -58,15 +70,26 @@ export const useAddVehicleForm = (onClose: () => void) => {
       return;
     }
     postVehicleMutate(
-      { makeId: make, images, modelId: model, year: date, price: Number(price), location, typeId: type, lot },
+      {
+        makeId: make,
+        images,
+        modelId: model,
+        year: date,
+        price: Number(price),
+        location,
+        typeId: type,
+        lot,
+        isFeatured,
+      },
       {
         onSuccess: () => {
           toast.success("Vehicle added successfully!");
           handleClose();
         },
         onError: (error: unknown) => {
-          const message = (error as { response?: { data?: { error?: string } } })
-            ?.response?.data?.error;
+          const message = (
+            error as { response?: { data?: { error?: string } } }
+          )?.response?.data?.error;
           toast.error(message ?? "Something went wrong.");
         },
       },
