@@ -17,6 +17,8 @@ const FeaturedForm = () => {
     }
   };
 
+  console.log(image);
+
   return (
     <div>
       <div className="flex items-center gap-2">
@@ -33,7 +35,10 @@ const FeaturedForm = () => {
           </h3>
 
           {/* <ImageUploadSection /> */}
-          <SingleImageUpload preview={preview} onImageChange={handleImageChange} />
+          <SingleImageUpload
+            preview={preview}
+            onImageChange={handleImageChange}
+          />
           <div className="py-3 flex flex-col gap-2">
             <label className="block text-sm text-[#314158]">
               Tag Line
