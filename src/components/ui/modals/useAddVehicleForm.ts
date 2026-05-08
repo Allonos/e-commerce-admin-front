@@ -20,6 +20,7 @@ export const useAddVehicleForm = (onClose: () => void) => {
     type,
     lot,
     isFeatured,
+    priority,
     images,
     previews,
   } = state;
@@ -80,6 +81,7 @@ export const useAddVehicleForm = (onClose: () => void) => {
         typeId: type,
         lot,
         isFeatured,
+        priority,
       },
       {
         onSuccess: () => {

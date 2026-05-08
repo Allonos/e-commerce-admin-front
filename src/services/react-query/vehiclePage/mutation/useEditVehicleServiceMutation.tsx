@@ -18,6 +18,7 @@ export const useEditVehicleServiceMutation = () => {
       newImages,
       existingImages,
       isFeatured,
+      priority,
     }: {
       id: string;
       makeId: string;
@@ -30,6 +31,7 @@ export const useEditVehicleServiceMutation = () => {
       newImages: File[];
       existingImages: string[];
       isFeatured: boolean;
+      priority: number;
     }) =>
       editVehicle({
         id,
@@ -43,6 +45,7 @@ export const useEditVehicleServiceMutation = () => {
         newImages,
         existingImages,
         isFeatured,
+        priority,
       }),
     onSuccess: (data: { vehicle: Vehicle }) => {
       const updatedVehicle = data.vehicle;

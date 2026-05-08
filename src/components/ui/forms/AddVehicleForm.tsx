@@ -16,6 +16,7 @@ const AddVehicleForm = ({
   type,
   lot,
   isFeatured,
+  priority,
   images,
   previews,
   fileInputRef,
@@ -131,6 +132,19 @@ const AddVehicleForm = ({
             placeholder="e.g. LOT-001"
             onChange={(e) =>
               dispatch({ type: "SET_LOT", payload: e.target.value })}
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Priority</label>
+          <input
+            type="number"
+            value={priority}
+            min={0}
+            onChange={(e) =>
+              dispatch({ type: "SET_PRIORITY", payload: Number(e.target.value) })}
+            placeholder="e.g. 0"
             className={inputCls}
           />
         </div>
