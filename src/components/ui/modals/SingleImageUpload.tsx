@@ -1,4 +1,4 @@
-import { ImagePlus, X } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import { useRef } from "react";
 
 interface Props {
@@ -20,19 +20,12 @@ const SingleImageUpload = ({ preview, onImageChange }: Props) => {
       <label className="block text-sm text-[#314158]">Image</label>
 
       {preview && (
-        <div className="relative group w-full aspect-video">
+        <div className="w-full aspect-video">
           <img
             src={preview}
             alt="preview"
             className="w-full h-full object-cover rounded-lg border border-slate-200"
           />
-          <button
-            type="button"
-            onClick={() => onImageChange(null)}
-            className="absolute -top-1.5 -right-1.5 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150 cursor-pointer"
-          >
-            <X width={10} height={10} />
-          </button>
         </div>
       )}
 

@@ -3,11 +3,15 @@ import { Trash, X } from "lucide-react";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (id: string) => void;
   isPending: boolean;
+  title: string;
+  id: string;
 }
 
-const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) => {
+const DeleteModal = (
+  { isOpen, onClose, onConfirm, isPending, title, id }: Props,
+) => {
   return (
     <div
       className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-opacity duration-200 ${
@@ -22,7 +26,7 @@ const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) =>
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Delete Vehicle</h2>
+          <h2 className="text-xl font-semibold">Delete</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-black transition-colors duration-200 cursor-pointer"
@@ -32,8 +36,7 @@ const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) =>
         </div>
 
         <p className="text-gray-600 mb-6">
-          Are you sure you want to delete this vehicle? This action cannot be
-          undone.
+          Are you sure you want to delete {title}? This action cannot be undone.
         </p>
 
         <div className="flex gap-3">
@@ -44,7 +47,7 @@ const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) =>
             Cancel
           </button>
           <button
-            onClick={onConfirm}
+            onClick={() => onConfirm(id)}
             className={`flex-1 bg-[#d4183d] text-white rounded-lg py-2 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-[#cf3d5a] transition-colors duration-200 cursor-pointer ${
               isPending ? "opacity-50 cursor-not-allowed" : ""
             }`}
@@ -59,4 +62,4 @@ const DeleteVehicleModal = ({ isOpen, onClose, onConfirm, isPending }: Props) =>
   );
 };
 
-export default DeleteVehicleModal;
+export default DeleteModal;

@@ -1,24 +1,33 @@
-import { Image, Pencil, Trash2 } from "lucide-react";
+import { Image } from "lucide-react";
 import { useState } from "react";
-import SingleImageUpload from "../../../modals/SingleImageUpload";
+import type {
+  HeroVehicle,
+  HeroVehiclesResponse,
+} from "../../../../../utils/types/heroVehiclesTypes";
+import { useDeleteHeroVehiclesServiceMutation } from "../../../../../services/react-query/featuredVehicles/mutation/useDeleteHeroVehiclesServiceMutation";
+import DeleteModal from "../../../modals/DeleteModal";
+import HeroFormSection from "./components/HeroFormSection";
+import EditHeroVehicleModal from "../../../modals/EditHeroVehicleModal";
 
 interface IProps {
-  heroVehicles: any;
+  heroVehicles: HeroVehiclesResponse | undefined;
 }
 
 const HeroForm = ({ heroVehicles }: IProps) => {
-  const [image, setImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [heroVehicleToDelete, setHeroVehicleToDelete] = useState<string | null>(
+    null,
+  );
+  const [heroVehicleToEdit, setHeroVehicleToEdit] = useState<
+    HeroVehicle | null
+  >(null);
 
-  const handleImageChange = (file: File | null) => {
-    if (preview) URL.revokeObjectURL(preview);
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
-    } else {
-      setImage(null);
-      setPreview(null);
-    }
+  const { mutate: deleteHeroVehicle, isPending: isDeletingHeroVehicle } =
+    useDeleteHeroVehiclesServiceMutation();
+
+  const handleConfirmDelete = (id: string) => {
+    deleteHeroVehicle(id, {
+      onSettled: () => setHeroVehicleToDelete(null),
+    });
   };
 
   return (
@@ -30,106 +39,29 @@ const HeroForm = ({ heroVehicles }: IProps) => {
         </h2>
       </div>
 
-      <section className="grid grid-cols-3 gap-10 pt-4">
-        <div className="p-6 border border-slate-200 shadow-sm rounded-lg col-span-1">
-          <h3 className="text-[18px] text-[#1D293D] font-semibold">
-            Add New Hero Car
-          </h3>
+      <HeroFormSection
+        heroVehicles={heroVehicles}
+        onDelete={setHeroVehicleToDelete}
+        onEdit={setHeroVehicleToEdit}
+      />
 
-          <SingleImageUpload
-            preview={preview}
-            onImageChange={handleImageChange}
-          />
-          <span className="text-[12px] text-[#62748E]">
-            Use a High-resolution landscape image.
-          </span>
-          <div className="py-3 flex flex-col gap-2">
-            <label className="block text-sm text-[#314158]">
-              Tag Line
-            </label>
-            <input
-              type="text"
-              className="w-full border border-slate-300 rounded-md p-2 text-[15px]"
-              placeholder="e.g. Luxury Cars"
-            />
-          </div>
-          <div className="py-3 flex flex-col gap-2">
-            <label className="block text-sm text-[#314158]">
-              Subtitle
-            </label>
-            <input
-              type="text"
-              className="w-full border border-slate-300 rounded-md p-2 text-[15px]"
-              placeholder="e.g. Bid on luxury cars"
-            />
-          </div>
-          <button className="self-center w-full bg-slate-900 py-1.5 rounded-lg text-white cursor-pointer hover:bg-slate-800 transition-colors duration-200">
-            Save Hero Car
-          </button>
-        </div>
-        <div className="col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                    Preview
-                  </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                    Tag Line
-                  </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                    Subtitle
-                  </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider text-right">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {(heroVehicles?.length === 0 || !heroVehicles) && (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="px-6 py-8 text-center text-slate-400 text-sm"
-                    >
-                      Hero Vehicle has not been added yet
-                    </td>
-                  </tr>
-                )}
-                {heroVehicles?.map((vehicle: any) => (
-                  <tr
-                    key={vehicle.id}
-                    className="hover:bg-slate-50/50 transition-colors"
-                  >
-                    <td className="px-6 py-4">
-                      <img
-                        src={vehicle.image}
-                        alt={vehicle.tagLine}
-                        className="w-20 h-12 object-cover rounded shadow-sm border border-slate-200"
-                      />
-                    </td>
-                    <td className="px-6 py-4 font-medium text-slate-900">
-                      {vehicle.tagLine}
-                    </td>
-                    <td className="px-6 py-4 text-slate-500">
-                      {vehicle.subtitle}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-slate-500 hover:text-slate-900 transition-colors p-2 hover:bg-slate-100 rounded-md mr-2">
-                        <Pencil className="w-4 h-4" />
-                      </button>
-                      <button className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-md">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+      <DeleteModal
+        title="this hero vehicle"
+        id={heroVehicleToDelete ?? ""}
+        isOpen={!!heroVehicleToDelete}
+        onClose={() => setHeroVehicleToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        isPending={isDeletingHeroVehicle}
+      />
+
+      {heroVehicleToEdit && (
+        <EditHeroVehicleModal
+          key={heroVehicleToEdit.id}
+          isOpen={!!heroVehicleToEdit}
+          onClose={() => setHeroVehicleToEdit(null)}
+          heroVehicle={heroVehicleToEdit}
+        />
+      )}
     </div>
   );
 };

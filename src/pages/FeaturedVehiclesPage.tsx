@@ -8,14 +8,14 @@ const FeaturedVehiclesPage = () => {
     useGetHeroVehiclesServiceQuery();
 
   if (heroVehiclesLoading) {
-    return;
+    return null;
   }
 
   return (
     <div>
       <FeaturedVehicleHeader />
       <section className="flex flex-col gap-16 px-4">
-        <HeroForm heroVehicles={heroVehicles.data} />
+        <HeroForm heroVehicles={heroVehicles} />
         <hr className="border-slate-200" />
         <FeaturedForm />
       </section>
