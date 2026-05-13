@@ -7,7 +7,7 @@ export const getAdminsVehicles = async (
   const response = await api.get("/vehicles", {
     params: {
       page,
-      limit: 10,
+      limit: 1,
     },
   });
   return response.data;

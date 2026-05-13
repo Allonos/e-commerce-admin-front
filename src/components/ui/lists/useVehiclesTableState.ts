@@ -24,7 +24,7 @@ export function toArray(data: unknown): Category[] {
 }
 
 export const useVehiclesTableState = (
-  currentPage: number,
+  // currentPage: number,
   setPage: (page: number) => void,
   lotValues: string[],
 ) => {

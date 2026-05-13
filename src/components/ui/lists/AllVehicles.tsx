@@ -22,7 +22,8 @@ const AllVehicles = (
   const lotValues = vehicles?.vehicles.map((v) => v.lot) ?? [];
 
   const { makes, models, types, lotOptions, filters, handleTableChange } =
-    useVehiclesTableState(page, setPage, lotValues);
+    useVehiclesTableState(setPage, lotValues);
+  // useVehiclesTableState(page, setPage, lotValues);
 
   const columns = useMemo(
     () =>
