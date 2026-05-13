@@ -155,6 +155,20 @@ const EditVehicleForm = ({
           />
         </div>
 
+        <div>
+          <label className={labelCls}>Status</label>
+          <Select
+            value={form.status}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, status: value }))}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
         <ImageUploadSection
           images={newImages}
           previews={allPreviews}

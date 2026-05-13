@@ -5,16 +5,13 @@ import DeleteModal from "../components/ui/modals/DeleteModal";
 import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 import HomePageHeader from "../components/ui/headers/homePage/HomePageHeader";
 import AllVehicles from "../components/ui/lists/AllVehicles";
-import DefaultPagination from "../components/ui/pagination/DefaultPagination";
 
 const HomePage = () => {
   const [vehicleToDelete, setVehicleToDelete] = useState<string | null>(null);
-
   const [page, setPage] = useState(1);
-  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
 
-  const { mutate: deleteVehicleMutate, isPending } =
-    useDeleteVehicleServiceMutation();
+  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
+  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
 
   if (isLoading) {
     return <HomePageSkeleton />;
@@ -48,8 +45,9 @@ const HomePage = () => {
       <AllVehicles
         vehicles={vehicles}
         setVehicleToDelete={setVehicleToDelete}
+        page={page}
+        setPage={setPage}
       />
-      <DefaultPagination vehicles={vehicles} setPage={setPage} />
     </>
   );
 };

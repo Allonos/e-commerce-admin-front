@@ -15,6 +15,7 @@ export interface AddVehicleFormProps {
   type: string;
   lot: string;
   isFeatured: boolean;
+  status: string;
   priority: number;
   images: File[];
   previews: string[];

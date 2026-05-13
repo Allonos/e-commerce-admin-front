@@ -41,3 +41,8 @@
 .ant-select-item-option-content {
   text-transform: capitalize !important;
 }
+
+.ant-tag-yellow {
+  color: #facc15 !important;
+  font-weight: 600 !important;
+}

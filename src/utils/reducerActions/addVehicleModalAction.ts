@@ -7,6 +7,7 @@ export type Action =
   | { type: "SET_TYPE"; payload: string }
   | { type: "SET_LOT"; payload: string }
   | { type: "SET_IS_FEATURED"; payload: boolean }
+  | { type: "SET_STATUS"; payload: string }
   | { type: "SET_PRIORITY"; payload: number }
   | { type: "ADD_IMAGES"; payload: { files: File[]; previews: string[] } }
   | { type: "REMOVE_IMAGE"; payload: number }
@@ -21,6 +22,7 @@ export type State = {
   type: string;
   lot: string;
   isFeatured: boolean;
+  status: string;
   priority: number;
   images: File[];
   previews: string[];
@@ -35,6 +37,7 @@ export const initialState: State = {
   type: "",
   lot: "",
   isFeatured: false,
+  status: "active",
   priority: 0,
   images: [],
   previews: [],
@@ -58,6 +61,8 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, lot: action.payload };
     case "SET_IS_FEATURED":
       return { ...state, isFeatured: action.payload };
+    case "SET_STATUS":
+      return { ...state, status: action.payload };
     case "SET_PRIORITY":
       return { ...state, priority: action.payload };
     case "ADD_IMAGES":

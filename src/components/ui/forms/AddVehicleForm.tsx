@@ -16,6 +16,7 @@ const AddVehicleForm = ({
   type,
   lot,
   isFeatured,
+  status,
   priority,
   images,
   previews,
@@ -158,6 +159,20 @@ const AddVehicleForm = ({
             options={[
               { label: "False", value: false },
               { label: "True", value: true },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Status</label>
+          <Select
+            value={status}
+            onChange={(value) =>
+              dispatch({ type: "SET_STATUS", payload: value })}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
             ]}
             className="w-full add-select"
           />
