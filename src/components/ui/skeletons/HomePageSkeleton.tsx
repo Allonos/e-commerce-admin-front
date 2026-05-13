@@ -37,7 +37,7 @@ const HomePageSkeleton = () => {
   return (
     <>
       <HomePageHeader />
-      <div className="pt-6 overflow-x-auto">
+      <div className="overflow-x-auto mx-4">
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead>
