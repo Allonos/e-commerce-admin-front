@@ -16,6 +16,8 @@ const AddVehicleForm = ({
   type,
   lot,
   isFeatured,
+  status,
+  priority,
   images,
   previews,
   fileInputRef,
@@ -136,6 +138,19 @@ const AddVehicleForm = ({
         </div>
 
         <div>
+          <label className={labelCls}>Priority</label>
+          <input
+            type="number"
+            value={priority}
+            min={0}
+            onChange={(e) =>
+              dispatch({ type: "SET_PRIORITY", payload: Number(e.target.value) })}
+            placeholder="e.g. 0"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
           <label className={labelCls}>Featured</label>
           <Select
             value={isFeatured}
@@ -144,6 +159,20 @@ const AddVehicleForm = ({
             options={[
               { label: "False", value: false },
               { label: "True", value: true },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Status</label>
+          <Select
+            value={status}
+            onChange={(value) =>
+              dispatch({ type: "SET_STATUS", payload: value })}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
             ]}
             className="w-full add-select"
           />

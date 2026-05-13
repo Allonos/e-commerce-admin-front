@@ -129,6 +129,19 @@ const EditVehicleForm = ({
         </div>
 
         <div>
+          <label className={labelCls}>Priority</label>
+          <input
+            type="number"
+            value={form.priority}
+            min={0}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, priority: Number(e.target.value) }))}
+            placeholder="e.g. 0"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
           <label className={labelCls}>Featured</label>
           <Select
             value={form.isFeatured}
@@ -137,6 +150,20 @@ const EditVehicleForm = ({
             options={[
               { label: "False", value: false },
               { label: "True", value: true },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Status</label>
+          <Select
+            value={form.status}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, status: value }))}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
             ]}
             className="w-full add-select"
           />

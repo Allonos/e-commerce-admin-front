@@ -11,6 +11,8 @@ interface IProps {
   lot: string;
   year: string;
   isFeatured: boolean;
+  status: string;
+  priority: number;
 }
 
 export const usePostVehicleServiceMutation = () => {
@@ -28,6 +30,8 @@ export const usePostVehicleServiceMutation = () => {
         typeId,
         lot,
         isFeatured,
+        status,
+        priority,
       }: IProps,
     ) =>
       postVehicle({
@@ -40,6 +44,8 @@ export const usePostVehicleServiceMutation = () => {
         typeId,
         lot,
         isFeatured,
+        status,
+        priority,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });

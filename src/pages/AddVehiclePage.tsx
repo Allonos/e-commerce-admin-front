@@ -33,6 +33,8 @@ const AddVehiclePage = () => {
       type,
       lot,
       isFeatured,
+      status,
+      priority,
       images,
       previews,
     },
@@ -85,6 +87,8 @@ const AddVehiclePage = () => {
       type={type}
       lot={lot}
       isFeatured={isFeatured}
+      status={status}
+      priority={priority}
       images={images}
       previews={previews}
       fileInputRef={fileInputRef}

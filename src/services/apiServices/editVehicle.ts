@@ -10,6 +10,8 @@ interface IProps {
   location: string;
   lot: string;
   isFeatured: boolean;
+  status: string;
+  priority: number;
   newImages: File[];
   existingImages: string[];
 }
@@ -24,6 +26,8 @@ export const editVehicle = async ({
   location,
   lot,
   isFeatured,
+  status,
+  priority,
   newImages,
   existingImages,
 }: IProps) => {
@@ -36,6 +40,8 @@ export const editVehicle = async ({
   formData.append("location", location);
   formData.append("lot", lot);
   formData.append("isFeatured", isFeatured.toString());
+  formData.append("status", status);
+  formData.append("priority", priority.toString());
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));
 
