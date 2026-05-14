@@ -14,6 +14,9 @@ export interface VehicleFilterState {
   type: string[];
   status: string[];
   featured: string[];
+  transmission: string[];
+  condition: string[];
+  fuelType: string[];
 }
 
 export function toArray(data: unknown): Category[] {
@@ -35,6 +38,9 @@ export const useVehiclesTableState = (
     type: [],
     status: [],
     featured: [],
+    transmission: [],
+    condition: [],
+    fuelType: [],
   });
 
   const { data: makesData } = useGetMakesServiceQuery();
@@ -64,6 +70,9 @@ export const useVehiclesTableState = (
       type: (rawFilters.type as string[]) ?? [],
       status: (rawFilters.status as string[]) ?? [],
       featured: (rawFilters.isFeatured as string[]) ?? [],
+      transmission: (rawFilters.transmission as string[]) ?? [],
+      condition: (rawFilters.condition as string[]) ?? [],
+      fuelType: (rawFilters.fuelType as string[]) ?? [],
     });
 
     if (!Array.isArray(sorter)) {

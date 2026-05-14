@@ -9,9 +9,14 @@ import AllVehicles from "../components/ui/lists/AllVehicles";
 const HomePage = () => {
   const [vehicleToDelete, setVehicleToDelete] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(page);
-  const { mutate: deleteVehicleMutate, isPending } = useDeleteVehicleServiceMutation();
+  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(
+    page,
+    pageSize,
+  );
+  const { mutate: deleteVehicleMutate, isPending } =
+    useDeleteVehicleServiceMutation();
 
   if (isLoading) {
     return <HomePageSkeleton />;
@@ -47,6 +52,11 @@ const HomePage = () => {
         setVehicleToDelete={setVehicleToDelete}
         page={page}
         setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={(size) => {
+          setPageSize(size);
+          setPage(1);
+        }}
       />
     </>
   );

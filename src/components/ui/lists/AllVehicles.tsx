@@ -11,10 +11,13 @@ interface IProps {
   setVehicleToDelete: (id: string | null) => void;
   page: number;
   setPage: (page: number) => void;
+  pageSize: number;
+  setPageSize: (size: number) => void;
 }
 
 const AllVehicles = (
-  { vehicles, setVehicleToDelete, page, setPage }: IProps,
+  { vehicles, setVehicleToDelete, page, setPage, pageSize, setPageSize }:
+    IProps,
 ) => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate();
@@ -55,17 +58,17 @@ const AllVehicles = (
         dataSource={vehicles?.vehicles}
         columns={columns}
         rowKey="id"
-        scroll={{ x: "max-content" }}
+        scroll={{ x: "max-content", y: 700 }}
         onChange={handleTableChange}
         pagination={{
           current: page,
-          total: (vehicles?.totalPages ?? 1) * 10,
-          pageSize: 10,
-          showSizeChanger: false,
-          showTotal: () =>
-            `${vehicles?.vehicles.length ?? 0} vehicle${
-              vehicles?.vehicles.length === 1 ? "" : "s"
-            }`,
+          total: vehicles?.totalItems ?? 0,
+          pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: [10, 50, 100, 1000, 5000],
+          onShowSizeChange: (_current, size) => setPageSize(size),
+          showTotal: (total) =>
+            `${total} vehicle${total === 1 ? "" : "s"}`,
         }}
         style={{ textTransform: "capitalize" }}
         size="middle"

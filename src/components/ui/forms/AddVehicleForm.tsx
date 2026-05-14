@@ -18,6 +18,11 @@ const AddVehicleForm = ({
   isFeatured,
   status,
   priority,
+  mileage,
+  engine,
+  transmission,
+  condition,
+  fuelType,
   images,
   previews,
   fileInputRef,
@@ -144,7 +149,10 @@ const AddVehicleForm = ({
             value={priority}
             min={0}
             onChange={(e) =>
-              dispatch({ type: "SET_PRIORITY", payload: Number(e.target.value) })}
+              dispatch({
+                type: "SET_PRIORITY",
+                payload: Number(e.target.value),
+              })}
             placeholder="e.g. 0"
             className={inputCls}
           />
@@ -173,6 +181,86 @@ const AddVehicleForm = ({
             options={[
               { label: "Active", value: "active" },
               { label: "Inactive", value: "inactive" },
+              { label: "Sold", value: "sold" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Mileage (km)</label>
+          <input
+            type="number"
+            value={mileage}
+            min={0}
+            onChange={(e) =>
+              dispatch({
+                type: "SET_MILEAGE",
+                payload: Number(e.target.value),
+              })}
+            placeholder="e.g. 50000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Engine (cc)</label>
+          <input
+            type="number"
+            value={engine}
+            min={0}
+            onChange={(e) =>
+              dispatch({ type: "SET_ENGINE", payload: Number(e.target.value) })}
+            placeholder="e.g. 2000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Transmission</label>
+          <Select
+            value={transmission}
+            onChange={(value) =>
+              dispatch({ type: "SET_TRANSMISSION", payload: value })}
+            options={[
+              { label: "Automatic", value: "AUTOMATIC" },
+              { label: "Manual", value: "MANUAL" },
+              { label: "Semi-Automatic", value: "SEMI_AUTOMATIC" },
+              { label: "CVT", value: "CVT" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Condition</label>
+          <Select
+            value={condition}
+            onChange={(value) =>
+              dispatch({ type: "SET_CONDITION", payload: value })}
+            options={[
+              { label: "Used", value: "USED" },
+              { label: "New", value: "NEW" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Fuel Type</label>
+          <Select
+            value={fuelType}
+            onChange={(value) =>
+              dispatch({ type: "SET_FUEL_TYPE", payload: value })}
+            options={[
+              { label: "Gasoline", value: "GASOLINE" },
+              { label: "Diesel", value: "DIESEL" },
+              { label: "Electric", value: "ELECTRIC" },
+              { label: "Hybrid", value: "HYBRID" },
+              { label: "Plug-in Hybrid", value: "PLUG_IN_HYBRID" },
+              { label: "LPG", value: "LPG" },
+              { label: "CNG", value: "CNG" },
+              { label: "Hydrogen", value: "HYDROGEN" },
             ]}
             className="w-full add-select"
           />

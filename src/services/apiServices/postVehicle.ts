@@ -1,4 +1,9 @@
 import api from "../api/api";
+import type {
+  FuelType,
+  Transmission,
+  VehicleCondition,
+} from "../../utils/types/vehicleTypes";
 
 interface IProps {
   makeId: string;
@@ -12,6 +17,11 @@ interface IProps {
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
 }
 
 export const postVehicle = async ({
@@ -26,6 +36,11 @@ export const postVehicle = async ({
   isFeatured,
   status,
   priority,
+  mileage,
+  engine,
+  transmission,
+  condition,
+  fuelType,
 }: IProps) => {
   const formData = new FormData();
   formData.append("makeId", makeId);
@@ -38,6 +53,11 @@ export const postVehicle = async ({
   formData.append("isFeatured", isFeatured.toString());
   formData.append("status", status);
   formData.append("priority", priority.toString());
+  formData.append("mileage", mileage.toString());
+  formData.append("engine", engine.toString());
+  formData.append("transmission", transmission);
+  formData.append("condition", condition);
+  formData.append("fuelType", fuelType);
   images.forEach((image) => formData.append("images", image));
 
   const response = await api.post("/vehicles/create-vehicle", formData, {

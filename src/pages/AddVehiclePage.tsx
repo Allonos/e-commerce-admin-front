@@ -35,6 +35,11 @@ const AddVehiclePage = () => {
       isFeatured,
       status,
       priority,
+      mileage,
+      engine,
+      transmission,
+      condition,
+      fuelType,
       images,
       previews,
     },
@@ -89,6 +94,11 @@ const AddVehiclePage = () => {
       isFeatured={isFeatured}
       status={status}
       priority={priority}
+      mileage={mileage}
+      engine={engine}
+      transmission={transmission}
+      condition={condition}
+      fuelType={fuelType}
       images={images}
       previews={previews}
       fileInputRef={fileInputRef}

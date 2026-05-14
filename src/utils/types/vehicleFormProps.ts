@@ -1,6 +1,8 @@
 import type { FormState } from "../../components/ui/modals/useEditVehicleForm";
 import type { Action } from "../reducerActions/addVehicleModalAction";
 
+import type { FuelType, Transmission, VehicleCondition } from "./vehicleTypes";
+
 export interface SelectOption {
   label: string;
   value: string;
@@ -17,6 +19,11 @@ export interface AddVehicleFormProps {
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
   images: File[];
   previews: string[];
   fileInputRef: React.RefObject<HTMLInputElement | null>;

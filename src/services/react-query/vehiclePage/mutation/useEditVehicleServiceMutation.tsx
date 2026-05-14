@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editVehicle } from "../../../apiServices/editVehicle";
-import type { Vehicle } from "../../../../utils/types/vehicleTypes";
+import type { FuelType, Transmission, VehicleCondition, Vehicle } from "../../../../utils/types/vehicleTypes";
 
 export const useEditVehicleServiceMutation = () => {
   const queryClient = useQueryClient();
@@ -20,6 +20,11 @@ export const useEditVehicleServiceMutation = () => {
       isFeatured,
       status,
       priority,
+      mileage,
+      engine,
+      transmission,
+      condition,
+      fuelType,
     }: {
       id: string;
       makeId: string;
@@ -34,6 +39,11 @@ export const useEditVehicleServiceMutation = () => {
       isFeatured: boolean;
       status: string;
       priority: number;
+      mileage: number;
+      engine: number;
+      transmission: Transmission;
+      condition: VehicleCondition;
+      fuelType: FuelType;
     }) =>
       editVehicle({
         id,
@@ -49,6 +59,11 @@ export const useEditVehicleServiceMutation = () => {
         isFeatured,
         status,
         priority,
+        mileage,
+        engine,
+        transmission,
+        condition,
+        fuelType,
       }),
     onSuccess: (data: { vehicle: Vehicle }) => {
       const updatedVehicle = data.vehicle;

@@ -1,3 +1,9 @@
+import type {
+  FuelType,
+  Transmission,
+  VehicleCondition,
+} from "../types/vehicleTypes";
+
 export type Action =
   | { type: "SET_MAKE"; payload: string }
   | { type: "SET_MODEL"; payload: string }
@@ -9,6 +15,11 @@ export type Action =
   | { type: "SET_IS_FEATURED"; payload: boolean }
   | { type: "SET_STATUS"; payload: string }
   | { type: "SET_PRIORITY"; payload: number }
+  | { type: "SET_MILEAGE"; payload: number }
+  | { type: "SET_ENGINE"; payload: number }
+  | { type: "SET_TRANSMISSION"; payload: Transmission }
+  | { type: "SET_CONDITION"; payload: VehicleCondition }
+  | { type: "SET_FUEL_TYPE"; payload: FuelType }
   | { type: "ADD_IMAGES"; payload: { files: File[]; previews: string[] } }
   | { type: "REMOVE_IMAGE"; payload: number }
   | { type: "RESET" };
@@ -24,6 +35,11 @@ export type State = {
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
   images: File[];
   previews: string[];
 };
@@ -39,6 +55,11 @@ export const initialState: State = {
   isFeatured: false,
   status: "active",
   priority: 0,
+  mileage: 0,
+  engine: 0,
+  transmission: "AUTOMATIC",
+  condition: "USED",
+  fuelType: "GASOLINE",
   images: [],
   previews: [],
 };
@@ -65,6 +86,16 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, status: action.payload };
     case "SET_PRIORITY":
       return { ...state, priority: action.payload };
+    case "SET_MILEAGE":
+      return { ...state, mileage: action.payload };
+    case "SET_ENGINE":
+      return { ...state, engine: action.payload };
+    case "SET_TRANSMISSION":
+      return { ...state, transmission: action.payload };
+    case "SET_CONDITION":
+      return { ...state, condition: action.payload };
+    case "SET_FUEL_TYPE":
+      return { ...state, fuelType: action.payload };
     case "ADD_IMAGES":
       return {
         ...state,

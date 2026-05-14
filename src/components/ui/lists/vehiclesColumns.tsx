@@ -118,7 +118,9 @@ export function buildVehiclesColumns({
       width: 110,
       render: (status: string) => (
         <Tag
-          color={status === "active" ? "blue" : "default"}
+          color={(status === "active" && "blue") ||
+            (status === "inactive" && "orange") ||
+            (status === "sold" && "red") || "default"}
           className="capitalize"
         >
           {status}
@@ -127,6 +129,7 @@ export function buildVehiclesColumns({
       filters: [
         { text: "Active", value: "active" },
         { text: "Inactive", value: "inactive" },
+        { text: "Sold", value: "sold" },
       ],
       filterMode: "tree",
       filteredValue: filters.status,
@@ -142,6 +145,69 @@ export function buildVehiclesColumns({
       key: "owner",
       width: 120,
       render: (_, v) => v.owner.username,
+    },
+    {
+      title: "Mileage",
+      dataIndex: "mileage",
+      key: "mileage",
+      width: 110,
+      sorter: true,
+      render: (val: number) => `${val.toLocaleString()} km`,
+    },
+    {
+      title: "Engine",
+      dataIndex: "engine",
+      key: "engine",
+      width: 100,
+      sorter: true,
+      render: (val: number) => `${val} cc`,
+    },
+    {
+      title: "Transmission",
+      dataIndex: "transmission",
+      key: "transmission",
+      width: 130,
+      filters: [
+        { text: "Automatic", value: "AUTOMATIC" },
+        { text: "Manual", value: "MANUAL" },
+        { text: "Semi-Automatic", value: "SEMI_AUTOMATIC" },
+        { text: "CVT", value: "CVT" },
+      ],
+      filterMode: "tree",
+      filteredValue: filters.transmission,
+      render: (val: string) => val.replace(/_/g, " ").toLowerCase(),
+    },
+    {
+      title: "Condition",
+      dataIndex: "condition",
+      key: "condition",
+      width: 110,
+      filters: [
+        { text: "Used", value: "USED" },
+        { text: "New", value: "NEW" },
+      ],
+      filterMode: "tree",
+      filteredValue: filters.condition,
+      render: (val: string) => val.toLowerCase(),
+    },
+    {
+      title: "Fuel Type",
+      dataIndex: "fuelType",
+      key: "fuelType",
+      width: 130,
+      filters: [
+        { text: "Gasoline", value: "GASOLINE" },
+        { text: "Diesel", value: "DIESEL" },
+        { text: "Electric", value: "ELECTRIC" },
+        { text: "Hybrid", value: "HYBRID" },
+        { text: "Plug-in Hybrid", value: "PLUG_IN_HYBRID" },
+        { text: "LPG", value: "LPG" },
+        { text: "CNG", value: "CNG" },
+        { text: "Hydrogen", value: "HYDROGEN" },
+      ],
+      filterMode: "tree",
+      filteredValue: filters.fuelType,
+      render: (val: string) => val.replace(/_/g, " ").toLowerCase(),
     },
     {
       title: "Views",
@@ -193,7 +259,6 @@ export function buildVehiclesColumns({
                 icon={<Pencil size={12} />}
                 onClick={() => onEdit(v.id)}
               >
-                Edit
               </Button>
               <Button
                 size="small"
@@ -201,7 +266,6 @@ export function buildVehiclesColumns({
                 icon={<Trash size={12} />}
                 onClick={() => onDelete(v.id)}
               >
-                Delete
               </Button>
             </Space>
           )

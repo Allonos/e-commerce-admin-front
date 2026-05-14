@@ -1,4 +1,9 @@
 import api from "../api/api";
+import type {
+  FuelType,
+  Transmission,
+  VehicleCondition,
+} from "../../utils/types/vehicleTypes";
 
 interface IProps {
   id: string;
@@ -12,6 +17,11 @@ interface IProps {
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
   newImages: File[];
   existingImages: string[];
 }
@@ -28,6 +38,11 @@ export const editVehicle = async ({
   isFeatured,
   status,
   priority,
+  mileage,
+  engine,
+  transmission,
+  condition,
+  fuelType,
   newImages,
   existingImages,
 }: IProps) => {
@@ -42,6 +57,11 @@ export const editVehicle = async ({
   formData.append("isFeatured", isFeatured.toString());
   formData.append("status", status);
   formData.append("priority", priority.toString());
+  formData.append("mileage", mileage.toString());
+  formData.append("engine", engine.toString());
+  formData.append("transmission", transmission);
+  formData.append("condition", condition);
+  formData.append("fuelType", fuelType);
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));
 

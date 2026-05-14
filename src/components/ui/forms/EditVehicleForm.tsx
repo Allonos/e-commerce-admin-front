@@ -135,7 +135,10 @@ const EditVehicleForm = ({
             value={form.priority}
             min={0}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, priority: Number(e.target.value) }))}
+              setForm((prev) => ({
+                ...prev,
+                priority: Number(e.target.value),
+              }))}
             placeholder="e.g. 0"
             className={inputCls}
           />
@@ -164,6 +167,83 @@ const EditVehicleForm = ({
             options={[
               { label: "Active", value: "active" },
               { label: "Inactive", value: "inactive" },
+              { label: "Sold", value: "sold" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Mileage (km)</label>
+          <input
+            type="number"
+            value={form.mileage}
+            min={0}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, mileage: Number(e.target.value) }))}
+            placeholder="e.g. 50000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Engine (cc)</label>
+          <input
+            type="number"
+            value={form.engine}
+            min={0}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, engine: Number(e.target.value) }))}
+            placeholder="e.g. 2000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Transmission</label>
+          <Select
+            value={form.transmission}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, transmission: value }))}
+            options={[
+              { label: "Automatic", value: "AUTOMATIC" },
+              { label: "Manual", value: "MANUAL" },
+              { label: "Semi-Automatic", value: "SEMI_AUTOMATIC" },
+              { label: "CVT", value: "CVT" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Condition</label>
+          <Select
+            value={form.condition}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, condition: value }))}
+            options={[
+              { label: "Used", value: "USED" },
+              { label: "New", value: "NEW" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Fuel Type</label>
+          <Select
+            value={form.fuelType}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, fuelType: value }))}
+            options={[
+              { label: "Gasoline", value: "GASOLINE" },
+              { label: "Diesel", value: "DIESEL" },
+              { label: "Electric", value: "ELECTRIC" },
+              { label: "Hybrid", value: "HYBRID" },
+              { label: "Plug-in Hybrid", value: "PLUG_IN_HYBRID" },
+              { label: "LPG", value: "LPG" },
+              { label: "CNG", value: "CNG" },
+              { label: "Hydrogen", value: "HYDROGEN" },
             ]}
             className="w-full add-select"
           />

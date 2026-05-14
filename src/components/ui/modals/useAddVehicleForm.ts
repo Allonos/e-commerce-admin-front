@@ -22,6 +22,11 @@ export const useAddVehicleForm = (onClose: () => void) => {
     isFeatured,
     status,
     priority,
+    mileage,
+    engine,
+    transmission,
+    condition,
+    fuelType,
     images,
     previews,
   } = state;
@@ -84,6 +89,11 @@ export const useAddVehicleForm = (onClose: () => void) => {
         isFeatured,
         status,
         priority,
+        mileage,
+        engine,
+        transmission,
+        condition,
+        fuelType,
       },
       {
         onSuccess: () => {
@@ -91,9 +101,8 @@ export const useAddVehicleForm = (onClose: () => void) => {
           handleClose();
         },
         onError: (error: unknown) => {
-          const message = (
-            error as { response?: { data?: { error?: string } } }
-          )?.response?.data?.error;
+          const data = (error as { response?: { data?: Record<string, string> } })?.response?.data;
+          const message = data?.error ?? data?.message;
           toast.error(message ?? "Something went wrong.");
         },
       },
