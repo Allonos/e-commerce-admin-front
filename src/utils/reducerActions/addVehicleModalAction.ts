@@ -11,7 +11,7 @@ export type Action =
   | { type: "SET_LOCATION"; payload: string }
   | { type: "SET_DATE"; payload: string }
   | { type: "SET_TYPE"; payload: string }
-  | { type: "SET_LOT"; payload: string }
+  | { type: "SET_LOT"; payload: number }
   | { type: "SET_IS_FEATURED"; payload: boolean }
   | { type: "SET_STATUS"; payload: string }
   | { type: "SET_PRIORITY"; payload: number }
@@ -31,7 +31,7 @@ export type State = {
   location: string;
   date: string;
   type: string;
-  lot: string;
+  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
@@ -51,7 +51,7 @@ export const initialState: State = {
   location: "",
   date: "",
   type: "",
-  lot: "",
+  lot: 0,
   isFeatured: false,
   status: "active",
   priority: 0,

@@ -35,7 +35,7 @@ export interface Vehicle {
     id: string;
     name: string;
   };
-  lot: string;
+  lot: number;
   status: VehicleStatus;
   isFeatured: boolean;
   priority: number;

@@ -6,7 +6,7 @@ import type { Vehicle } from "../../../utils/types/vehicleTypes";
 import type { Category, VehicleFilterState } from "./useVehiclesTableState";
 
 interface BuildColumnsParams {
-  lotOptions: { text: string; value: string }[];
+  lotOptions: { text: string; value: number }[];
   makes: Category[];
   models: Category[];
   types: Category[];
@@ -37,6 +37,7 @@ export function buildVehiclesColumns({
       filterMode: "tree",
       filterSearch: true,
       filteredValue: filters.lot,
+      render: (val: number) => `LOT-${val}`,
     },
     {
       title: "Image",

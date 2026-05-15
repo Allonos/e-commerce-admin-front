@@ -13,7 +13,7 @@ export interface FormState {
   location: string;
   date: string;
   type: string;
-  lot: string;
+  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
@@ -32,7 +32,7 @@ const EMPTY_FORM: FormState = {
   location: "",
   date: "",
   type: "",
-  lot: "",
+  lot: 0,
   isFeatured: false,
   status: "active",
   priority: 0,

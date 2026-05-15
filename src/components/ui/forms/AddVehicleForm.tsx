@@ -133,11 +133,12 @@ const AddVehicleForm = ({
         <div>
           <label className={labelCls}>Lot</label>
           <input
-            type="text"
+            type="number"
             value={lot}
-            placeholder="e.g. LOT-001"
+            placeholder="e.g. 1"
+            min={1}
             onChange={(e) =>
-              dispatch({ type: "SET_LOT", payload: e.target.value })}
+              dispatch({ type: "SET_LOT", payload: Number(e.target.value) })}
             className={inputCls}
           />
         </div>

@@ -119,11 +119,12 @@ const EditVehicleForm = ({
         <div>
           <label className={labelCls}>Lot</label>
           <input
-            type="text"
+            type="number"
             value={form.lot}
-            placeholder="e.g. LOT-001"
+            placeholder="e.g. 1"
+            min={1}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, lot: e.target.value }))}
+              setForm((prev) => ({ ...prev, lot: Number(e.target.value) }))}
             className={inputCls}
           />
         </div>

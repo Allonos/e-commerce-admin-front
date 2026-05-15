@@ -29,7 +29,7 @@ export function toArray(data: unknown): Category[] {
 export const useVehiclesTableState = (
   // currentPage: number,
   setPage: (page: number) => void,
-  lotValues: string[],
+  lotValues: number[],
 ) => {
   const [filters, setFilters] = useState<VehicleFilterState>({
     lot: [],
@@ -52,7 +52,7 @@ export const useVehiclesTableState = (
   const types = toArray(typesData);
 
   const lotOptions = Array.from(new Set(lotValues)).map((lot) => ({
-    text: lot,
+    text: `LOT-${lot}`,
     value: lot,
   }));
 

@@ -87,7 +87,7 @@ const ProductDetails = (
           </div>
           <div className="flex items-center gap-2">
             <p className="text-[14px] font-medium text[#0A0A0A]">
-              Lot number: {vehicleDetails?.lot}
+              Lot number: LOT-{vehicleDetails?.lot}
             </p>
             <span>-</span>
             <span className="text-[14px] font-bold">
