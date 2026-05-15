@@ -10,7 +10,6 @@ export interface FormState {
   makes: string;
   model: string;
   price: number | undefined;
-  location: string;
   date: string;
   type: string;
   lot: number;
@@ -22,6 +21,7 @@ export interface FormState {
   transmission: Transmission;
   condition: VehicleCondition;
   fuelType: FuelType;
+  cityId: string;
   existingImages: string[];
 }
 
@@ -29,7 +29,6 @@ const EMPTY_FORM: FormState = {
   makes: "",
   model: "",
   price: undefined,
-  location: "",
   date: "",
   type: "",
   lot: 0,
@@ -41,6 +40,7 @@ const EMPTY_FORM: FormState = {
   transmission: "AUTOMATIC",
   condition: "USED",
   fuelType: "GASOLINE",
+  cityId: "",
   existingImages: [],
 };
 
@@ -48,7 +48,6 @@ const vehicleToForm = (vehicle: Vehicle): FormState => ({
   makes: vehicle.make.id,
   model: vehicle.model.id,
   price: vehicle.price,
-  location: vehicle.location,
   date: String(vehicle.year),
   type: vehicle.type.id,
   lot: vehicle.lot,
@@ -60,6 +59,7 @@ const vehicleToForm = (vehicle: Vehicle): FormState => ({
   transmission: vehicle.transmission,
   condition: vehicle.condition,
   fuelType: vehicle.fuelType,
+  cityId: vehicle.city?.id ?? "",
   existingImages: vehicle.images,
 });
 
@@ -89,7 +89,6 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
     form.makes !== originalForm.makes ||
     form.model !== originalForm.model ||
     form.price !== originalForm.price ||
-    form.location !== originalForm.location ||
     form.date !== originalForm.date ||
     form.type !== originalForm.type ||
     form.lot !== originalForm.lot ||
@@ -100,7 +99,8 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
     form.engine !== originalForm.engine ||
     form.transmission !== originalForm.transmission ||
     form.condition !== originalForm.condition ||
-    form.fuelType !== originalForm.fuelType;
+    form.fuelType !== originalForm.fuelType ||
+    form.cityId !== originalForm.cityId;
   const hasImageChanges =
     newImages.length > 0 ||
     form.existingImages.length !== (vehicle?.images.length ?? 0);
@@ -159,7 +159,6 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
         typeId: form.type,
         year: form.date,
         price: Number(form.price),
-        location: form.location,
         lot: form.lot,
         isFeatured: form.isFeatured,
         status: form.status,
@@ -169,6 +168,7 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
         transmission: form.transmission,
         condition: form.condition,
         fuelType: form.fuelType,
+        cityId: form.cityId,
         newImages,
         existingImages: form.existingImages,
       },

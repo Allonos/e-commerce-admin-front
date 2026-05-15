@@ -136,10 +136,18 @@ export function buildVehiclesColumns({
       filteredValue: filters.status,
     },
     {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-      width: 150,
+      title: "Country",
+      key: "country",
+      width: 130,
+      render: (_: unknown, v: { city?: { country?: { name: string } } }) =>
+        v.city?.country?.name ?? "—",
+    },
+    {
+      title: "City",
+      key: "city",
+      width: 130,
+      render: (_: unknown, v: { city?: { name: string } }) =>
+        v.city?.name ?? "—",
     },
     {
       title: "Owner",

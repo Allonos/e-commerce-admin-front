@@ -11,7 +11,6 @@ const AddVehicleForm = ({
   make,
   model,
   price,
-  location,
   date,
   type,
   lot,
@@ -23,6 +22,8 @@ const AddVehicleForm = ({
   transmission,
   condition,
   fuelType,
+  cityId,
+  countryId,
   images,
   previews,
   fileInputRef,
@@ -31,7 +32,10 @@ const AddVehicleForm = ({
   makesOptions,
   modelsOptions,
   typesOptions,
+  countriesOptions,
+  citiesOptions,
   dispatch,
+  onCountryChange,
   handleImageChange,
   removeImage,
   handleClose,
@@ -99,18 +103,6 @@ const AddVehicleForm = ({
             onChange={(e) =>
               dispatch({ type: "SET_PRICE", payload: Number(e.target.value) })}
             placeholder="e.g. 42990"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className={labelCls}>Location</label>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) =>
-              dispatch({ type: "SET_LOCATION", payload: e.target.value })}
-            placeholder="e.g. San Francisco, CA"
             className={inputCls}
           />
         </div>
@@ -243,6 +235,33 @@ const AddVehicleForm = ({
               { label: "Used", value: "USED" },
               { label: "New", value: "NEW" },
             ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Country</label>
+          <Select
+            value={countryId || undefined}
+            onChange={(value) => {
+              onCountryChange(value);
+              dispatch({ type: "SET_CITY_ID", payload: "" });
+            }}
+            options={countriesOptions}
+            placeholder="Select a country"
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>City</label>
+          <Select
+            value={cityId || undefined}
+            onChange={(value) =>
+              dispatch({ type: "SET_CITY_ID", payload: value })}
+            options={citiesOptions}
+            placeholder={countryId ? "Select a city" : "Select a country first"}
+            disabled={!countryId}
             className="w-full add-select"
           />
         </div>

@@ -20,6 +20,10 @@ const EditVehicleForm = ({
   makesOptions,
   modelsOptions,
   typesOptions,
+  countriesOptions,
+  citiesOptions,
+  countryId,
+  onCountryChange,
   handleImageChange,
   removeImage,
   handleClose,
@@ -85,18 +89,6 @@ const EditVehicleForm = ({
             onChange={(e) =>
               setForm((prev) => ({ ...prev, price: Number(e.target.value) }))}
             placeholder="e.g. 42990"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className={labelCls}>Location</label>
-          <input
-            type="text"
-            value={form.location}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, location: e.target.value }))}
-            placeholder="e.g. San Francisco, CA"
             className={inputCls}
           />
         </div>
@@ -226,6 +218,33 @@ const EditVehicleForm = ({
               { label: "Used", value: "USED" },
               { label: "New", value: "NEW" },
             ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Country</label>
+          <Select
+            value={countryId || undefined}
+            onChange={(value) => {
+              onCountryChange(value);
+              setForm((prev) => ({ ...prev, cityId: "" }));
+            }}
+            options={countriesOptions}
+            placeholder="Select a country"
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>City</label>
+          <Select
+            value={form.cityId || undefined}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, cityId: value }))}
+            options={citiesOptions}
+            placeholder={countryId ? "Select a city" : "Select a country first"}
+            disabled={!countryId}
             className="w-full add-select"
           />
         </div>

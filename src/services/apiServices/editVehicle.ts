@@ -12,7 +12,6 @@ interface IProps {
   typeId: string;
   year: string;
   price: number;
-  location: string;
   lot: number;
   isFeatured: boolean;
   status: string;
@@ -22,6 +21,7 @@ interface IProps {
   transmission: Transmission;
   condition: VehicleCondition;
   fuelType: FuelType;
+  cityId: string;
   newImages: File[];
   existingImages: string[];
 }
@@ -33,7 +33,6 @@ export const editVehicle = async ({
   typeId,
   year,
   price,
-  location,
   lot,
   isFeatured,
   status,
@@ -43,6 +42,7 @@ export const editVehicle = async ({
   transmission,
   condition,
   fuelType,
+  cityId,
   newImages,
   existingImages,
 }: IProps) => {
@@ -52,7 +52,6 @@ export const editVehicle = async ({
   formData.append("typeId", typeId);
   formData.append("year", year);
   formData.append("price", price.toString());
-  formData.append("location", location);
   formData.append("lot", lot.toString());
   formData.append("isFeatured", isFeatured.toString());
   formData.append("status", status);
@@ -62,6 +61,7 @@ export const editVehicle = async ({
   formData.append("transmission", transmission);
   formData.append("condition", condition);
   formData.append("fuelType", fuelType);
+  formData.append("cityId", cityId);
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));
 

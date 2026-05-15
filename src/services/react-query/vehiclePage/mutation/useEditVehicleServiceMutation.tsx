@@ -13,7 +13,6 @@ export const useEditVehicleServiceMutation = () => {
       typeId,
       year,
       price,
-      location,
       lot,
       newImages,
       existingImages,
@@ -25,6 +24,7 @@ export const useEditVehicleServiceMutation = () => {
       transmission,
       condition,
       fuelType,
+      cityId,
     }: {
       id: string;
       makeId: string;
@@ -32,8 +32,7 @@ export const useEditVehicleServiceMutation = () => {
       typeId: string;
       year: string;
       price: number;
-      location: string;
-      lot: string;
+      lot: number;
       newImages: File[];
       existingImages: string[];
       isFeatured: boolean;
@@ -44,6 +43,7 @@ export const useEditVehicleServiceMutation = () => {
       transmission: Transmission;
       condition: VehicleCondition;
       fuelType: FuelType;
+      cityId: string;
     }) =>
       editVehicle({
         id,
@@ -52,7 +52,6 @@ export const useEditVehicleServiceMutation = () => {
         typeId,
         year,
         price,
-        location,
         lot,
         newImages,
         existingImages,
@@ -64,6 +63,7 @@ export const useEditVehicleServiceMutation = () => {
         transmission,
         condition,
         fuelType,
+        cityId,
       }),
     onSuccess: (data: { vehicle: Vehicle }) => {
       const updatedVehicle = data.vehicle;

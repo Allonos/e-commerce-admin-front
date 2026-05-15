@@ -11,7 +11,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const { data: vehicles, isLoading } = useGetAdminsVehiclesServiceQuery(
+  const { data: vehicles, isLoading, isFetching } = useGetAdminsVehiclesServiceQuery(
     page,
     pageSize,
   );
@@ -45,6 +45,7 @@ const HomePage = () => {
         : (
           <AllVehicles
             vehicles={vehicles}
+            isFetching={isFetching}
             setVehicleToDelete={setVehicleToDelete}
             page={page}
             setPage={setPage}

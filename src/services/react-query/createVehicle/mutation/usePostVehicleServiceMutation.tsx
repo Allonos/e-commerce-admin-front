@@ -7,9 +7,8 @@ interface IProps {
   images: File[];
   modelId: string;
   price: number;
-  location: string;
   typeId: string;
-  lot: string;
+  lot: number;
   year: string;
   isFeatured: boolean;
   status: string;
@@ -19,6 +18,7 @@ interface IProps {
   transmission: Transmission;
   condition: VehicleCondition;
   fuelType: FuelType;
+  cityId: string;
 }
 
 export const usePostVehicleServiceMutation = () => {
@@ -32,7 +32,6 @@ export const usePostVehicleServiceMutation = () => {
         modelId,
         year,
         price,
-        location,
         typeId,
         lot,
         isFeatured,
@@ -43,6 +42,7 @@ export const usePostVehicleServiceMutation = () => {
         transmission,
         condition,
         fuelType,
+        cityId,
       }: IProps,
     ) =>
       postVehicle({
@@ -51,7 +51,6 @@ export const usePostVehicleServiceMutation = () => {
         modelId,
         year,
         price,
-        location,
         typeId,
         lot,
         isFeatured,
@@ -62,6 +61,7 @@ export const usePostVehicleServiceMutation = () => {
         transmission,
         condition,
         fuelType,
+        cityId,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });

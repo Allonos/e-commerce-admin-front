@@ -12,7 +12,6 @@ export interface AddVehicleFormProps {
   make: string;
   model: string;
   price: number | undefined;
-  location: string;
   date: string;
   type: string;
   lot: number;
@@ -24,6 +23,8 @@ export interface AddVehicleFormProps {
   transmission: Transmission;
   condition: VehicleCondition;
   fuelType: FuelType;
+  cityId: string;
+  countryId: string;
   images: File[];
   previews: string[];
   fileInputRef: React.RefObject<HTMLInputElement | null>;
@@ -32,7 +33,10 @@ export interface AddVehicleFormProps {
   makesOptions: SelectOption[];
   modelsOptions: SelectOption[];
   typesOptions: SelectOption[];
+  countriesOptions: SelectOption[];
+  citiesOptions: SelectOption[];
   dispatch: React.Dispatch<Action>;
+  onCountryChange: (id: string) => void;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeImage: (index: number) => void;
   handleClose: () => void;
@@ -52,6 +56,10 @@ export interface EditVehicleFormProps {
   makesOptions: SelectOption[];
   modelsOptions: SelectOption[];
   typesOptions: SelectOption[];
+  countriesOptions: SelectOption[];
+  citiesOptions: SelectOption[];
+  countryId: string;
+  onCountryChange: (id: string) => void;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeImage: (index: number) => void;
   handleClose: () => void;

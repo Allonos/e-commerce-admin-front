@@ -8,6 +8,7 @@ import { buildVehiclesColumns } from "./vehiclesColumns";
 
 interface IProps {
   vehicles: VehicleResponse | undefined;
+  isFetching: boolean;
   setVehicleToDelete: (id: string | null) => void;
   page: number;
   setPage: (page: number) => void;
@@ -16,7 +17,7 @@ interface IProps {
 }
 
 const AllVehicles = (
-  { vehicles, setVehicleToDelete, page, setPage, pageSize, setPageSize }:
+  { vehicles, isFetching, setVehicleToDelete, page, setPage, pageSize, setPageSize }:
     IProps,
 ) => {
   const { authUser } = useAuthStore();
@@ -58,6 +59,7 @@ const AllVehicles = (
         dataSource={vehicles?.vehicles}
         columns={columns}
         rowKey="id"
+        loading={isFetching}
         scroll={{ x: "max-content", y: 700 }}
         onChange={handleTableChange}
         pagination={{

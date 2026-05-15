@@ -15,7 +15,6 @@ export interface Vehicle {
   createdAt: string;
   id: string;
   images: string[];
-  location: string;
   modelId: string;
   price: number;
   year: number;
@@ -34,6 +33,14 @@ export interface Vehicle {
   type: {
     id: string;
     name: string;
+  };
+  city?: {
+    id: string;
+    name: string;
+    country: {
+      id: string;
+      name: string;
+    };
   };
   lot: number;
   status: VehicleStatus;
