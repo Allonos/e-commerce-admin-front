@@ -1,4 +1,9 @@
 import api from "../api/api";
+import type {
+  FuelType,
+  Transmission,
+  VehicleCondition,
+} from "../../utils/types/vehicleTypes";
 
 interface IProps {
   id: string;
@@ -7,11 +12,16 @@ interface IProps {
   typeId: string;
   year: string;
   price: number;
-  location: string;
-  lot: string;
+  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
+  cityId: string;
   newImages: File[];
   existingImages: string[];
 }
@@ -23,11 +33,16 @@ export const editVehicle = async ({
   typeId,
   year,
   price,
-  location,
   lot,
   isFeatured,
   status,
   priority,
+  mileage,
+  engine,
+  transmission,
+  condition,
+  fuelType,
+  cityId,
   newImages,
   existingImages,
 }: IProps) => {
@@ -37,11 +52,16 @@ export const editVehicle = async ({
   formData.append("typeId", typeId);
   formData.append("year", year);
   formData.append("price", price.toString());
-  formData.append("location", location);
-  formData.append("lot", lot);
+  formData.append("lot", lot.toString());
   formData.append("isFeatured", isFeatured.toString());
   formData.append("status", status);
   formData.append("priority", priority.toString());
+  formData.append("mileage", mileage.toString());
+  formData.append("engine", engine.toString());
+  formData.append("transmission", transmission);
+  formData.append("condition", condition);
+  formData.append("fuelType", fuelType);
+  formData.append("cityId", cityId);
   existingImages.forEach((url) => formData.append("existingImages", url));
   newImages.forEach((image) => formData.append("images", image));
 

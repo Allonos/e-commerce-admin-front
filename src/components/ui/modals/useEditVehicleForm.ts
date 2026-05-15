@@ -4,17 +4,24 @@ import toast from "react-hot-toast";
 import { useEditVehicleServiceMutation } from "../../../services/react-query/vehiclePage/mutation/useEditVehicleServiceMutation";
 import type { Vehicle } from "../../../utils/types/vehicleTypes";
 
+import type { FuelType, Transmission, VehicleCondition } from "../../../utils/types/vehicleTypes";
+
 export interface FormState {
   makes: string;
   model: string;
   price: number | undefined;
-  location: string;
   date: string;
   type: string;
-  lot: string;
+  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
+  cityId: string;
   existingImages: string[];
 }
 
@@ -22,13 +29,18 @@ const EMPTY_FORM: FormState = {
   makes: "",
   model: "",
   price: undefined,
-  location: "",
   date: "",
   type: "",
-  lot: "",
+  lot: 0,
   isFeatured: false,
   status: "active",
   priority: 0,
+  mileage: 0,
+  engine: 0,
+  transmission: "AUTOMATIC",
+  condition: "USED",
+  fuelType: "GASOLINE",
+  cityId: "",
   existingImages: [],
 };
 
@@ -36,13 +48,18 @@ const vehicleToForm = (vehicle: Vehicle): FormState => ({
   makes: vehicle.make.id,
   model: vehicle.model.id,
   price: vehicle.price,
-  location: vehicle.location,
   date: String(vehicle.year),
   type: vehicle.type.id,
   lot: vehicle.lot,
   isFeatured: vehicle.isFeatured,
   status: vehicle.status,
   priority: vehicle.priority,
+  mileage: vehicle.mileage,
+  engine: vehicle.engine,
+  transmission: vehicle.transmission,
+  condition: vehicle.condition,
+  fuelType: vehicle.fuelType,
+  cityId: vehicle.city?.id ?? "",
   existingImages: vehicle.images,
 });
 
@@ -72,13 +89,18 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
     form.makes !== originalForm.makes ||
     form.model !== originalForm.model ||
     form.price !== originalForm.price ||
-    form.location !== originalForm.location ||
     form.date !== originalForm.date ||
     form.type !== originalForm.type ||
     form.lot !== originalForm.lot ||
     form.isFeatured !== originalForm.isFeatured ||
     form.status !== originalForm.status ||
-    form.priority !== originalForm.priority;
+    form.priority !== originalForm.priority ||
+    form.mileage !== originalForm.mileage ||
+    form.engine !== originalForm.engine ||
+    form.transmission !== originalForm.transmission ||
+    form.condition !== originalForm.condition ||
+    form.fuelType !== originalForm.fuelType ||
+    form.cityId !== originalForm.cityId;
   const hasImageChanges =
     newImages.length > 0 ||
     form.existingImages.length !== (vehicle?.images.length ?? 0);
@@ -137,11 +159,16 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
         typeId: form.type,
         year: form.date,
         price: Number(form.price),
-        location: form.location,
         lot: form.lot,
         isFeatured: form.isFeatured,
         status: form.status,
         priority: form.priority,
+        mileage: form.mileage,
+        engine: form.engine,
+        transmission: form.transmission,
+        condition: form.condition,
+        fuelType: form.fuelType,
+        cityId: form.cityId,
         newImages,
         existingImages: form.existingImages,
       },
@@ -151,9 +178,8 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
           handleClose();
         },
         onError: (error: unknown) => {
-          const message = (
-            error as { response?: { data?: { error?: string } } }
-          )?.response?.data?.error;
+          const data = (error as { response?: { data?: Record<string, string> } })?.response?.data;
+          const message = data?.error ?? data?.message;
           toast.error(message ?? "Something went wrong.");
         },
       },

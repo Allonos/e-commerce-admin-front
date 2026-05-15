@@ -1,18 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postVehicle } from "../../../apiServices/postVehicle";
+import type { FuelType, Transmission, VehicleCondition } from "../../../../utils/types/vehicleTypes";
 
 interface IProps {
   makeId: string;
   images: File[];
   modelId: string;
   price: number;
-  location: string;
   typeId: string;
-  lot: string;
+  lot: number;
   year: string;
   isFeatured: boolean;
   status: string;
   priority: number;
+  mileage: number;
+  engine: number;
+  transmission: Transmission;
+  condition: VehicleCondition;
+  fuelType: FuelType;
+  cityId: string;
 }
 
 export const usePostVehicleServiceMutation = () => {
@@ -26,12 +32,17 @@ export const usePostVehicleServiceMutation = () => {
         modelId,
         year,
         price,
-        location,
         typeId,
         lot,
         isFeatured,
         status,
         priority,
+        mileage,
+        engine,
+        transmission,
+        condition,
+        fuelType,
+        cityId,
       }: IProps,
     ) =>
       postVehicle({
@@ -40,12 +51,17 @@ export const usePostVehicleServiceMutation = () => {
         modelId,
         year,
         price,
-        location,
         typeId,
         lot,
         isFeatured,
         status,
         priority,
+        mileage,
+        engine,
+        transmission,
+        condition,
+        fuelType,
+        cityId,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminsVehicles"] });

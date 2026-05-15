@@ -87,7 +87,7 @@ const ProductDetails = (
           </div>
           <div className="flex items-center gap-2">
             <p className="text-[14px] font-medium text[#0A0A0A]">
-              Lot number: {vehicleDetails?.lot}
+              Lot number: LOT-{vehicleDetails?.lot}
             </p>
             <span>-</span>
             <span className="text-[14px] font-bold">
@@ -111,8 +111,8 @@ const ProductDetails = (
             <div className="bg-[#ECECF0] w-full rounded-lg px-4 py-2 flex items-center gap-2">
               <MapPin width={25} height={25} color="#717182" />
               <div>
-                <span className="text-[14px] text-[#717182]">Location</span>
-                <h3 className="text-[16px]">{vehicleDetails?.location}</h3>
+                <span className="text-[14px] text-[#717182]">City</span>
+                <h3 className="text-[16px]">{vehicleDetails?.city?.name ?? "—"}</h3>
               </div>
             </div>
             <div className="bg-[#ECECF0] w-full rounded-lg px-4 py-2 flex items-center gap-2">

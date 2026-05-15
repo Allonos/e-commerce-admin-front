@@ -20,6 +20,10 @@ const EditVehicleForm = ({
   makesOptions,
   modelsOptions,
   typesOptions,
+  countriesOptions,
+  citiesOptions,
+  countryId,
+  onCountryChange,
   handleImageChange,
   removeImage,
   handleClose,
@@ -90,18 +94,6 @@ const EditVehicleForm = ({
         </div>
 
         <div>
-          <label className={labelCls}>Location</label>
-          <input
-            type="text"
-            value={form.location}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, location: e.target.value }))}
-            placeholder="e.g. San Francisco, CA"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
           <label className={labelCls}>Date</label>
           <input
             type="text"
@@ -119,11 +111,12 @@ const EditVehicleForm = ({
         <div>
           <label className={labelCls}>Lot</label>
           <input
-            type="text"
+            type="number"
             value={form.lot}
-            placeholder="e.g. LOT-001"
+            placeholder="e.g. 1"
+            min={1}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, lot: e.target.value }))}
+              setForm((prev) => ({ ...prev, lot: Number(e.target.value) }))}
             className={inputCls}
           />
         </div>
@@ -135,7 +128,10 @@ const EditVehicleForm = ({
             value={form.priority}
             min={0}
             onChange={(e) =>
-              setForm((prev) => ({ ...prev, priority: Number(e.target.value) }))}
+              setForm((prev) => ({
+                ...prev,
+                priority: Number(e.target.value),
+              }))}
             placeholder="e.g. 0"
             className={inputCls}
           />
@@ -164,6 +160,110 @@ const EditVehicleForm = ({
             options={[
               { label: "Active", value: "active" },
               { label: "Inactive", value: "inactive" },
+              { label: "Sold", value: "sold" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Mileage (km)</label>
+          <input
+            type="number"
+            value={form.mileage}
+            min={0}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, mileage: Number(e.target.value) }))}
+            placeholder="e.g. 50000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Engine (cc)</label>
+          <input
+            type="number"
+            value={form.engine}
+            min={0}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, engine: Number(e.target.value) }))}
+            placeholder="e.g. 2000"
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Transmission</label>
+          <Select
+            value={form.transmission}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, transmission: value }))}
+            options={[
+              { label: "Automatic", value: "AUTOMATIC" },
+              { label: "Manual", value: "MANUAL" },
+              { label: "Semi-Automatic", value: "SEMI_AUTOMATIC" },
+              { label: "CVT", value: "CVT" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Condition</label>
+          <Select
+            value={form.condition}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, condition: value }))}
+            options={[
+              { label: "Used", value: "USED" },
+              { label: "New", value: "NEW" },
+            ]}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Country</label>
+          <Select
+            value={countryId || undefined}
+            onChange={(value) => {
+              onCountryChange(value);
+              setForm((prev) => ({ ...prev, cityId: "" }));
+            }}
+            options={countriesOptions}
+            placeholder="Select a country"
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>City</label>
+          <Select
+            value={form.cityId || undefined}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, cityId: value }))}
+            options={citiesOptions}
+            placeholder={countryId ? "Select a city" : "Select a country first"}
+            disabled={!countryId}
+            className="w-full add-select"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Fuel Type</label>
+          <Select
+            value={form.fuelType}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, fuelType: value }))}
+            options={[
+              { label: "Gasoline", value: "GASOLINE" },
+              { label: "Diesel", value: "DIESEL" },
+              { label: "Electric", value: "ELECTRIC" },
+              { label: "Hybrid", value: "HYBRID" },
+              { label: "Plug-in Hybrid", value: "PLUG_IN_HYBRID" },
+              { label: "LPG", value: "LPG" },
+              { label: "CNG", value: "CNG" },
+              { label: "Hydrogen", value: "HYDROGEN" },
             ]}
             className="w-full add-select"
           />

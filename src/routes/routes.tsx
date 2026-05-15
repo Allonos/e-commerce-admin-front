@@ -13,6 +13,7 @@ import AddVehiclePage from "../pages/AddVehiclePage";
 import EditVehiclePage from "../pages/EditVehiclePage";
 import CategoriesPage from "../pages/CategoriesPage";
 import FeaturedVehiclesPage from "../pages/FeaturedVehiclesPage";
+import LocationsPage from "../pages/LocationsPage";
 
 export default [
   {
@@ -37,6 +38,10 @@ export default [
               { path: "/product/:id", element: <ProductDetailPage /> },
               { path: "/inventory/categories", element: <CategoriesPage /> },
               { path: "/featured", element: <FeaturedVehiclesPage /> },
+              {
+                path: "/inventory/locations",
+                element: <LocationsPage />,
+              },
             ],
           },
         ],

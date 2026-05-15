@@ -15,6 +15,7 @@ const inventoryLinks = [
   { label: "All Vehicles", to: "/" },
   { label: "Featured / Hero Vehicles / Popular Vehicles", to: "/featured" },
   { label: "Makes & Models & Types", to: "/inventory/categories" },
+  { label: "Countries and Cities", to: "/inventory/locations" },
 ];
 
 const usersLinks = [

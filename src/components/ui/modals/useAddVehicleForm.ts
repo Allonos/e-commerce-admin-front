@@ -15,13 +15,18 @@ export const useAddVehicleForm = (onClose: () => void) => {
     make,
     model,
     price,
-    location,
     date,
     type,
     lot,
     isFeatured,
     status,
     priority,
+    mileage,
+    engine,
+    transmission,
+    condition,
+    fuelType,
+    cityId,
     images,
     previews,
   } = state;
@@ -59,7 +64,7 @@ export const useAddVehicleForm = (onClose: () => void) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!model || !price || !location || !date || !type || !lot) {
+    if (!model || !price || !date || !type || !lot) {
       toast.error("All fields are required.");
       return;
     }
@@ -78,12 +83,17 @@ export const useAddVehicleForm = (onClose: () => void) => {
         modelId: model,
         year: date,
         price: Number(price),
-        location,
         typeId: type,
         lot,
         isFeatured,
         status,
         priority,
+        mileage,
+        engine,
+        transmission,
+        condition,
+        fuelType,
+        cityId,
       },
       {
         onSuccess: () => {
@@ -91,9 +101,8 @@ export const useAddVehicleForm = (onClose: () => void) => {
           handleClose();
         },
         onError: (error: unknown) => {
-          const message = (
-            error as { response?: { data?: { error?: string } } }
-          )?.response?.data?.error;
+          const data = (error as { response?: { data?: Record<string, string> } })?.response?.data;
+          const message = data?.error ?? data?.message;
           toast.error(message ?? "Something went wrong.");
         },
       },
