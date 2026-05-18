@@ -12,7 +12,6 @@ interface IProps {
   typeId: string;
   year: string;
   price: number;
-  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
@@ -33,7 +32,6 @@ export const editVehicle = async ({
   typeId,
   year,
   price,
-  lot,
   isFeatured,
   status,
   priority,
@@ -52,7 +50,6 @@ export const editVehicle = async ({
   formData.append("typeId", typeId);
   formData.append("year", year);
   formData.append("price", price.toString());
-  formData.append("lot", lot.toString());
   formData.append("isFeatured", isFeatured.toString());
   formData.append("status", status);
   formData.append("priority", priority.toString());

@@ -109,19 +109,6 @@ const EditVehicleForm = ({
         </div>
 
         <div>
-          <label className={labelCls}>Lot</label>
-          <input
-            type="number"
-            value={form.lot}
-            placeholder="e.g. 1"
-            min={1}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, lot: Number(e.target.value) }))}
-            className={inputCls}
-          />
-        </div>
-
-        <div>
           <label className={labelCls}>Priority</label>
           <input
             type="number"

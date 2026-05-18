@@ -17,7 +17,6 @@ export const useAddVehicleForm = (onClose: () => void) => {
     price,
     date,
     type,
-    lot,
     isFeatured,
     status,
     priority,
@@ -64,7 +63,7 @@ export const useAddVehicleForm = (onClose: () => void) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!model || !price || !date || !type || !lot) {
+    if (!model || !price || !date || !type) {
       toast.error("All fields are required.");
       return;
     }
@@ -84,7 +83,6 @@ export const useAddVehicleForm = (onClose: () => void) => {
         year: date,
         price: Number(price),
         typeId: type,
-        lot,
         isFeatured,
         status,
         priority,

@@ -13,7 +13,6 @@ const AddVehicleForm = ({
   price,
   date,
   type,
-  lot,
   isFeatured,
   status,
   priority,
@@ -120,19 +119,6 @@ const AddVehicleForm = ({
           {formattedDate && (
             <p className="text-xs text-gray-400 mt-1">{formattedDate}</p>
           )}
-        </div>
-
-        <div>
-          <label className={labelCls}>Lot</label>
-          <input
-            type="number"
-            value={lot}
-            placeholder="e.g. 1"
-            min={1}
-            onChange={(e) =>
-              dispatch({ type: "SET_LOT", payload: Number(e.target.value) })}
-            className={inputCls}
-          />
         </div>
 
         <div>

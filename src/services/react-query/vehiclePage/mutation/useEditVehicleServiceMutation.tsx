@@ -13,7 +13,6 @@ export const useEditVehicleServiceMutation = () => {
       typeId,
       year,
       price,
-      lot,
       newImages,
       existingImages,
       isFeatured,
@@ -32,7 +31,6 @@ export const useEditVehicleServiceMutation = () => {
       typeId: string;
       year: string;
       price: number;
-      lot: number;
       newImages: File[];
       existingImages: string[];
       isFeatured: boolean;
@@ -52,7 +50,6 @@ export const useEditVehicleServiceMutation = () => {
         typeId,
         year,
         price,
-        lot,
         newImages,
         existingImages,
         isFeatured,

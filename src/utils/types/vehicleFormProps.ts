@@ -14,7 +14,6 @@ export interface AddVehicleFormProps {
   price: number | undefined;
   date: string;
   type: string;
-  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
