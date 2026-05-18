@@ -42,7 +42,6 @@ const AddVehiclePage = () => {
       price,
       date,
       type,
-      lot,
       isFeatured,
       status,
       priority,
@@ -119,7 +118,6 @@ const AddVehiclePage = () => {
       price={price}
       date={date}
       type={type}
-      lot={lot}
       isFeatured={isFeatured}
       status={status}
       priority={priority}

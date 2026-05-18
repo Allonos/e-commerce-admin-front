@@ -1,60 +1,24 @@
 import { useState } from "react";
 import type { TableProps } from "antd";
 import type { Vehicle } from "../../../utils/types/vehicleTypes";
-import { useGetMakesServiceQuery } from "../../../services/react-query/vehicleCategories/query/useGetMakesServiceQuery";
-import { useGetModelsServiceQuery } from "../../../services/react-query/vehicleCategories/query/useGetModelsServiceQuery";
-import { useGetTypesServiceQuery } from "../../../services/react-query/vehicleCategories/query/useGetTypesServiceQuery";
-
-export type Category = { id: string; name: string; makeId?: string };
+import type { VehicleQueryParams } from "../../../services/apiServices/getAdminsVehicles";
 
 export interface VehicleFilterState {
-  lot: string[];
-  make: string[];
-  model: string[];
-  type: string[];
   status: string[];
-  featured: string[];
-  transmission: string[];
-  condition: string[];
-  fuelType: string[];
 }
 
-export function toArray(data: unknown): Category[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data as Category[];
-  const wrapped = data as Record<string, Category[]>;
-  return wrapped[Object.keys(wrapped)[0]] ?? [];
-}
+export type VehicleSortParams = Pick<
+  VehicleQueryParams,
+  "sortBy" | "sortOrder"
+>;
 
 export const useVehiclesTableState = (
-  // currentPage: number,
   setPage: (page: number) => void,
-  lotValues: number[],
+  onSortChange: (sort: VehicleSortParams) => void,
 ) => {
   const [filters, setFilters] = useState<VehicleFilterState>({
-    lot: [],
-    make: [],
-    model: [],
-    type: [],
     status: [],
-    featured: [],
-    transmission: [],
-    condition: [],
-    fuelType: [],
   });
-
-  const { data: makesData } = useGetMakesServiceQuery();
-  const { data: modelsData } = useGetModelsServiceQuery();
-  const { data: typesData } = useGetTypesServiceQuery();
-
-  const makes = toArray(makesData);
-  const models = toArray(modelsData);
-  const types = toArray(typesData);
-
-  const lotOptions = Array.from(new Set(lotValues)).map((lot) => ({
-    text: `LOT-${lot}`,
-    value: lot,
-  }));
 
   const handleTableChange: TableProps<Vehicle>["onChange"] = (
     pagination,
@@ -64,30 +28,23 @@ export const useVehiclesTableState = (
     if (pagination.current) setPage(pagination.current);
 
     setFilters({
-      lot: (rawFilters.lot as string[]) ?? [],
-      make: (rawFilters.make as string[]) ?? [],
-      model: (rawFilters.model as string[]) ?? [],
-      type: (rawFilters.type as string[]) ?? [],
       status: (rawFilters.status as string[]) ?? [],
-      featured: (rawFilters.isFeatured as string[]) ?? [],
-      transmission: (rawFilters.transmission as string[]) ?? [],
-      condition: (rawFilters.condition as string[]) ?? [],
-      fuelType: (rawFilters.fuelType as string[]) ?? [],
     });
 
     if (!Array.isArray(sorter)) {
-      const _sortField = sorter.columnKey;
-      const _sortOrder = sorter.order;
-      void _sortField;
-      void _sortOrder;
+      const { columnKey, order } = sorter;
+      if (!order) {
+        onSortChange({});
+      } else {
+        onSortChange({
+          sortBy: columnKey as string,
+          sortOrder: order === "ascend" ? "asc" : "desc",
+        });
+      }
     }
   };
 
   return {
-    makes,
-    models,
-    types,
-    lotOptions,
     filters,
     handleTableChange,
   };

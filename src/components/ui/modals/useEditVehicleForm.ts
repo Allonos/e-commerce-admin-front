@@ -12,7 +12,6 @@ export interface FormState {
   price: number | undefined;
   date: string;
   type: string;
-  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
@@ -31,7 +30,6 @@ const EMPTY_FORM: FormState = {
   price: undefined,
   date: "",
   type: "",
-  lot: 0,
   isFeatured: false,
   status: "active",
   priority: 0,
@@ -50,7 +48,6 @@ const vehicleToForm = (vehicle: Vehicle): FormState => ({
   price: vehicle.price,
   date: String(vehicle.year),
   type: vehicle.type.id,
-  lot: vehicle.lot,
   isFeatured: vehicle.isFeatured,
   status: vehicle.status,
   priority: vehicle.priority,
@@ -91,7 +88,6 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
     form.price !== originalForm.price ||
     form.date !== originalForm.date ||
     form.type !== originalForm.type ||
-    form.lot !== originalForm.lot ||
     form.isFeatured !== originalForm.isFeatured ||
     form.status !== originalForm.status ||
     form.priority !== originalForm.priority ||
@@ -159,7 +155,6 @@ export const useEditVehicleForm = (vehicle: Vehicle | null, onClose: () => void)
         typeId: form.type,
         year: form.date,
         price: Number(form.price),
-        lot: form.lot,
         isFeatured: form.isFeatured,
         status: form.status,
         priority: form.priority,

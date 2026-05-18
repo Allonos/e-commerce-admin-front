@@ -10,7 +10,6 @@ export type Action =
   | { type: "SET_PRICE"; payload: number }
   | { type: "SET_DATE"; payload: string }
   | { type: "SET_TYPE"; payload: string }
-  | { type: "SET_LOT"; payload: number }
   | { type: "SET_IS_FEATURED"; payload: boolean }
   | { type: "SET_STATUS"; payload: string }
   | { type: "SET_PRIORITY"; payload: number }
@@ -30,7 +29,6 @@ export type State = {
   price: number | undefined;
   date: string;
   type: string;
-  lot: number;
   isFeatured: boolean;
   status: string;
   priority: number;
@@ -50,7 +48,6 @@ export const initialState: State = {
   price: undefined,
   date: "",
   type: "",
-  lot: 0,
   isFeatured: false,
   status: "active",
   priority: 0,
@@ -76,8 +73,6 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, date: action.payload };
     case "SET_TYPE":
       return { ...state, type: action.payload };
-    case "SET_LOT":
-      return { ...state, lot: action.payload };
     case "SET_IS_FEATURED":
       return { ...state, isFeatured: action.payload };
     case "SET_STATUS":

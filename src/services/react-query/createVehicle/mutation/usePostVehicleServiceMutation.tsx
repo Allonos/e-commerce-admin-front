@@ -8,7 +8,6 @@ interface IProps {
   modelId: string;
   price: number;
   typeId: string;
-  lot: number;
   year: string;
   isFeatured: boolean;
   status: string;
@@ -33,7 +32,6 @@ export const usePostVehicleServiceMutation = () => {
         year,
         price,
         typeId,
-        lot,
         isFeatured,
         status,
         priority,
@@ -52,7 +50,6 @@ export const usePostVehicleServiceMutation = () => {
         year,
         price,
         typeId,
-        lot,
         isFeatured,
         status,
         priority,
