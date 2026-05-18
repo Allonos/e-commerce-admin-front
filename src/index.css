@@ -53,3 +53,17 @@
   gap: 1rem;
   align-items: center;
 }
+
+.expanded-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 1366px) {
+  .expanded-filters {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+}

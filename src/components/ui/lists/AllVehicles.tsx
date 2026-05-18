@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "../../../store/useAuthStore";
 import type { VehicleResponse } from "../../../utils/types/vehicleTypes";
 import { useVehiclesTableState } from "./useVehiclesTableState";
+import type { VehicleSortParams } from "./useVehiclesTableState";
 import { buildVehiclesColumns } from "./vehiclesColumns";
 
 interface IProps {
@@ -14,6 +15,7 @@ interface IProps {
   setPage: (page: number) => void;
   pageSize: number;
   setPageSize: (size: number) => void;
+  onSortChange: (sort: VehicleSortParams) => void;
 }
 
 const AllVehicles = (
@@ -25,12 +27,13 @@ const AllVehicles = (
     setPage,
     pageSize,
     setPageSize,
+    onSortChange,
   }: IProps,
 ) => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate();
 
-  const { filters, handleTableChange } = useVehiclesTableState(setPage);
+  const { filters, handleTableChange } = useVehiclesTableState(setPage, onSortChange);
   // useVehiclesTableState(page, setPage, lotValues);
 
   const columns = useMemo(

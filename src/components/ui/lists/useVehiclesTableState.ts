@@ -1,12 +1,21 @@
 import { useState } from "react";
 import type { TableProps } from "antd";
 import type { Vehicle } from "../../../utils/types/vehicleTypes";
+import type { VehicleQueryParams } from "../../../services/apiServices/getAdminsVehicles";
 
 export interface VehicleFilterState {
   status: string[];
 }
 
-export const useVehiclesTableState = (setPage: (page: number) => void) => {
+export type VehicleSortParams = Pick<
+  VehicleQueryParams,
+  "sortBy" | "sortOrder"
+>;
+
+export const useVehiclesTableState = (
+  setPage: (page: number) => void,
+  onSortChange: (sort: VehicleSortParams) => void,
+) => {
   const [filters, setFilters] = useState<VehicleFilterState>({
     status: [],
   });
@@ -23,10 +32,15 @@ export const useVehiclesTableState = (setPage: (page: number) => void) => {
     });
 
     if (!Array.isArray(sorter)) {
-      const _sortField = sorter.columnKey;
-      const _sortOrder = sorter.order;
-      void _sortField;
-      void _sortOrder;
+      const { columnKey, order } = sorter;
+      if (!order) {
+        onSortChange({});
+      } else {
+        onSortChange({
+          sortBy: columnKey as string,
+          sortOrder: order === "ascend" ? "asc" : "desc",
+        });
+      }
     }
   };
 

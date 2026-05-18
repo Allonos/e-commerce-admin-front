@@ -13,7 +13,6 @@ interface BuildColumnsParams {
 }
 
 export function buildVehiclesColumns({
-  filters,
   authUserId,
   onEdit,
   onDelete,
@@ -24,7 +23,8 @@ export function buildVehiclesColumns({
       dataIndex: "lot",
       key: "lot",
       fixed: "left",
-      width: 110,
+      width: 120,
+      sorter: true,
       render: (val: number) => `LOT-${val}`,
     },
     {
@@ -96,13 +96,6 @@ export function buildVehiclesColumns({
           {status}
         </Tag>
       ),
-      filters: [
-        { text: "Active", value: "active" },
-        { text: "Inactive", value: "inactive" },
-        { text: "Sold", value: "sold" },
-      ],
-      filterMode: "tree",
-      filteredValue: filters.status,
     },
     {
       title: "Country",
