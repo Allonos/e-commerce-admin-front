@@ -22,8 +22,6 @@ const HomePage = () => {
   const { mutate: deleteVehicleMutate, isPending } =
     useDeleteVehicleServiceMutation();
 
-  const noVehicles = vehicles?.vehicles.length === 0;
-
   const handleConfirmDelete = (id: string) => {
     deleteVehicleMutate(id, {
       onSettled: () => setVehicleToDelete(null),
@@ -60,30 +58,20 @@ const HomePage = () => {
     <>
       <HomePageHeader />
       <VehicleFilters onSearch={handleSearch} onReset={handleReset} />
-      {noVehicles
-        ? (
-          <div className="flex flex-col items-center justify-center gap-4 py-20">
-            <h2 className="text-xl font-semibold">No vehicles found</h2>
-            <p className="text-gray-500">
-              Please add a vehicle to get started.
-            </p>
-          </div>
-        )
-        : (
-          <AllVehicles
-            vehicles={vehicles}
-            isFetching={isFetching}
-            setVehicleToDelete={setVehicleToDelete}
-            page={page}
-            setPage={setPage}
-            pageSize={pageSize}
-            setPageSize={(size) => {
-              setPageSize(size);
-              setPage(1);
-            }}
-            onSortChange={handleSortChange}
-          />
-        )}
+
+      <AllVehicles
+        vehicles={vehicles}
+        isFetching={isFetching}
+        setVehicleToDelete={setVehicleToDelete}
+        page={page}
+        setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={(size) => {
+          setPageSize(size);
+          setPage(1);
+        }}
+        onSortChange={handleSortChange}
+      />
       <DeleteModal
         title="this vehicle"
         id={vehicleToDelete ?? ""}
