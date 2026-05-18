@@ -17,35 +17,31 @@ interface IProps {
 }
 
 const AllVehicles = (
-  { vehicles, isFetching, setVehicleToDelete, page, setPage, pageSize, setPageSize }:
-    IProps,
+  {
+    vehicles,
+    isFetching,
+    setVehicleToDelete,
+    page,
+    setPage,
+    pageSize,
+    setPageSize,
+  }: IProps,
 ) => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate();
 
-  const lotValues = vehicles?.vehicles.map((v) => v.lot) ?? [];
-
-  const { makes, models, types, lotOptions, filters, handleTableChange } =
-    useVehiclesTableState(setPage, lotValues);
+  const { filters, handleTableChange } = useVehiclesTableState(setPage);
   // useVehiclesTableState(page, setPage, lotValues);
 
   const columns = useMemo(
     () =>
       buildVehiclesColumns({
-        lotOptions,
-        makes,
-        models,
-        types,
         filters,
         authUserId: authUser?.id,
         onEdit: (id) => navigate(`/vehicles/edit/${id}`),
         onDelete: setVehicleToDelete,
       }),
     [
-      lotOptions,
-      makes,
-      models,
-      types,
       filters,
       authUser?.id,
       navigate,
@@ -69,8 +65,7 @@ const AllVehicles = (
           showSizeChanger: true,
           pageSizeOptions: [10, 50, 100, 1000, 5000],
           onShowSizeChange: (_current, size) => setPageSize(size),
-          showTotal: (total) =>
-            `${total} vehicle${total === 1 ? "" : "s"}`,
+          showTotal: (total) => `${total} vehicle${total === 1 ? "" : "s"}`,
         }}
         style={{ textTransform: "capitalize" }}
         size="middle"

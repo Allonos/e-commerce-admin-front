@@ -3,13 +3,9 @@ import type { TableColumnsType } from "antd";
 import { Pencil, Trash } from "lucide-react";
 import { Link } from "react-router";
 import type { Vehicle } from "../../../utils/types/vehicleTypes";
-import type { Category, VehicleFilterState } from "./useVehiclesTableState";
+import type { VehicleFilterState } from "./useVehiclesTableState";
 
 interface BuildColumnsParams {
-  lotOptions: { text: string; value: number }[];
-  makes: Category[];
-  models: Category[];
-  types: Category[];
   filters: VehicleFilterState;
   authUserId: string | undefined;
   onEdit: (id: string) => void;
@@ -17,10 +13,6 @@ interface BuildColumnsParams {
 }
 
 export function buildVehiclesColumns({
-  lotOptions,
-  makes,
-  models,
-  types,
   filters,
   authUserId,
   onEdit,
@@ -28,15 +20,11 @@ export function buildVehiclesColumns({
 }: BuildColumnsParams): TableColumnsType<Vehicle> {
   return [
     {
-      title: "Lot",
+      title: "Lot number",
       dataIndex: "lot",
       key: "lot",
       fixed: "left",
       width: 110,
-      filters: lotOptions,
-      filterMode: "tree",
-      filterSearch: true,
-      filteredValue: filters.lot,
       render: (val: number) => `LOT-${val}`,
     },
     {
@@ -65,44 +53,25 @@ export function buildVehiclesColumns({
       key: "make",
       width: 130,
       render: (_, v) => <span className="capitalize">{v.make.name}</span>,
-      filters: makes.map((m) => ({ text: m.name, value: m.id })),
-      filterMode: "tree",
-      filterSearch: true,
-      filteredValue: filters.make,
     },
     {
       title: "Model",
       key: "model",
       width: 130,
       render: (_, v) => <span className="capitalize">{v.model.name}</span>,
-      filters: makes
-        .map((make) => ({
-          text: make.name,
-          value: make.id,
-          children: models
-            .filter((m) => m.makeId === make.id)
-            .map((m) => ({ text: m.name, value: m.id })),
-        }))
-        .filter((m) => m.children.length > 0),
-      filterMode: "tree",
-      filterSearch: true,
-      filteredValue: filters.model,
     },
     {
       title: "Type",
       key: "type",
       width: 120,
       render: (_, v) => <span className="capitalize">{v.type.name}</span>,
-      filters: types.map((t) => ({ text: t.name, value: t.id })),
-      filterMode: "tree",
-      filterSearch: true,
-      filteredValue: filters.type,
     },
     {
       title: "Year",
       dataIndex: "year",
       key: "year",
       width: 80,
+      sorter: true,
     },
     {
       title: "Price",
@@ -176,14 +145,6 @@ export function buildVehiclesColumns({
       dataIndex: "transmission",
       key: "transmission",
       width: 130,
-      filters: [
-        { text: "Automatic", value: "AUTOMATIC" },
-        { text: "Manual", value: "MANUAL" },
-        { text: "Semi-Automatic", value: "SEMI_AUTOMATIC" },
-        { text: "CVT", value: "CVT" },
-      ],
-      filterMode: "tree",
-      filteredValue: filters.transmission,
       render: (val: string) => val.replace(/_/g, " ").toLowerCase(),
     },
     {
@@ -191,12 +152,6 @@ export function buildVehiclesColumns({
       dataIndex: "condition",
       key: "condition",
       width: 110,
-      filters: [
-        { text: "Used", value: "USED" },
-        { text: "New", value: "NEW" },
-      ],
-      filterMode: "tree",
-      filteredValue: filters.condition,
       render: (val: string) => val.toLowerCase(),
     },
     {
@@ -204,18 +159,6 @@ export function buildVehiclesColumns({
       dataIndex: "fuelType",
       key: "fuelType",
       width: 130,
-      filters: [
-        { text: "Gasoline", value: "GASOLINE" },
-        { text: "Diesel", value: "DIESEL" },
-        { text: "Electric", value: "ELECTRIC" },
-        { text: "Hybrid", value: "HYBRID" },
-        { text: "Plug-in Hybrid", value: "PLUG_IN_HYBRID" },
-        { text: "LPG", value: "LPG" },
-        { text: "CNG", value: "CNG" },
-        { text: "Hydrogen", value: "HYDROGEN" },
-      ],
-      filterMode: "tree",
-      filteredValue: filters.fuelType,
       render: (val: string) => val.replace(/_/g, " ").toLowerCase(),
     },
     {
@@ -230,6 +173,7 @@ export function buildVehiclesColumns({
       dataIndex: "priority",
       key: "priority",
       width: 90,
+      sorter: true,
     },
     {
       title: "Featured",
@@ -239,19 +183,13 @@ export function buildVehiclesColumns({
       render: (val: boolean) => (
         <Tag color={val ? "yellow" : "default"}>{val ? "true" : "false"}</Tag>
       ),
-      filters: [
-        { text: "Featured", value: "true" },
-        { text: "Not Featured", value: "false" },
-      ],
-      filterMode: "tree",
-      filteredValue: filters.featured,
+      sorter: true,
     },
     {
       title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",
       width: 120,
-      sorter: true,
       render: (date: string) => new Date(date).toLocaleDateString(),
     },
     {

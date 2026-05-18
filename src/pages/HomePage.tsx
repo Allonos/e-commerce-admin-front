@@ -5,16 +5,18 @@ import DeleteModal from "../components/ui/modals/DeleteModal";
 import HomePageSkeleton from "../components/ui/skeletons/HomePageSkeleton";
 import HomePageHeader from "../components/ui/headers/homePage/HomePageHeader";
 import AllVehicles from "../components/ui/lists/AllVehicles";
+import VehicleFilters from "../components/ui/forms/vehicleFilters/VehicleFilters";
 
 const HomePage = () => {
   const [vehicleToDelete, setVehicleToDelete] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const { data: vehicles, isLoading, isFetching } = useGetAdminsVehiclesServiceQuery(
-    page,
-    pageSize,
-  );
+  const { data: vehicles, isLoading, isFetching } =
+    useGetAdminsVehiclesServiceQuery(
+      page,
+      pageSize,
+    );
   const { mutate: deleteVehicleMutate, isPending } =
     useDeleteVehicleServiceMutation();
 
@@ -43,18 +45,21 @@ const HomePage = () => {
           </div>
         )
         : (
-          <AllVehicles
-            vehicles={vehicles}
-            isFetching={isFetching}
-            setVehicleToDelete={setVehicleToDelete}
-            page={page}
-            setPage={setPage}
-            pageSize={pageSize}
-            setPageSize={(size) => {
-              setPageSize(size);
-              setPage(1);
-            }}
-          />
+          <>
+            <VehicleFilters />
+            <AllVehicles
+              vehicles={vehicles}
+              isFetching={isFetching}
+              setVehicleToDelete={setVehicleToDelete}
+              page={page}
+              setPage={setPage}
+              pageSize={pageSize}
+              setPageSize={(size) => {
+                setPageSize(size);
+                setPage(1);
+              }}
+            />
+          </>
         )}
       <DeleteModal
         title="this vehicle"
