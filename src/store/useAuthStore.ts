@@ -4,6 +4,8 @@ export interface IAuthUser {
   id: string;
   username: string;
   email: string;
+  role: string;
+  adminRole: string | null;
 }
 
 interface IProps {

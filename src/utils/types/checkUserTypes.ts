@@ -4,4 +4,6 @@ export interface checkUserTypes {
   updatedAt: string;
   username: string;
   id: string;
+  role: string;
+  adminRole: string | null;
 }

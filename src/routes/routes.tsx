@@ -14,6 +14,7 @@ import EditVehiclePage from "../pages/EditVehiclePage";
 import CategoriesPage from "../pages/CategoriesPage";
 import FeaturedVehiclesPage from "../pages/FeaturedVehiclesPage";
 import LocationsPage from "../pages/LocationsPage";
+import UsersPage from "../pages/UsersPage";
 
 export default [
   {
@@ -42,6 +43,7 @@ export default [
                 path: "/inventory/locations",
                 element: <LocationsPage />,
               },
+              { path: "/users", element: <UsersPage /> },
             ],
           },
         ],
