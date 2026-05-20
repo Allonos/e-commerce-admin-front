@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Form } from "antd";
-import type { User } from "../lists/usersColumns";
 import { useChangeUserRoleServiceMutation } from "../../../services/react-query/usersPage/mutation/useChangeUserRoleServiceMutation";
 import { useChangeAdminRoleServiceMutation } from "../../../services/react-query/usersPage/mutation/useChangeAdminRoleServiceMutation";
 import { useBanUserServiceMutation } from "../../../services/react-query/usersPage/mutation/useBanUserServiceMutation";
 import { useCancelBanUserServiceMutation } from "../../../services/react-query/usersPage/mutation/useCancelBanUserServiceMutation";
+import type { User } from "../../../utils/types/userTypes";
 
 export interface EditUserFormValues {
   role: string;
@@ -73,7 +73,7 @@ export const useEditUserModal = (
         );
       });
     } else if (banChanged && !isBannedWatch) {
-      cancelBan(user.id, { onSuccess: handleClose });
+      cancelBan({ userId: user.id }, { onSuccess: handleClose });
     } else {
       handleClose();
     }

@@ -1,24 +1,7 @@
-import { Tag, Button, Space } from "antd";
+import { Button, Space, Tag } from "antd";
 import type { TableColumnsType } from "antd";
 import { Pencil, Trash } from "lucide-react";
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
-  isBanned: boolean;
-  bannedAt: string | null;
-  bannedReason: string | null;
-  adminRole: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface UsersResponse {
-  users: User[];
-  totalItems: number;
-}
+import type { User } from "../../../utils/types/userTypes";
 
 interface BuildColumnsParams {
   onEdit: (user: User) => void;
@@ -28,7 +11,9 @@ interface BuildColumnsParams {
 const capitalize = (val: string) =>
   val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
 
-export function buildUsersColumns({ onEdit, onDelete }: BuildColumnsParams): TableColumnsType<User> {
+export function buildUsersColumns(
+  { onEdit, onDelete }: BuildColumnsParams,
+): TableColumnsType<User> {
   return [
     {
       title: "Username",
@@ -105,8 +90,17 @@ export function buildUsersColumns({ onEdit, onDelete }: BuildColumnsParams): Tab
       width: 100,
       render: (_, user) => (
         <Space>
-          <Button size="small" icon={<Pencil size={12} />} onClick={() => onEdit(user)} />
-          <Button size="small" danger icon={<Trash size={12} />} onClick={() => onDelete(user.id)} />
+          <Button
+            size="small"
+            icon={<Pencil size={12} />}
+            onClick={() => onEdit(user)}
+          />
+          <Button
+            size="small"
+            danger
+            icon={<Trash size={12} />}
+            onClick={() => onDelete(user.id)}
+          />
         </Space>
       ),
     },

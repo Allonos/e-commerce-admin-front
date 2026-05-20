@@ -1,9 +1,10 @@
 import { useMemo } from "react";
 import { Table } from "antd";
-import { buildUsersColumns, type User, type UsersResponse } from "./usersColumns";
+import { buildUsersColumns } from "./usersColumns";
+import type { User, UserResponse } from "../../../utils/types/userTypes";
 
 interface IProps {
-  users: UsersResponse | undefined;
+  users: UserResponse | undefined;
   isFetching: boolean;
   page: number;
   setPage: (page: number) => void;
@@ -41,7 +42,7 @@ const AllUsers = ({
         }}
         pagination={{
           current: page,
-          total: users?.totalItems ?? 0,
+          total: users?.totalUsers ?? 0,
           pageSize,
           showSizeChanger: true,
           pageSizeOptions: [10, 50, 100, 1000, 5000],

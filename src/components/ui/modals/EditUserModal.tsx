@@ -1,7 +1,7 @@
 import { Alert, Form, Input, Select, Switch } from "antd";
 import { X } from "lucide-react";
-import type { User } from "../lists/usersColumns";
 import { useEditUserModal } from "./useEditUserModal";
+import type { User } from "../../../utils/types/userTypes";
 
 interface IProps {
   user: User | null;

@@ -10,7 +10,7 @@ import UserFilters from "../components/ui/forms/userFilters/UserFilters";
 import AllUsers from "../components/ui/lists/AllUsers";
 import EditUserModal from "../components/ui/modals/EditUserModal";
 import DeleteModal from "../components/ui/modals/DeleteModal";
-import type { User } from "../components/ui/lists/usersColumns";
+import type { User } from "../utils/types/userTypes";
 
 const UsersPage = () => {
   const { authUser } = useAuthStore();
