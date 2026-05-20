@@ -1,11 +1,4 @@
-import {
-  Car,
-  LogOut,
-  NotepadText,
-  Package,
-  Settings,
-  UsersRound,
-} from "lucide-react";
+import { Car, LogOut, Package, Settings, UsersRound } from "lucide-react";
 import { useState } from "react";
 import MenuItem from "./components/MenuItem";
 import { useAuthStore } from "../../../store/useAuthStore";
@@ -19,13 +12,9 @@ const inventoryLinks = [
 ];
 
 const usersLinks = [
-  { label: "All Users", to: "/users/all" },
+  { label: "All Users", to: "/users" },
   { label: "Dealer Accounts", to: "/users/dealers" },
   { label: "Banned / Flagged Users", to: "/users/banned" },
-];
-
-const LotsLinks = [
-  { label: "Lot Management", to: "/lots/management" },
 ];
 
 const settingsLinks = [
@@ -42,11 +31,6 @@ const menuItems = [
     label: "User & Accounts",
     icon: UsersRound,
     links: usersLinks,
-  },
-  {
-    label: "Lots & Titles",
-    icon: NotepadText,
-    links: LotsLinks,
   },
   {
     label: "Settings",
